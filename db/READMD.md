@@ -1,0 +1,1 @@
+For the time being, all data interactions will exist in this folder. 

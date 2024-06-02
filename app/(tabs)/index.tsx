@@ -1,51 +1,115 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedTextInput } from '@/components/ThemedTextInput';
-import { ThemedTouchableOpacity } from '@/components/ThemedTouchableOpacity';
-import { Button } from 'react-native-paper';
+import { Button, Text } from 'react-native-paper';
 import { db } from '@/db/client';
-import { notes, type SelectNote } from '@/db/schema';
+import { IdeasTable, LabelsTable, SelectLabel, SelectIdea } from '@/db/schema';
+import 'react-native-get-random-values'; // Needs to come before any uuid imports
+import { v4 as uuidv4 } from 'uuid';
+import { ThemedTouchableOpacity } from '@/components/ThemedTouchableOpacity';
 
 const Brainstorm = () => {
-  const [text, setText] = useState('');
-  const [todoList, setTodolist] = useState<SelectNote[]>([]);
+  const [ideaText, setIdeaText] = useState('');
+  const [labelText, setLabelText] = useState('');
+  const [labels, setLabels] = useState<SelectLabel[]>([]);
+  const [activeLabel, setActiveLabel] = useState<SelectLabel | null>(null);
 
-  const handleSubmit = useCallback(() => {
-    db.insert(notes)
+  const handleFetch = useCallback(async () => {
+    db.select().from(LabelsTable).then(setLabels);
+  }, []);
+
+  useEffect(() => {
+    handleFetch();
+  }, [handleFetch]);
+
+  useEffect(() => {
+    db.select().from(LabelsTable).then(setLabels);
+  }, []);
+
+  const handleSubmitIdea = useCallback(() => {
+    if (!activeLabel) {
+      console.log('no active label');
+      return;
+    }
+
+    db.insert(IdeasTable)
       .values({
-        id: Math.floor(Math.random() * 1000),
-        title: 'foo',
-        body: text,
+        uuid: uuidv4(),
+        text: ideaText,
+        createdAt: new Date().toISOString(),
+        labelId: activeLabel.uuid,
       })
       .onConflictDoUpdate({
-        target: notes.id,
-        set: { title: 'foo', body: text, updatedAt: new Date().toISOString() },
+        target: IdeasTable.uuid,
+        set: { text: ideaText, updatedAt: new Date().toISOString() },
+      })
+      .returning({
+        uuid: IdeasTable.uuid,
+        labelId: IdeasTable.labelId,
       })
       .run();
 
-    setText('');
-  }, [text]);
+    setIdeaText('');
+  }, [ideaText, activeLabel]);
 
-  const handleFetch = useCallback(async () => {
-    const results = await db.select().from(notes);
-    setTodolist(results);
-  }, []);
+  const handleSubmitLabel = useCallback(async () => {
+    await db
+      .insert(LabelsTable)
+      .values({
+        uuid: uuidv4(),
+        text: labelText,
+        createdAt: new Date().toISOString(),
+      })
+      .onConflictDoUpdate({
+        target: LabelsTable.uuid,
+        set: { text: labelText, updatedAt: new Date().toISOString() },
+      })
+      .run();
+
+    setLabelText('');
+  }, [labelText]);
+
+  const handleActiveLabelChange = useCallback(
+    (data: SelectLabel | SelectIdea) => {
+      setActiveLabel(data as unknown as SelectLabel);
+    },
+    []
+  );
 
   return (
     <SafeAreaView style={style}>
       <ThemedText type="default">Brainstorm</ThemedText>
-      <ThemedTextInput value={text} onChangeText={setText} />
-      <ThemedTouchableOpacity label="Submit!" onPress={handleSubmit} />
-      <Button icon="camera" mode="outlined" onPress={handleFetch}>
-        Get Entries
-      </Button>
-      <Button icon="camera" mode="contained" onPress={handleSubmit}>
-        Submit Entry
-      </Button>
-      {todoList.map((todo, i) => (
-        <ThemedText key={i}>{todo.body}</ThemedText>
+      <Text>Labels Input, select a label</Text>
+      {labels.map(label => (
+        <ThemedTouchableOpacity
+          key={label.uuid}
+          data={label}
+          onPressCallback={handleActiveLabelChange}
+        />
       ))}
+      <Text>Selected Label</Text>
+      {activeLabel && (
+        <ThemedText type="default">{activeLabel.text}</ThemedText>
+      )}
+      <ThemedTextInput
+        value={labelText}
+        onChangeText={setLabelText}
+        placeholder="Label Text"
+      />
+      <Button icon="camera" mode="contained" onPress={handleSubmitLabel}>
+        Submit Label
+      </Button>
+
+      <Text>Idea Creation</Text>
+      <ThemedTextInput
+        value={ideaText}
+        onChangeText={setIdeaText}
+        placeholder="Idea Text"
+      />
+      <Button icon="camera" mode="contained" onPress={handleSubmitIdea}>
+        Submit Idea
+      </Button>
     </SafeAreaView>
   );
 };

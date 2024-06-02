@@ -1,21 +1,37 @@
-import { Text, SafeAreaView, FlatList } from 'react-native'
-import { ThemedText } from '@/components/ThemedText'
-
+import { Text, SafeAreaView, FlatList, View } from 'react-native';
+import { ThemedText } from '@/components/ThemedText';
+import { IdeasTable, SelectIdea } from '@/db/schema';
+import { useCallback, useState } from 'react';
+import { db } from '@/db/client';
+import { Button } from 'react-native-paper';
 
 const History = () => {
+  const [ideas, setIdeas] = useState<SelectIdea[]>([]);
+
+  const handleFetch = useCallback(async () => {
+    db.select().from(IdeasTable).then(setIdeas);
+  }, []);
+
   return (
     <SafeAreaView style={style}>
-      <ThemedText>Hello</ThemedText>
+      <ThemedText>History</ThemedText>
+      <Button icon="camera" mode="outlined" onPress={handleFetch}>
+        Get Entries
+      </Button>
       <FlatList
-        data={['a', 'b', 'c']}
-        renderItem={({ item }) => <Text>A! {item}</Text>}
-        keyExtractor={(item) => item}
+        data={ideas}
+        keyExtractor={item => item.uuid}
+        renderItem={({ item }) => (
+          <View>
+            <Text>Label: {item.labelId}</Text>
+            <Text>Text: {item.text}</Text>
+          </View>
+        )}
       />
     </SafeAreaView>
-  )
-}
+  );
+};
 
-const style = { backgroundColor: 'red' }
+const style = { backgroundColor: 'red' };
 
-export default History
-
+export default History;

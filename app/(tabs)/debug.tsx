@@ -1,7 +1,6 @@
 import { SafeAreaView } from 'react-native'
 import { ThemedText } from '@/components/ThemedText'
 import { ThemedTouchableOpacity } from '@/components/ThemedTouchableOpacity'
-import { db } from '@/db/client'
 
 const History = () => {
   const handleWipeDatabase = () => {

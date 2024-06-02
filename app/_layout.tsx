@@ -1,5 +1,5 @@
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { Stack, router } from 'expo-router';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 import * as SplashScreen from 'expo-splash-screen';
@@ -34,28 +34,21 @@ export default function RootLayout() {
 
   const hasLoaded = [haveFontsLoaded, success].every(i => i);
 
-  // const hasErrored = [
-  //   error
-  // ].some(i => i)
-
-  // useEffect(() => {
-
-  //   if(hasErrored) {
-  //     const timeout = setTimeout(() => {
-  //      router.replace('error')
-  //     }, 5000);
-
-  //     return () => clearTimeout(timeout);
-  //   }
-  // }, [hasErrored])
+  const hasErrored = [error].some(i => i);
 
   useEffect(() => {
-    if (hasLoaded) {
+    if (hasErrored) {
+      router.replace('error');
+    }
+  }, [hasErrored]);
+
+  useEffect(() => {
+    if (hasLoaded || hasErrored) {
       SplashScreen.hideAsync();
     }
-  }, [hasLoaded]);
+  }, [hasLoaded, hasErrored]);
 
-  if (!hasLoaded) {
+  if (!hasLoaded && !hasErrored) {
     return null;
   }
 

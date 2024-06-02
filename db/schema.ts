@@ -1,22 +1,28 @@
-import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import { sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
-export const notes = sqliteTable('notes', {
-  id: integer('id').primaryKey(),
-  title: text('title'),
-  body: text('body'),
+const IDEAS_TABLE_NAME = 'idea';
+const LABELS_TABLE_NAME = 'label';
+
+export const TABLE_NAMES = [IDEAS_TABLE_NAME, LABELS_TABLE_NAME];
+
+export const IdeasTable = sqliteTable(IDEAS_TABLE_NAME, {
+  uuid: text('uuid').primaryKey().unique().notNull(),
+  createdAt: text('date').notNull(),
+  updatedAt: text('updatedAt'),
+  text: text('text').notNull(),
+  labelId: text('labelId')
+    .references(() => LabelsTable.uuid)
+    .notNull(),
 });
 
-export type SelectNote = typeof notes.$inferSelect;
+export type SelectIdea = typeof IdeasTable.$inferSelect;
 
-// export const ideas = sqliteTable("idea", {
-//   id: text("id").primaryKey(), //uuid
-//   date: text("date"),
-//   text: text("text"),
-// })
+export const LabelsTable = sqliteTable(LABELS_TABLE_NAME, {
+  uuid: text('uuid').primaryKey().unique().notNull(),
+  text: text('text').unique().notNull(),
+  createdAt: text('date').notNull(),
+  updatedAt: text('updatedAt'),
+  lastUsedAt: text('lastUsedAt'),
+});
 
-// export type SelectIdea = typeof ideas.$inferSelect
-
-// export const labels = sqliteTable("label", {
-//   id: text("id").primaryKey(), //uuid
-//   text: text("text"),
-// })
+export type SelectLabel = typeof LabelsTable.$inferSelect;

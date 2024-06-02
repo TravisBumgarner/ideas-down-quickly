@@ -1,35 +1,130 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "2a2e9102-6b7a-4ef9-a4ba-fa83b9dc532b",
+  "id": "146d2181-afff-4fa0-9339-45b0d077a18e",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
-    "notes": {
-      "name": "notes",
+    "idea": {
+      "name": "idea",
       "columns": {
-        "id": {
-          "name": "id",
-          "type": "integer",
+        "uuid": {
+          "name": "uuid",
+          "type": "text",
           "primaryKey": true,
           "notNull": true,
           "autoincrement": false
         },
-        "title": {
-          "name": "title",
+        "date": {
+          "name": "date",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "updatedAt": {
+          "name": "updatedAt",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
-        "body": {
-          "name": "body",
+        "text": {
+          "name": "text",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "labelId": {
+          "name": "labelId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "idea_uuid_unique": {
+          "name": "idea_uuid_unique",
+          "columns": [
+            "uuid"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "idea_labelId_label_uuid_fk": {
+          "name": "idea_labelId_label_uuid_fk",
+          "tableFrom": "idea",
+          "tableTo": "label",
+          "columnsFrom": [
+            "labelId"
+          ],
+          "columnsTo": [
+            "uuid"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "label": {
+      "name": "label",
+      "columns": {
+        "uuid": {
+          "name": "uuid",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "text": {
+          "name": "text",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "date": {
+          "name": "date",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "lastUsedAt": {
+          "name": "lastUsedAt",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         }
       },
-      "indexes": {},
+      "indexes": {
+        "label_uuid_unique": {
+          "name": "label_uuid_unique",
+          "columns": [
+            "uuid"
+          ],
+          "isUnique": true
+        },
+        "label_text_unique": {
+          "name": "label_text_unique",
+          "columns": [
+            "text"
+          ],
+          "isUnique": true
+        }
+      },
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}

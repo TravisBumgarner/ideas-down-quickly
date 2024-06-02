@@ -13,6 +13,7 @@ module.exports = {
     'plugin:import/errors',
     'plugin:import/warnings',
     'plugin:import/typescript',
+    'plugin:prettier/recommended'
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -29,8 +30,10 @@ module.exports = {
     'jsx-a11y',
     'react-hooks',
     'import',
+    'prettier'
   ],
   rules: {
+    "prettier/prettier": "error",
     'react/react-in-jsx-scope': 'off', // React 17+ JSX transform
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],

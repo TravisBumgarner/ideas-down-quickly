@@ -5,19 +5,10 @@ export type ThemedButtonPRops = ButtonProps & {
   onPress: () => void;
 };
 
-export function ThemedButton({
-  onPress,
-  label,
-  ...rest
-}: ThemedButtonPRops) {
-
+export function ThemedButton({ onPress, label, ...rest }: ThemedButtonPRops) {
   return (
-    <TouchableOpacity
-      {...rest}
-      onPress={onPress}
-    >
+    <TouchableOpacity {...rest} onPress={onPress}>
       <Text>{label}</Text>
     </TouchableOpacity>
   );
 }
-

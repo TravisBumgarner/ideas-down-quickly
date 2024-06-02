@@ -26,6 +26,15 @@ export default function TabLayout() {
           ),
         }}
       />
+        <Tabs.Screen
+        name="debug"
+        options={{
+          title: 'Debug',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'bug' : 'bug-outline'} color={color} />
+          ),
+        }}
+      />
     </Tabs>
   );
 }

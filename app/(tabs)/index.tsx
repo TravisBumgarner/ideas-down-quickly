@@ -1,16 +1,22 @@
-import { useState } from 'react'
-import { View, Text, SafeAreaView, Button } from 'react-native'
+import { useCallback, useState } from 'react'
+import { SafeAreaView, Button } from 'react-native'
 import { ThemedText } from '@/components/ThemedText'
-
+import { ThemedTextInput } from '@/components/ThemedTextInput'
+import { ThemedTouchableOpacity } from '@/components/ThemedTouchableOpacity'
 
 const Brainstorm = () => {
-  const [counter, setCounter] = useState(0)
+  const [text, setText] = useState('')
+
+  const handleSubmit = useCallback(() => {
+    console.log('submitted', text)
+    setText('')
+  }, [text])
 
   return (
     <SafeAreaView style={style}>
       <ThemedText type="default">Brainstorm</ThemedText>
-      <ThemedText type="default">{counter}</ThemedText>
-      <Button title="Increment" onPress={() => setCounter(counter + 1)} />
+      <ThemedTextInput value={text} onChangeText={setText} />
+      <ThemedTouchableOpacity label="Submit!" onPress={handleSubmit} />
     </SafeAreaView>
   )
 }

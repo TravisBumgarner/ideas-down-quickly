@@ -1,24 +1,30 @@
-import { Text, type TextProps, StyleSheet } from 'react-native';
+import { TextInput, StyleSheet, type TextInputProps } from 'react-native';
 
 import { useThemeColor } from '@/hooks/useThemeColor';
 
-export type ThemedTextProps = TextProps & {
+export type ThemedTextInputProps = TextInputProps & {
   lightColor?: string;
   darkColor?: string;
   type?: 'default';
+  value: string;
+  onChangeText: (text: string) => void;
 };
 
-export function ThemedText({
+export function ThemedTextInput({
   style,
   lightColor,
   darkColor,
+  value,
+  onChangeText,
   type = 'default',
   ...rest
-}: ThemedTextProps) {
+}: ThemedTextInputProps) {
   const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
 
   return (
-    <Text
+    <TextInput
+      value={value}
+      onChangeText={onChangeText}
       style={[
         { color },
         type === 'default' ? styles.default : undefined,

@@ -15,7 +15,7 @@ const Brainstorm = () => {
 
   const handleSubmit = useCallback(() => {
     db.insert(notes)
-    .values({ id: Math.random(), title: 'foo', body: text })
+    .values({ id: Math.floor(Math.random() * 1000), title: 'foo', body: text })
     .onConflictDoUpdate({
       target: notes.id,
       set: { title: 'foo', body: text, updatedAt: new Date().toISOString() },

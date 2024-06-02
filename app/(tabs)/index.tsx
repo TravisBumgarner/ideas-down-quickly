@@ -44,10 +44,14 @@ const Brainstorm = () => {
         target: IdeasTable.uuid,
         set: { text: ideaText, updatedAt: new Date().toISOString() },
       })
+      .returning({
+        uuid: IdeasTable.uuid,
+        labelId: IdeasTable.labelId,
+      })
       .run();
 
     setIdeaText('');
-  }, [ideaText]);
+  }, [ideaText, activeLabel]);
 
   const handleSubmitLabel = useCallback(async () => {
     await db

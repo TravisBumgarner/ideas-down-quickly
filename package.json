@@ -10,7 +10,7 @@
     "test": "jest --watchAll",
     "no-thanks-lint": "expo lint",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "db:generate": "npx drizzle-kit generate "
+    "db:generate": "npx drizzle-kit generate"
   },
   "jest": {
     "preset": "jest-expo"
@@ -22,7 +22,6 @@
     "drizzle-orm": "^0.31.0",
     "expo": "~51.0.9",
     "expo-constants": "~16.0.2",
-    "expo-file-system": "~17.0.1",
     "expo-font": "~12.0.6",
     "expo-linking": "~6.3.1",
     "expo-router": "~3.5.14",

@@ -9,7 +9,6 @@ const Debug = () => {
   const handleWipeDatabase = () => {
     TABLE_NAMES.forEach(tableName => {
       try {
-        console.log('dropping', tableName);
         db.run(sql`DROP TABLE ${tableName}`);
       } catch (e) {
         console.log(e);

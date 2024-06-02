@@ -7,13 +7,17 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-      }}>
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
           title: 'Brainstorm',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'bulb-sharp' : 'bulb-outline'} color={color} />
+            <TabBarIcon
+              name={focused ? 'bulb-sharp' : 'bulb-outline'}
+              color={color}
+            />
           ),
         }}
       />
@@ -22,11 +26,14 @@ export default function TabLayout() {
         options={{
           title: 'History',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'list-circle-sharp' : 'list-circle-outline'} color={color} />
+            <TabBarIcon
+              name={focused ? 'list-circle-sharp' : 'list-circle-outline'}
+              color={color}
+            />
           ),
         }}
       />
-        <Tabs.Screen
+      <Tabs.Screen
         name="debug"
         options={{
           title: 'Debug',

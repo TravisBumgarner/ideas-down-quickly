@@ -11,13 +11,9 @@ export function ThemedText({
   type = 'default',
   ...rest
 }: ThemedTextProps) {
-
   return (
     <Text
-      style={[
-        type === 'default' ? styles.default : undefined,
-        style,
-      ]}
+      style={[type === 'default' ? styles.default : undefined, style]}
       {...rest}
     />
   );

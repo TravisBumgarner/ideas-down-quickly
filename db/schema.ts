@@ -1,12 +1,12 @@
-import { integer, sqliteTable, text,  } from "drizzle-orm/sqlite-core"
+import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
-export const notes = sqliteTable("notes", {
-	id: integer("id").primaryKey(),
-  title: text("title"),
-	body: text("body"),
-})
+export const notes = sqliteTable('notes', {
+  id: integer('id').primaryKey(),
+  title: text('title'),
+  body: text('body'),
+});
 
-export type SelectNote = typeof notes.$inferSelect
+export type SelectNote = typeof notes.$inferSelect;
 
 // export const ideas = sqliteTable("idea", {
 //   id: text("id").primaryKey(), //uuid

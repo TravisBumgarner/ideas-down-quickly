@@ -15,15 +15,11 @@ export function ThemedTextInput({
   type = 'default',
   ...rest
 }: ThemedTextInputProps) {
-
   return (
     <TextInput
       value={value}
       onChangeText={onChangeText}
-      style={[
-        type === 'default' ? styles.default : undefined,
-        style,
-      ]}
+      style={[type === 'default' ? styles.default : undefined, style]}
       {...rest}
     />
   );

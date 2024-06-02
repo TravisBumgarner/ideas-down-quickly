@@ -1,10 +1,8 @@
-// import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 import * as SplashScreen from 'expo-splash-screen';
-// import { useColorScheme } from '@/hooks/useColorScheme';
 import { PaperProvider, MD3LightTheme as DefaultTheme,  } from 'react-native-paper';
 
 const theme = {

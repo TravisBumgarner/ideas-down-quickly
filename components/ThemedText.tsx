@@ -1,5 +1,4 @@
 import { Text, type TextProps, StyleSheet } from 'react-native';
-
 import { useThemeColor } from '@/hooks/useThemeColor';
 
 export type ThemedTextProps = TextProps & {
@@ -31,8 +30,8 @@ export function ThemedText({
 
 const styles = StyleSheet.create({
   default: {
+    fontFamily: '"Montserrat", sans-serif',
     fontSize: 16,
     lineHeight: 24,
-    fontFamily: '"Montserrat", sans-serif',
   },
 });

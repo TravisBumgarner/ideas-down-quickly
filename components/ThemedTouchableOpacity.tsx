@@ -1,4 +1,4 @@
-import { Text, StyleSheet, TouchableOpacity, TouchableOpacityProps } from 'react-native';
+import { Text, TouchableOpacity, TouchableOpacityProps } from 'react-native';
 
 export type ThemedTextInputProps = TouchableOpacityProps & {
   label: string
@@ -19,11 +19,3 @@ export function ThemedTouchableOpacity({
     </TouchableOpacity>
   );
 }
-
-const styles = StyleSheet.create({
-  default: {
-    fontSize: 16,
-    lineHeight: 24,
-    fontFamily: '"Montserrat", sans-serif',
-  },
-});

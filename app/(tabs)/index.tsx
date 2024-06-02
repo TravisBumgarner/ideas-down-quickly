@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react'
-import { SafeAreaView, Button } from 'react-native'
+import { SafeAreaView } from 'react-native'
 import { ThemedText } from '@/components/ThemedText'
 import { ThemedTextInput } from '@/components/ThemedTextInput'
 import { ThemedTouchableOpacity } from '@/components/ThemedTouchableOpacity'

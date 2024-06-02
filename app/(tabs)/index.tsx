@@ -3,6 +3,7 @@ import { SafeAreaView } from 'react-native'
 import { ThemedText } from '@/components/ThemedText'
 import { ThemedTextInput } from '@/components/ThemedTextInput'
 import { ThemedTouchableOpacity } from '@/components/ThemedTouchableOpacity'
+import { Button } from 'react-native-paper'
 
 const Brainstorm = () => {
   const [text, setText] = useState('')
@@ -17,6 +18,8 @@ const Brainstorm = () => {
       <ThemedText type="default">Brainstorm</ThemedText>
       <ThemedTextInput value={text} onChangeText={setText} />
       <ThemedTouchableOpacity label="Submit!" onPress={handleSubmit} />
+      <Button icon="camera" mode="outlined" onPress={handleSubmit}>React Paper Button</Button>
+      <Button icon="camera" mode="contained" onPress={handleSubmit}>React Paper Button</Button>
     </SafeAreaView>
   )
 }

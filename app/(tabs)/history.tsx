@@ -1,5 +1,5 @@
 import { Text, SafeAreaView, FlatList, View } from 'react-native';
-import { ThemedText } from '@/components/ThemedText';
+import { ThemedText } from '@/shared/ThemedText';
 import { IdeasTable, SelectIdea } from '@/db/schema';
 import { useCallback, useState } from 'react';
 import { db } from '@/db/client';

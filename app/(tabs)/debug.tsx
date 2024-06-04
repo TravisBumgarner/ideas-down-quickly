@@ -1,5 +1,5 @@
 import { SafeAreaView } from 'react-native';
-import { ThemedText } from '@/components/ThemedText';
+import { ThemedText } from '@/shared/ThemedText';
 import { db } from '@/db/client';
 import { sql } from 'drizzle-orm';
 import { IdeasTable, LabelsTable, TABLE_NAMES } from '@/db/schema';

@@ -12,7 +12,9 @@ CREATE TABLE `label` (
 	`text` text NOT NULL,
 	`date` text NOT NULL,
 	`updatedAt` text,
-	`lastUsedAt` text
+	`lastUsedAt` text,
+	`icon` text NOT NULL,
+	`color` text NOT NULL
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX `idea_uuid_unique` ON `idea` (`uuid`);--> statement-breakpoint

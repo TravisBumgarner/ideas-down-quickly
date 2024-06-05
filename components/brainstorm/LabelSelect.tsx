@@ -4,7 +4,7 @@ import { LabelsTable, SelectLabel } from '@/db/schema';
 import Label from '@/shared/Label';
 import * as React from 'react';
 import { SafeAreaView, View, ScrollView } from 'react-native';
-import { ActivityIndicator, Button, Icon } from 'react-native-paper';
+import { ActivityIndicator, Button } from 'react-native-paper';
 
 const LabelInput = ({
   submitCallback,

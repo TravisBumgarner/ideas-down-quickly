@@ -11,6 +11,7 @@ import { SPACING } from '@/app/theme';
 import { IdeasTable, LabelsTable, NewIdea, SelectLabel } from '@/db/schema';
 import { db } from '@/db/client';
 import { eq } from 'drizzle-orm';
+import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 
 // TODO - Make background color, title, and icon, be that project.
@@ -81,15 +82,14 @@ const IdeaInput = ({
     );
   }
 
-  const animatedStyle = {
-    flex: isFocused.interpolate({
-      inputRange: [0, 1],
-      outputRange: [0, 1],
-    }),
-  };
-
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: label.color }}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: label.color,
+        justifyContent: 'space-between',
+      }}
+    >
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <Icon source={label.icon} size={50} color="white" />
         <Text>{label.text}</Text>

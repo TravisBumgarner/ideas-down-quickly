@@ -5,6 +5,7 @@ import { SPACING } from '@/app/theme';
 import Label from '@/shared/Label';
 import { db } from '@/db/client';
 import { LabelsTable, NewLabel } from '@/db/schema';
+import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 
 const COLORS = [

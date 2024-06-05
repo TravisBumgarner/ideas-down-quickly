@@ -1,7 +1,6 @@
-import { Text, SafeAreaView, FlatList, ScrollView, View } from 'react-native';
-import { ThemedText } from '@/shared/ThemedText';
+import { Text, SafeAreaView, ScrollView, View } from 'react-native';
 import { IdeasTable, LabelsTable, SelectIdea, SelectLabel } from '@/db/schema';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { db } from '@/db/client';
 import { ActivityIndicator } from 'react-native-paper';
 import { Link } from 'expo-router';
@@ -82,6 +81,8 @@ const History = () => {
                 color={item.label.color}
                 icon={item.label.icon}
                 text={item.idea.text}
+                label={item.label.text}
+                date={item.idea.createdAt}
               />
             </View>
           );

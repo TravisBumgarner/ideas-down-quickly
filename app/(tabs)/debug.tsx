@@ -1,24 +1,21 @@
-import { SafeAreaView } from 'react-native';
-import { ThemedText } from '@/components/ThemedText';
-import { db } from '@/db/client';
-import { sql } from 'drizzle-orm';
-import { IdeasTable, LabelsTable, TABLE_NAMES } from '@/db/schema';
-import { Button } from 'react-native-paper';
+import { SafeAreaView } from 'react-native'
+import { db } from '@/db/client'
+import { IdeasTable, LabelsTable } from '@/db/schema'
+import { Button } from 'react-native-paper'
 
 const Debug = () => {
   const handleWipeDatabase = () => {
-    db.delete(IdeasTable);
-    db.delete(LabelsTable);
-  };
+    db.delete(IdeasTable).run()
+    db.delete(LabelsTable).run()
+  }
 
   return (
-    <SafeAreaView style={style}>
-      <ThemedText>Debug</ThemedText>
-      <Button onPress={handleWipeDatabase}>Wipe Database and Migrations</Button>
+    <SafeAreaView>
+      <Button mode="contained" onPress={handleWipeDatabase}>
+        Wipe Database and Migrations
+      </Button>
     </SafeAreaView>
-  );
-};
+  )
+}
 
-const style = { backgroundColor: 'red' };
-
-export default Debug;
+export default Debug

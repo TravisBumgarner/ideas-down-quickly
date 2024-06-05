@@ -29,8 +29,7 @@ function App() {
 
   const hasErrored = [haveMigrationsErrored].some(i => i)
   const paperTheme = colorTheme === 'dark' ? MD3DarkTheme : MD3LightTheme
-  console.log('colortheme', colorTheme, typeof colorTheme)
-  console.log('ever equal?', colorTheme === 'dark')
+
   useEffect(() => {
     if (hasErrored) {
       router.replace('error')

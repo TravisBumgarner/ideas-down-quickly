@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   Icon,
   Text,
+  useTheme,
 } from 'react-native-paper'
 import { SPACING } from '@/app/theme'
 import { IdeasTable, LabelsTable, NewIdea, SelectLabel } from '@/db/schema'
@@ -13,8 +14,6 @@ import { db } from '@/db/client'
 import { eq } from 'drizzle-orm'
 import 'react-native-get-random-values'
 import { v4 as uuidv4 } from 'uuid'
-
-// TODO - Make background color, title, and icon, be that project.
 
 const IdeaInput = ({
   submitCallback,
@@ -28,6 +27,7 @@ const IdeaInput = ({
   const [ideaText, setIdeaText] = React.useState('')
   const [label, setLabel] = React.useState<SelectLabel | null>(null)
   const isFocused = React.useRef(new Animated.Value(0)).current
+  const theme = useTheme()
 
   const onFocus = React.useCallback(() => {
     Animated.timing(isFocused, {
@@ -86,7 +86,7 @@ const IdeaInput = ({
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: label.color,
+        backgroundColor: theme.colors.background,
         justifyContent: 'space-between',
       }}
     >

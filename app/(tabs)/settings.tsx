@@ -1,14 +1,21 @@
 import { SafeAreaView, View } from 'react-native'
 import { db } from '@/db/client'
 import { IdeasTable, LabelsTable } from '@/db/schema'
-import { Button, Text, TextInput, ToggleButton } from 'react-native-paper'
+import {
+  Button,
+  Text,
+  TextInput,
+  ToggleButton,
+  useTheme,
+} from 'react-native-paper'
 import { useCallback, useContext, useState } from 'react'
 import { context } from '@/shared/context'
 
 import { SPACING } from '../theme'
 
-const Debug = () => {
+const Settings = () => {
   const { state, dispatch } = useContext(context)
+  const theme = useTheme()
 
   const [deleteText, setDeleteText] = useState('')
 
@@ -30,7 +37,7 @@ const Debug = () => {
   )
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ backgroundColor: theme.colors.background, flex: 1 }}>
       <View
         style={{
           margin: SPACING.md,
@@ -66,4 +73,4 @@ const Debug = () => {
   )
 }
 
-export default Debug
+export default Settings

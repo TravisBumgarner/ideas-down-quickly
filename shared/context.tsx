@@ -13,21 +13,18 @@ const HAS_DONE_WARM_START = 'HAS_DONE_WARM_START'
 const TRUE = 'true'
 
 export interface State {
-  hasAppHydrated: boolean
   settings: {
     colorTheme: 'dark' | 'light'
   }
 }
 
 const EMPTY_STATE: State = {
-  hasAppHydrated: false,
   settings: {
     colorTheme: 'light',
   },
 }
 
 const initialSetup = () => {
-  console.log('initial setup')
   Object.keys(EMPTY_STATE.settings).forEach(key => {
     saveValueToKeyStore(
       key as keyof (typeof EMPTY_STATE)['settings'],
@@ -99,15 +96,10 @@ export type Action = EditUserSettings | HydrateUserSettings
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case 'HYDRATE_USER_SETTINGS': {
-      return {
-        ...state,
-        settings: { ...state.settings, ...action.payload },
-        hasAppHydrated: true,
-      }
+      return { ...state, settings: { ...state.settings, ...action.payload } }
     }
     case 'EDIT_USER_SETTING': {
       Object.entries(action.payload).forEach(([key, value]) => {
-        console.log('doot doot saving value', key, value)
         saveValueToKeyStore(key as SettingsKey, value)
       })
       return { ...state, settings: { ...state.settings, ...action.payload } }
@@ -139,6 +131,7 @@ const context = createContext({
 
 const ResultsContext = ({ children }: { children: JSX.Element }) => {
   const [state, dispatch] = useReducer(reducer, EMPTY_STATE)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -146,13 +139,18 @@ const ResultsContext = ({ children }: { children: JSX.Element }) => {
         initialSetup()
       } else {
         const payload = await getKeysFromStorage()
-        console.log('hydrating')
         dispatch({ type: 'HYDRATE_USER_SETTINGS', payload })
+        setIsLoading(false)
       }
     }
 
+    setIsLoading(true)
     void fetchData()
   }, [])
+
+  if (isLoading) {
+    return <Text>Loading...</Text>
+  }
 
   const { Provider } = context
 

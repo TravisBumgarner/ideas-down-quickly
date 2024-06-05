@@ -32,7 +32,6 @@ export const saveValueToKeyStore = async (key: string, value: string) => {
 export const getValueFromKeyStore = async (key: string) => {
   try {
     const value = await AsyncStorage.getItem(key)
-    console.log('val from store', key, value)
     if (value !== null) {
       return value
     }

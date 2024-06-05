@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "df7e8a5d-7d8f-45b8-95b5-3206b7de0829",
+  "id": "146d2181-afff-4fa0-9339-45b0d077a18e",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "idea": {
@@ -106,20 +106,6 @@
           "type": "text",
           "primaryKey": false,
           "notNull": false,
-          "autoincrement": false
-        },
-        "icon": {
-          "name": "icon",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "color": {
-          "name": "color",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
           "autoincrement": false
         }
       },

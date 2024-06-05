@@ -1,8 +1,8 @@
-import { Text, SafeAreaView, ScrollView, View } from 'react-native'
+import { SafeAreaView, ScrollView, View } from 'react-native'
 import { IdeasTable, LabelsTable, SelectIdea, SelectLabel } from '@/db/schema'
 import { useCallback, useMemo, useState } from 'react'
 import { db } from '@/db/client'
-import { ActivityIndicator } from 'react-native-paper'
+import { ActivityIndicator, useTheme, Text } from 'react-native-paper'
 import { Link } from 'expo-router'
 import { desc, eq } from 'drizzle-orm'
 import Idea from '@/shared/components/Idea'
@@ -15,7 +15,8 @@ const History = () => {
   const [ideasWithLabel, setIdeasWithLabel] = useState<
     { idea: SelectIdea | null; label: SelectLabel | null }[] | null
   >(null)
-  console.log(ideasWithLabel?.length)
+  const theme = useTheme()
+
   useFocusEffect(
     useCallback(() => {
       db.select()
@@ -79,7 +80,9 @@ const History = () => {
 
   if (ideasWithLabel === null) {
     return (
-      <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaView
+        style={{ backgroundColor: theme.colors.background, flex: 1 }}
+      >
         <ActivityIndicator animating size="large" />
       </SafeAreaView>
     )
@@ -88,7 +91,12 @@ const History = () => {
   if (ideasWithLabel.length === 0) {
     return (
       <SafeAreaView
-        style={{ flex: 1, justifyContent: 'center', alignContent: 'center' }}
+        style={{
+          backgroundColor: theme.colors.background,
+          flex: 1,
+          justifyContent: 'center',
+          alignContent: 'center',
+        }}
       >
         <Link href="/">
           <Text>Go to brainstorm tab!</Text>
@@ -96,10 +104,9 @@ const History = () => {
       </SafeAreaView>
     )
   }
-  console.log('rows', rows)
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ backgroundColor: theme.colors.background, flex: 1 }}>
       <ScrollView
         contentContainerStyle={{
           alignItems: 'center',

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
-import { TextInput, Button, Text, Icon } from 'react-native-paper'
+import { TextInput, Button, Text, Icon, useTheme } from 'react-native-paper'
 import { SPACING } from '@/app/theme'
 import Label from '@/shared/components/Label'
 import { db } from '@/db/client'
@@ -75,6 +75,7 @@ const IdeaInput = ({
   const [labelText, setLabelText] = React.useState('')
   const [color, setColor] = React.useState(COLORS[0])
   const [icon, setIcon] = React.useState(ICONS[0])
+  const theme = useTheme()
 
   const handleCancel = React.useCallback(() => {
     setLabelText('')
@@ -97,7 +98,7 @@ const IdeaInput = ({
   }, [labelText, color, icon, submitCallback])
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <TextInput
         style={{ flex: 1, margin: SPACING.md }}
         label="Create a label"

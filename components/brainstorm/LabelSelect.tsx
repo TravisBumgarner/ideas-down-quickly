@@ -4,7 +4,7 @@ import { LabelsTable, SelectLabel } from '@/db/schema'
 import Label from '@/shared/components/Label'
 import * as React from 'react'
 import { SafeAreaView, View, ScrollView } from 'react-native'
-import { ActivityIndicator, Button } from 'react-native-paper'
+import { ActivityIndicator, Button, useTheme } from 'react-native-paper'
 
 const LabelInput = ({
   submitCallback,
@@ -16,6 +16,7 @@ const LabelInput = ({
   newLabelCallback: () => void
 }) => {
   const [labels, setLabels] = React.useState<SelectLabel[] | null>(null)
+  const theme = useTheme()
 
   React.useEffect(() => {
     db.select().from(LabelsTable).then(setLabels)
@@ -57,7 +58,7 @@ const LabelInput = ({
   }
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <ScrollView
         contentContainerStyle={{
           alignItems: 'center',

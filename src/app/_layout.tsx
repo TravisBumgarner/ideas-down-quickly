@@ -4,10 +4,11 @@ import { useContext, useEffect } from 'react'
 import 'react-native-reanimated'
 import * as SplashScreen from 'expo-splash-screen'
 import { MD3DarkTheme, MD3LightTheme, PaperProvider } from 'react-native-paper'
-import { db } from '@/db/client'
+import { db } from '@/src/db/client'
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator'
+import Context, { context } from '@/src/shared/context'
+
 import migrations from '@/db/migrations/migrations'
-import Context, { context } from '@/shared/context'
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync()

@@ -1,7 +1,7 @@
 import * as React from 'react'
-import IdeaInput from '@/src/components/brainstorm/IdeaInput'
-import LabelSelect from '@/src/components/brainstorm/LabelSelect'
-import NewLabelInput from '@/src/components/brainstorm/NewLabelInput'
+import IdeaInput from '@/components/brainstorm/IdeaInput'
+import LabelSelect from '@/components/brainstorm/LabelSelect'
+import NewLabelInput from '@/components/brainstorm/NewLabelInput'
 import { useFocusEffect } from 'expo-router'
 
 enum CurrentPage {

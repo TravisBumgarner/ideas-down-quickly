@@ -1,18 +1,13 @@
 import { SafeAreaView, ScrollView, View } from 'react-native'
-import {
-  IdeasTable,
-  LabelsTable,
-  SelectIdea,
-  SelectLabel,
-} from '@/src/db/schema'
+import { IdeasTable, LabelsTable, SelectIdea, SelectLabel } from '@/db/schema'
 import { useCallback, useMemo, useState } from 'react'
-import { db } from '@/src/db/client'
+import { db } from '@/db/client'
 import { ActivityIndicator, useTheme, Text } from 'react-native-paper'
 import { Link } from 'expo-router'
 import { desc, eq } from 'drizzle-orm'
-import Idea from '@/src/shared/components/Idea'
+import Idea from '@/shared/components/Idea'
 import { useFocusEffect } from '@react-navigation/native'
-import { areSameDay, formatDisplayDate } from '@/src/shared/utilities'
+import { areSameDay, formatDisplayDate } from '@/shared/utilities'
 
 import { SPACING } from '../theme'
 

@@ -8,9 +8,9 @@ import {
   Text,
   useTheme,
 } from 'react-native-paper'
-import { SPACING } from '@/src/app/theme'
-import { IdeasTable, LabelsTable, NewIdea, SelectLabel } from '@/src/db/schema'
-import { db } from '@/src/db/client'
+import { SPACING } from '@/app/theme'
+import { IdeasTable, LabelsTable, NewIdea, SelectLabel } from '@/db/schema'
+import { db } from '@/db/client'
 import { eq } from 'drizzle-orm'
 import 'react-native-get-random-values'
 import { v4 as uuidv4 } from 'uuid'

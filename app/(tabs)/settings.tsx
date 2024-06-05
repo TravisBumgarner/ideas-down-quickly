@@ -1,6 +1,6 @@
 import { SafeAreaView, View } from 'react-native'
-import { db } from '@/src/db/client'
-import { IdeasTable, LabelsTable } from '@/src/db/schema'
+import { db } from '@/db/client'
+import { IdeasTable, LabelsTable } from '@/db/schema'
 import {
   Button,
   Text,
@@ -9,7 +9,7 @@ import {
   useTheme,
 } from 'react-native-paper'
 import { useCallback, useContext, useState } from 'react'
-import { context } from '@/src/shared/context'
+import { context } from '@/shared/context'
 
 import { SPACING } from '../theme'
 

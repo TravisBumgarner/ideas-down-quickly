@@ -1,6 +1,6 @@
 import { Tabs } from 'expo-router'
 import React from 'react'
-import { TabBarIcon } from '@/src/shared/components/TabBarIcon'
+import { TabBarIcon } from '@/shared/components/TabBarIcon'
 import { useTheme } from 'react-native-paper'
 
 export default function TabLayout() {

@@ -1,4 +1,4 @@
-import { BORDER_RADIUS } from '@/app/theme'
+import { BORDER_RADIUS } from '@/src/app/theme'
 import { useCallback } from 'react'
 import { Button, Icon } from 'react-native-paper'
 

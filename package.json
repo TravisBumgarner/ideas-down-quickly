@@ -1,6 +1,6 @@
 {
   "name": "brainstorm-app",
-  "main": "expo-router/entry",
+  "main": "expo-router/entry/src",
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",

@@ -1,4 +1,4 @@
-import { BORDER_RADIUS, SPACING } from '@/app/theme'
+import { BORDER_RADIUS, SPACING } from '@/src/app/theme'
 import { View } from 'react-native'
 import { Icon, Text } from 'react-native-paper'
 

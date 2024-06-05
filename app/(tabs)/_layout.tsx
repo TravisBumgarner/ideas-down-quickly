@@ -34,9 +34,9 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="debug"
+        name="settings"
         options={{
-          title: 'Debug',
+          title: 'Settings',
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'bug' : 'bug-outline'} color={color} />
           ),

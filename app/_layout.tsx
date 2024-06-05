@@ -1,41 +1,36 @@
 import { useFonts } from 'expo-font'
 import { Stack, router } from 'expo-router'
-import { useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import 'react-native-reanimated'
 import * as SplashScreen from 'expo-splash-screen'
-import {
-  PaperProvider,
-  MD3LightTheme as DefaultTheme,
-} from 'react-native-paper'
+import { MD3DarkTheme, MD3LightTheme, PaperProvider } from 'react-native-paper'
 import { db } from '@/db/client'
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator'
 import migrations from '@/db/migrations/migrations'
-
-const theme = {
-  ...DefaultTheme,
-  colors: {
-    ...DefaultTheme.colors,
-  },
-}
+import Context, { context } from '@/shared/context'
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync()
 
-export default function RootLayout() {
-  const { success, error } = useMigrations(db, migrations)
-
-  console.log(error)
+function App() {
+  const { success: haveMigrationsRun, error: haveMigrationsErrored } =
+    useMigrations(db, migrations)
+  const {
+    state: {
+      settings: { colorTheme },
+    },
+  } = useContext(context)
 
   const [haveFontsLoaded] = useFonts({
     Montserrat: require('../assets/fonts/Montserrat.ttf'),
   })
 
-  console.log(error, success)
+  const hasLoaded = [haveFontsLoaded, haveMigrationsRun].every(i => i)
 
-  const hasLoaded = [haveFontsLoaded, success].every(i => i)
-
-  const hasErrored = [error].some(i => i)
-
+  const hasErrored = [haveMigrationsErrored].some(i => i)
+  const paperTheme = colorTheme === 'dark' ? MD3DarkTheme : MD3LightTheme
+  console.log('colortheme', colorTheme, typeof colorTheme)
+  console.log('ever equal?', colorTheme === 'dark')
   useEffect(() => {
     if (hasErrored) {
       router.replace('error')
@@ -53,7 +48,7 @@ export default function RootLayout() {
   }
 
   return (
-    <PaperProvider theme={theme}>
+    <PaperProvider theme={paperTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
@@ -62,3 +57,13 @@ export default function RootLayout() {
     </PaperProvider>
   )
 }
+
+const AppWrapper = () => {
+  return (
+    <Context>
+      <App />
+    </Context>
+  )
+}
+
+export default AppWrapper

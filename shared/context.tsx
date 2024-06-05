@@ -1,0 +1,163 @@
+import {
+  createContext,
+  useEffect,
+  useReducer,
+  useState,
+  type Dispatch,
+} from 'react'
+import { Text } from 'react-native-paper'
+
+import { getValueFromKeyStore, saveValueToKeyStore } from './utilities'
+
+const HAS_DONE_WARM_START = 'HAS_DONE_WARM_START'
+const TRUE = 'true'
+
+export interface State {
+  hasAppHydrated: boolean
+  settings: {
+    colorTheme: 'dark' | 'light'
+  }
+}
+
+const EMPTY_STATE: State = {
+  hasAppHydrated: false,
+  settings: {
+    colorTheme: 'light',
+  },
+}
+
+const initialSetup = () => {
+  console.log('initial setup')
+  Object.keys(EMPTY_STATE.settings).forEach(key => {
+    saveValueToKeyStore(
+      key as keyof (typeof EMPTY_STATE)['settings'],
+      EMPTY_STATE.settings[key as keyof (typeof EMPTY_STATE)['settings']]
+    )
+  })
+
+  saveValueToKeyStore(HAS_DONE_WARM_START, TRUE)
+}
+
+type SettingsKey = keyof typeof EMPTY_STATE.settings
+
+const getKeysFromStorage = async () => {
+  const keys = Object.keys(EMPTY_STATE.settings) as SettingsKey[]
+  const result = await keys.reduce(
+    async (prevPromise, key) => {
+      const acc = await prevPromise
+      acc[key] = (await getValueFromKeyStore(key)) || EMPTY_STATE.settings[key]
+      return acc
+    },
+    Promise.resolve({} as Record<SettingsKey, string>)
+  )
+  // I tried. Maybe one day I'll be better with types.
+  return result as unknown as State['settings']
+}
+
+interface HydrateUserSettings {
+  type: 'HYDRATE_USER_SETTINGS'
+  payload: State['settings']
+}
+
+interface EditUserSettings {
+  type: 'EDIT_USER_SETTING'
+  payload: State['settings']
+}
+
+// interface SetActiveModal {
+//   type: 'SET_ACTIVE_MODAL'
+//   payload: ActiveModal
+// }
+
+// interface ClearActiveModal {
+//   type: 'CLEAR_ACTIVE_MODAL'
+// }
+
+// interface AddMessage {
+//   type: 'ADD_MESSAGE'
+//   payload: {
+//     text: string
+//     severity: 'error' | 'warning' | 'info' | 'success'
+//     url?: string
+//     confirmCallback?: () => void
+//     confirmCallbackText?: string
+//     cancelCallback?: () => void
+//     cancelCallbackText?: string
+//   }
+// }
+
+// interface DeleteMessage {
+//   type: 'DELETE_MESSAGE'
+// }
+
+export type Action = EditUserSettings | HydrateUserSettings
+// | SetActiveModal
+// | ClearActiveModal
+// | AddMessage
+// | DeleteMessage
+
+const reducer = (state: State, action: Action): State => {
+  switch (action.type) {
+    case 'HYDRATE_USER_SETTINGS': {
+      return {
+        ...state,
+        settings: { ...state.settings, ...action.payload },
+        hasAppHydrated: true,
+      }
+    }
+    case 'EDIT_USER_SETTING': {
+      Object.entries(action.payload).forEach(([key, value]) => {
+        console.log('doot doot saving value', key, value)
+        saveValueToKeyStore(key as SettingsKey, value)
+      })
+      return { ...state, settings: { ...state.settings, ...action.payload } }
+    }
+    // case 'SET_ACTIVE_MODAL': {
+    //   return { ...state, activeModal: action.payload }
+    // }
+    // case 'CLEAR_ACTIVE_MODAL': {
+    //   return { ...state, activeModal: null }
+    // }
+    // case 'ADD_MESSAGE': {
+    //   return { ...state, message: { ...action.payload } }
+    // }
+    // case 'DELETE_MESSAGE': {
+    //   return { ...state, message: null }
+    // }
+    default:
+      throw new Error('Unexpected action')
+  }
+}
+
+const context = createContext({
+  state: EMPTY_STATE,
+  dispatch: () => {},
+} as {
+  state: State
+  dispatch: Dispatch<Action>
+})
+
+const ResultsContext = ({ children }: { children: JSX.Element }) => {
+  const [state, dispatch] = useReducer(reducer, EMPTY_STATE)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if ((await getValueFromKeyStore(HAS_DONE_WARM_START)) !== TRUE) {
+        initialSetup()
+      } else {
+        const payload = await getKeysFromStorage()
+        console.log('hydrating')
+        dispatch({ type: 'HYDRATE_USER_SETTINGS', payload })
+      }
+    }
+
+    void fetchData()
+  }, [])
+
+  const { Provider } = context
+
+  return <Provider value={{ state, dispatch }}>{children}</Provider>
+}
+
+export default ResultsContext
+export { context }

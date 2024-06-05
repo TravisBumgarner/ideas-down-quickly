@@ -1,16 +1,15 @@
-import { BORDER_RADIUS, SPACING } from '@/app/theme';
-import { View } from 'react-native';
-import { Icon, Text } from 'react-native-paper';
+import { BORDER_RADIUS, SPACING } from '@/app/theme'
+import { View } from 'react-native'
+import { Icon, Text } from 'react-native-paper'
 
 type Props = {
-  color: string;
-  icon: string;
-  text: string;
-  label: string;
-  date: string;
-};
+  color: string
+  icon: string
+  text: string
+  label: string
+}
 
-const Idea = ({ color, icon, text, label, date }: Props) => {
+const Idea = ({ color, icon, text, label }: Props) => {
   return (
     <View
       style={{
@@ -26,9 +25,8 @@ const Idea = ({ color, icon, text, label, date }: Props) => {
         <Text style={{ fontWeight: 900, marginLeft: SPACING.sm }}>{label}</Text>
       </View>
       <Text>{text}</Text>
-      <Text>{date}</Text>
     </View>
-  );
-};
+  )
+}
 
-export default Idea;
+export default Idea

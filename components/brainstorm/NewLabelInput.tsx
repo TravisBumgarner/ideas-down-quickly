@@ -1,12 +1,12 @@
-import * as React from 'react';
-import { SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native';
-import { TextInput, Button, Text, Icon } from 'react-native-paper';
-import { SPACING } from '@/app/theme';
-import Label from '@/shared/Label';
-import { db } from '@/db/client';
-import { LabelsTable, NewLabel } from '@/db/schema';
-import 'react-native-get-random-values';
-import { v4 as uuidv4 } from 'uuid';
+import * as React from 'react'
+import { SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
+import { TextInput, Button, Text, Icon } from 'react-native-paper'
+import { SPACING } from '@/app/theme'
+import Label from '@/shared/components/Label'
+import { db } from '@/db/client'
+import { LabelsTable, NewLabel } from '@/db/schema'
+import 'react-native-get-random-values'
+import { v4 as uuidv4 } from 'uuid'
 
 const COLORS = [
   '#ff5722',
@@ -23,7 +23,7 @@ const COLORS = [
   '#8bc34a',
   '#cddc39',
   '#ffeb3b',
-];
+]
 
 const ICONS = [
   'home',
@@ -63,23 +63,23 @@ const ICONS = [
   'alarm-snooze',
   'album',
   'alert',
-];
+]
 
 const IdeaInput = ({
   submitCallback,
   cancelCallback,
 }: {
-  submitCallback: (args: { labelUUID: string }) => void;
-  cancelCallback: () => void;
+  submitCallback: (args: { labelUUID: string }) => void
+  cancelCallback: () => void
 }) => {
-  const [labelText, setLabelText] = React.useState('');
-  const [color, setColor] = React.useState(COLORS[0]);
-  const [icon, setIcon] = React.useState(ICONS[0]);
+  const [labelText, setLabelText] = React.useState('')
+  const [color, setColor] = React.useState(COLORS[0])
+  const [icon, setIcon] = React.useState(ICONS[0])
 
   const handleCancel = React.useCallback(() => {
-    setLabelText('');
-    cancelCallback();
-  }, [cancelCallback]);
+    setLabelText('')
+    cancelCallback()
+  }, [cancelCallback])
 
   const handleSubmit = React.useCallback(async () => {
     const newLabel: NewLabel = {
@@ -88,13 +88,13 @@ const IdeaInput = ({
       createdAt: new Date().toISOString(),
       color,
       icon,
-    };
+    }
 
     const result = await db.insert(LabelsTable).values(newLabel).returning({
       uuid: LabelsTable.uuid,
-    });
-    submitCallback({ labelUUID: result[0].uuid });
-  }, [labelText, color, icon, submitCallback]);
+    })
+    submitCallback({ labelUUID: result[0].uuid })
+  }, [labelText, color, icon, submitCallback])
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -166,7 +166,7 @@ const IdeaInput = ({
         </Button>
       </View>
     </SafeAreaView>
-  );
-};
+  )
+}
 
-export default IdeaInput;
+export default IdeaInput

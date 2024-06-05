@@ -1,27 +1,27 @@
-import { BORDER_RADIUS } from '@/app/theme';
-import { useCallback } from 'react';
-import { Button, Icon } from 'react-native-paper';
+import { BORDER_RADIUS } from '@/app/theme'
+import { useCallback } from 'react'
+import { Button, Icon } from 'react-native-paper'
 
 type ReadonlyCondition =
   | {
-      readonly: false;
-      handlePress: () => void;
+      readonly: false
+      handlePress: () => void
     }
   | {
-      readonly: true;
-    };
+      readonly: true
+    }
 
 type Props = {
-  color: string;
-  icon: string;
-  text: string;
-  fullWidth?: boolean;
-};
+  color: string
+  icon: string
+  text: string
+  fullWidth?: boolean
+}
 
 const Label = ({ color, icon, text, ...rest }: Props & ReadonlyCondition) => {
   const handlePress = useCallback(() => {
-    rest.readonly ? null : rest.handlePress();
-  }, [rest]);
+    rest.readonly ? null : rest.handlePress()
+  }, [rest])
 
   return (
     <Button
@@ -36,7 +36,7 @@ const Label = ({ color, icon, text, ...rest }: Props & ReadonlyCondition) => {
     >
       {text}
     </Button>
-  );
-};
+  )
+}
 
-export default Label;
+export default Label

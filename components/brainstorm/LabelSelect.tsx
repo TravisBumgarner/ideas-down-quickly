@@ -1,43 +1,43 @@
-import { SPACING } from '@/app/theme';
-import { db } from '@/db/client';
-import { LabelsTable, SelectLabel } from '@/db/schema';
-import Label from '@/shared/Label';
-import * as React from 'react';
-import { SafeAreaView, View, ScrollView } from 'react-native';
-import { ActivityIndicator, Button } from 'react-native-paper';
+import { SPACING } from '@/app/theme'
+import { db } from '@/db/client'
+import { LabelsTable, SelectLabel } from '@/db/schema'
+import Label from '@/shared/components/Label'
+import * as React from 'react'
+import { SafeAreaView, View, ScrollView } from 'react-native'
+import { ActivityIndicator, Button } from 'react-native-paper'
 
 const LabelInput = ({
   submitCallback,
   cancelCallback,
   newLabelCallback,
 }: {
-  submitCallback: (ideaText: string) => void;
-  cancelCallback: () => void;
-  newLabelCallback: () => void;
+  submitCallback: (ideaText: string) => void
+  cancelCallback: () => void
+  newLabelCallback: () => void
 }) => {
-  const [labels, setLabels] = React.useState<SelectLabel[] | null>(null);
+  const [labels, setLabels] = React.useState<SelectLabel[] | null>(null)
 
   React.useEffect(() => {
-    db.select().from(LabelsTable).then(setLabels);
-  }, []);
+    db.select().from(LabelsTable).then(setLabels)
+  }, [])
 
   const handleCancel = React.useCallback(() => {
-    cancelCallback();
-  }, [cancelCallback]);
+    cancelCallback()
+  }, [cancelCallback])
 
   const handleSubmit = React.useCallback(
     (button: string) => {
-      submitCallback(button);
+      submitCallback(button)
     },
     [submitCallback]
-  );
+  )
 
   if (labels === null) {
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <ActivityIndicator animating size="large" />
       </SafeAreaView>
-    );
+    )
   }
 
   if (labels.length === 0) {
@@ -53,7 +53,7 @@ const LabelInput = ({
           Add New Label
         </Button>
       </SafeAreaView>
-    );
+    )
   }
 
   return (
@@ -104,7 +104,7 @@ const LabelInput = ({
         </Button>
       </View>
     </SafeAreaView>
-  );
-};
+  )
+}
 
-export default LabelInput;
+export default LabelInput

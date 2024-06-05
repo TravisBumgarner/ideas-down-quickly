@@ -1,18 +1,18 @@
-import * as React from 'react';
-import { Animated, SafeAreaView, View } from 'react-native';
+import * as React from 'react'
+import { Animated, SafeAreaView, View } from 'react-native'
 import {
   TextInput,
   Button,
   ActivityIndicator,
   Icon,
   Text,
-} from 'react-native-paper';
-import { SPACING } from '@/app/theme';
-import { IdeasTable, LabelsTable, NewIdea, SelectLabel } from '@/db/schema';
-import { db } from '@/db/client';
-import { eq } from 'drizzle-orm';
-import 'react-native-get-random-values';
-import { v4 as uuidv4 } from 'uuid';
+} from 'react-native-paper'
+import { SPACING } from '@/app/theme'
+import { IdeasTable, LabelsTable, NewIdea, SelectLabel } from '@/db/schema'
+import { db } from '@/db/client'
+import { eq } from 'drizzle-orm'
+import 'react-native-get-random-values'
+import { v4 as uuidv4 } from 'uuid'
 
 // TODO - Make background color, title, and icon, be that project.
 
@@ -21,42 +21,42 @@ const IdeaInput = ({
   cancelCallback,
   labelUUID,
 }: {
-  submitCallback: (ideaText: string) => void;
-  cancelCallback: () => void;
-  labelUUID: string;
+  submitCallback: (ideaText: string) => void
+  cancelCallback: () => void
+  labelUUID: string
 }) => {
-  const [ideaText, setIdeaText] = React.useState('');
-  const [label, setLabel] = React.useState<SelectLabel | null>(null);
-  const isFocused = React.useRef(new Animated.Value(0)).current;
+  const [ideaText, setIdeaText] = React.useState('')
+  const [label, setLabel] = React.useState<SelectLabel | null>(null)
+  const isFocused = React.useRef(new Animated.Value(0)).current
 
   const onFocus = React.useCallback(() => {
     Animated.timing(isFocused, {
       toValue: 1,
       duration: 200,
       useNativeDriver: false,
-    }).start();
-  }, [isFocused]);
+    }).start()
+  }, [isFocused])
 
   const onBlur = React.useCallback(() => {
     Animated.timing(isFocused, {
       toValue: 0,
       duration: 200,
       useNativeDriver: false,
-    }).start();
-  }, [isFocused]);
+    }).start()
+  }, [isFocused])
 
   React.useEffect(() => {
     db.select()
       .from(LabelsTable)
       .where(eq(LabelsTable.uuid, labelUUID))
       .limit(1)
-      .then(r => setLabel(r[0]));
-  }, [labelUUID]);
+      .then(r => setLabel(r[0]))
+  }, [labelUUID])
 
   const handleCancel = React.useCallback(() => {
-    setIdeaText('');
-    cancelCallback();
-  }, [cancelCallback]);
+    setIdeaText('')
+    cancelCallback()
+  }, [cancelCallback])
 
   const handleSubmit = React.useCallback(async () => {
     const idea: NewIdea = {
@@ -64,22 +64,22 @@ const IdeaInput = ({
       text: ideaText,
       labelId: labelUUID,
       createdAt: new Date().toISOString(),
-    };
+    }
     const result = await db
       .insert(IdeasTable)
       .values(idea)
-      .returning({ uuid: IdeasTable.uuid });
+      .returning({ uuid: IdeasTable.uuid })
 
-    setIdeaText('');
-    submitCallback(result[0].uuid);
-  }, [submitCallback, ideaText, labelUUID]);
+    setIdeaText('')
+    submitCallback(result[0].uuid)
+  }, [submitCallback, ideaText, labelUUID])
 
   if (label === null) {
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <ActivityIndicator animating size="large" />
       </SafeAreaView>
-    );
+    )
   }
 
   return (
@@ -131,7 +131,7 @@ const IdeaInput = ({
         </Button>
       </View>
     </SafeAreaView>
-  );
-};
+  )
+}
 
-export default IdeaInput;
+export default IdeaInput

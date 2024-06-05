@@ -1,6 +1,6 @@
-import { Tabs } from 'expo-router'
-import React from 'react'
-import { TabBarIcon } from '@/shared/components/TabBarIcon'
+import { Tabs } from 'expo-router';
+import React from 'react';
+import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 
 export default function TabLayout() {
   return (
@@ -43,5 +43,5 @@ export default function TabLayout() {
         }}
       />
     </Tabs>
-  )
+  );
 }

@@ -1,55 +1,55 @@
-import { useFonts } from 'expo-font'
-import { Stack, router } from 'expo-router'
-import { useEffect } from 'react'
-import 'react-native-reanimated'
-import * as SplashScreen from 'expo-splash-screen'
+import { useFonts } from 'expo-font';
+import { Stack, router } from 'expo-router';
+import { useEffect } from 'react';
+import 'react-native-reanimated';
+import * as SplashScreen from 'expo-splash-screen';
 import {
   PaperProvider,
   MD3LightTheme as DefaultTheme,
-} from 'react-native-paper'
-import { db } from '@/db/client'
-import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator'
-import migrations from '@/db/migrations/migrations'
+} from 'react-native-paper';
+import { db } from '@/db/client';
+import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
+import migrations from '@/db/migrations/migrations';
 
 const theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
   },
-}
+};
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync()
+SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const { success, error } = useMigrations(db, migrations)
+  const { success, error } = useMigrations(db, migrations);
 
-  console.log(error)
+  console.log(error);
 
   const [haveFontsLoaded] = useFonts({
     Montserrat: require('../assets/fonts/Montserrat.ttf'),
-  })
+  });
 
-  console.log(error, success)
+  console.log(error, success);
 
-  const hasLoaded = [haveFontsLoaded, success].every(i => i)
+  const hasLoaded = [haveFontsLoaded, success].every(i => i);
 
-  const hasErrored = [error].some(i => i)
+  const hasErrored = [error].some(i => i);
 
   useEffect(() => {
     if (hasErrored) {
-      router.replace('error')
+      router.replace('error');
     }
-  }, [hasErrored])
+  }, [hasErrored]);
 
   useEffect(() => {
     if (hasLoaded || hasErrored) {
-      SplashScreen.hideAsync()
+      SplashScreen.hideAsync();
     }
-  }, [hasLoaded, hasErrored])
+  }, [hasLoaded, hasErrored]);
 
   if (!hasLoaded && !hasErrored) {
-    return null
+    return null;
   }
 
   return (
@@ -60,5 +60,5 @@ export default function RootLayout() {
         <Stack.Screen name="error" />
       </Stack>
     </PaperProvider>
-  )
+  );
 }

@@ -2,6 +2,7 @@ import * as React from 'react';
 import IdeaInput from '@/components/brainstorm/IdeaInput';
 import LabelSelect from '@/components/brainstorm/LabelSelect';
 import NewLabelInput from '@/components/brainstorm/NewLabelInput';
+import { useFocusEffect } from 'expo-router';
 
 enum CurrentPage {
   IdeaInput = 'ideaInput',
@@ -13,6 +14,13 @@ const Brainstorm = () => {
   const [currentPage, setCurrentPage] = React.useState(CurrentPage.LabelSelect);
   const [selectedLabelUUID, setSelectedLabelUUID] = React.useState('');
 
+  useFocusEffect(
+    React.useCallback(() => {
+      setCurrentPage(CurrentPage.LabelSelect);
+      setSelectedLabelUUID('');
+    }, [])
+  );
+
   const labelSelectSubmitCallback = React.useCallback((labelUUID: string) => {
     setSelectedLabelUUID(labelUUID);
     setCurrentPage(CurrentPage.IdeaInput);
@@ -22,17 +30,20 @@ const Brainstorm = () => {
     setCurrentPage(CurrentPage.IdeaInput);
   }, []);
 
-  const newLabelSubmitCallback = React.useCallback((labelUUID: string) => {
-    setSelectedLabelUUID(labelUUID);
-    setCurrentPage(CurrentPage.IdeaInput);
-  }, []);
+  const newLabelSubmitCallback = React.useCallback(
+    ({ labelUUID }: { labelUUID: string }) => {
+      setSelectedLabelUUID(labelUUID);
+      setCurrentPage(CurrentPage.IdeaInput);
+    },
+    []
+  );
 
   const newLabelCancelCallback = React.useCallback(() => {
     setCurrentPage(CurrentPage.LabelSelect);
   }, []);
 
   const ideaInputSubmitCallback = React.useCallback(() => {
-    setCurrentPage(CurrentPage.IdeaInput);
+    setCurrentPage(CurrentPage.LabelSelect);
   }, []);
 
   const ideaInputCancelCallback = React.useCallback(() => {

@@ -1,12 +1,10 @@
-import { BORDER_RADIUS, SPACING } from '@/app/theme';
+import { SPACING } from '@/app/theme';
+import { db } from '@/db/client';
+import { LabelsTable, SelectLabel } from '@/db/schema';
+import Label from '@/shared/Label';
 import * as React from 'react';
 import { SafeAreaView, View, ScrollView } from 'react-native';
-import { Button, Icon } from 'react-native-paper';
-
-const buttons = [
-  { title: 'Home', icon: 'home', backgroundColor: '#ff5722' },
-  { title: 'Profile', icon: 'account', backgroundColor: '#3f51b5' },
-];
+import { ActivityIndicator, Button, Icon } from 'react-native-paper';
 
 const LabelInput = ({
   submitCallback,
@@ -17,6 +15,12 @@ const LabelInput = ({
   cancelCallback: () => void;
   newLabelCallback: () => void;
 }) => {
+  const [labels, setLabels] = React.useState<SelectLabel[] | null>(null);
+
+  React.useEffect(() => {
+    db.select().from(LabelsTable).then(setLabels);
+  }, []);
+
   const handleCancel = React.useCallback(() => {
     cancelCallback();
   }, [cancelCallback]);
@@ -27,6 +31,30 @@ const LabelInput = ({
     },
     [submitCallback]
   );
+
+  if (labels === null) {
+    return (
+      <SafeAreaView style={{ flex: 1 }}>
+        <ActivityIndicator animating size="large" />
+      </SafeAreaView>
+    );
+  }
+
+  if (labels.length === 0) {
+    return (
+      <SafeAreaView
+        style={{ flex: 1, justifyContent: 'center', alignContent: 'center' }}
+      >
+        <Button
+          style={{ margin: SPACING.lg }}
+          mode="contained"
+          onPress={newLabelCallback}
+        >
+          Add New Label
+        </Button>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -40,7 +68,7 @@ const LabelInput = ({
           flex: 1,
         }}
       >
-        {buttons.map((button, index) => (
+        {labels.map(({ color, uuid, icon, text }, index) => (
           <View
             key={index}
             style={{
@@ -50,15 +78,13 @@ const LabelInput = ({
               flex: 1,
             }}
           >
-            <Button
-              icon={() => <Icon source={button.icon} size={24} color="#fff" />}
-              mode="contained"
-              buttonColor={button.backgroundColor}
-              onPress={() => handleSubmit(button.title)}
-              style={{ borderRadius: BORDER_RADIUS.md }}
-            >
-              {button.title}
-            </Button>
+            <Label
+              color={color}
+              icon={icon}
+              text={text}
+              readonly={false}
+              handlePress={() => handleSubmit(uuid)}
+            />
           </View>
         ))}
       </ScrollView>

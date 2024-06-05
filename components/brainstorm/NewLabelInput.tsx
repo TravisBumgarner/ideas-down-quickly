@@ -1,7 +1,11 @@
 import * as React from 'react';
-import { SafeAreaView, ScrollView, View } from 'react-native';
+import { SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native';
 import { TextInput, Button, Text, Icon } from 'react-native-paper';
 import { SPACING } from '@/app/theme';
+import Label from '@/shared/Label';
+import { db } from '@/db/client';
+import { LabelsTable, NewLabel } from '@/db/schema';
+import { v4 as uuidv4 } from 'uuid';
 
 const COLORS = [
   '#ff5722',
@@ -64,20 +68,32 @@ const IdeaInput = ({
   submitCallback,
   cancelCallback,
 }: {
-  submitCallback: (ideaText: string) => void;
+  submitCallback: (args: { labelUUID: string }) => void;
   cancelCallback: () => void;
 }) => {
   const [labelText, setLabelText] = React.useState('');
+  const [color, setColor] = React.useState(COLORS[0]);
+  const [icon, setIcon] = React.useState(ICONS[0]);
 
   const handleCancel = React.useCallback(() => {
     setLabelText('');
     cancelCallback();
   }, [cancelCallback]);
 
-  const handleSubmit = React.useCallback(() => {
-    setLabelText('');
-    submitCallback(labelText);
-  }, [submitCallback, labelText]);
+  const handleSubmit = React.useCallback(async () => {
+    const newLabel: NewLabel = {
+      uuid: uuidv4(),
+      text: labelText,
+      createdAt: new Date().toISOString(),
+      color,
+      icon,
+    };
+
+    const result = await db.insert(LabelsTable).values(newLabel).returning({
+      uuid: LabelsTable.uuid,
+    });
+    submitCallback({ labelUUID: result[0].uuid });
+  }, [labelText, color, icon, submitCallback]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -91,7 +107,7 @@ const IdeaInput = ({
       <Text>Choose a color:</Text>
       <ScrollView horizontal style={{ flexDirection: 'row' }}>
         {COLORS.map(color => (
-          <View
+          <TouchableOpacity
             key={color}
             style={{
               margin: SPACING.sm,
@@ -99,17 +115,40 @@ const IdeaInput = ({
               width: 50,
               height: 50,
             }}
-          ></View>
+            onPress={() => setColor(color)}
+          ></TouchableOpacity>
         ))}
       </ScrollView>
       <Text>Choose an icon:</Text>
       <ScrollView horizontal style={{ flexDirection: 'row' }}>
         {ICONS.map(icon => (
-          <View key={icon} style={{ width: 50, height: 50 }}>
-            <Icon size={32} source={icon} />
-          </View>
+          <TouchableOpacity
+            onPress={() => setIcon(icon)}
+            key={icon}
+            style={{ width: 50, height: 50 }}
+          >
+            <Icon size={32} source={icon} color={color} />
+          </TouchableOpacity>
         ))}
       </ScrollView>
+      <View
+        style={{
+          flexDirection: 'column',
+          marginRight: SPACING.md,
+          marginLeft: SPACING.md,
+          marginBottom: SPACING.md,
+          flex: 1,
+        }}
+      >
+        <Text>Preview:</Text>
+        <Label
+          fullWidth
+          color={color}
+          icon={icon}
+          text={labelText}
+          readonly={true}
+        />
+      </View>
       <View
         style={{
           flexDirection: 'row',

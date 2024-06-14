@@ -17,6 +17,12 @@ The installed VS Code extensions are
 - Disabled
   - Related - `Prettier - Code formatter`, `Prettier ESLint` (It appears I don't need either of these plugins to lint with the NPM packages I've installed. )
 
+# Local Development for iOS
+
+[Tutorial](https://docs.expo.dev/develop/development-builds/create-a-build/)
+
+1. `yarn run build:ios:localdev`
+
 
 # Development Build for iOS
 

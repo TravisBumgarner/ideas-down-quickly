@@ -11,6 +11,7 @@
     "no-thanks-lint": "expo lint",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "db:generate": "npx drizzle-kit generate",
+    "build:ios:localdev": "eas build --profile development-simulator --platform ios",
     "build:ios:register": "eas device:create",
     "build:ios:development": "eas build --profile development --platform ios",
     "build:ios:internal": "eas build --profile preview --platform ios"

@@ -51,7 +51,7 @@ const LabelInput = ({
           mode="contained"
           onPress={newLabelCallback}
         >
-          Add New Label
+          Add Your First Label
         </Button>
       </SafeAreaView>
     )
@@ -97,9 +97,6 @@ const LabelInput = ({
           marginBottom: SPACING.md,
         }}
       >
-        <Button style={{ flex: 1 }} mode="outlined" onPress={handleCancel}>
-          Back
-        </Button>
         <Button style={{ flex: 1 }} mode="contained" onPress={newLabelCallback}>
           Add New Label
         </Button>

@@ -7,6 +7,7 @@ import { db } from '@/db/client'
 import { LabelsTable, NewLabel } from '@/db/schema'
 import 'react-native-get-random-values'
 import { v4 as uuidv4 } from 'uuid'
+import { ICONS } from '@/assets/iconlist'
 
 const COLORS = [
   '#ff5722',
@@ -25,46 +26,6 @@ const COLORS = [
   '#ffeb3b',
 ]
 
-const ICONS = [
-  'home',
-  'account',
-  'account-group',
-  'account-heart',
-  'account-multiple',
-  'account-multiple-check',
-  'account-multiple-minus',
-  'account-multiple-outline',
-  'account-multiple-plus',
-  'account-multiple-remove',
-  'account-off',
-  'account-outline',
-  'account-plus',
-  'account-remove',
-  'account-search',
-  'account-star',
-  'account-supervisor',
-  'account-supervisor-circle',
-  'account-switch',
-  'adjust',
-  'air-conditioner',
-  'airballoon',
-  'airplane',
-  'airplane-landing',
-  'airplane-off',
-  'airplane-takeoff',
-  'alarm',
-  'alarm-bell',
-  'alarm-check',
-  'alarm-light',
-  'alarm-multiple',
-  'alarm-note',
-  'alarm-off',
-  'alarm-plus',
-  'alarm-snooze',
-  'album',
-  'alert',
-]
-
 const IdeaInput = ({
   submitCallback,
   cancelCallback,
@@ -72,7 +33,7 @@ const IdeaInput = ({
   submitCallback: (args: { labelUUID: string }) => void
   cancelCallback: () => void
 }) => {
-  const [labelText, setLabelText] = React.useState('')
+  const [labelText, setLabelText] = React.useState('Label Name')
   const [color, setColor] = React.useState(COLORS[0])
   const [icon, setIcon] = React.useState(ICONS[0])
   const theme = useTheme()
@@ -100,49 +61,92 @@ const IdeaInput = ({
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <TextInput
-        style={{ flex: 1, margin: SPACING.md }}
-        label="Create a label"
+        style={{ height: 80, margin: SPACING.md }}
+        label="Label Text"
         value={labelText}
         onChangeText={text => setLabelText(text)}
         multiline
+        selectTextOnFocus
+        returnKeyType="done"
       />
-      <Text>Choose a color:</Text>
-      <ScrollView horizontal style={{ flexDirection: 'row' }}>
-        {COLORS.map(color => (
-          <TouchableOpacity
-            key={color}
-            style={{
-              margin: SPACING.sm,
-              backgroundColor: color,
-              width: 50,
-              height: 50,
-            }}
-            onPress={() => setColor(color)}
-          ></TouchableOpacity>
-        ))}
-      </ScrollView>
-      <Text>Choose an icon:</Text>
-      <ScrollView horizontal style={{ flexDirection: 'row' }}>
-        {ICONS.map(icon => (
-          <TouchableOpacity
-            onPress={() => setIcon(icon)}
-            key={icon}
-            style={{ width: 50, height: 50 }}
-          >
-            <Icon size={32} source={icon} color={color} />
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
+      <View
+        style={{
+          marginRight: SPACING.md,
+          marginLeft: SPACING.md,
+          marginBottom: SPACING.md,
+          borderBottomColor: theme.colors.backdrop,
+          borderBottomWidth: 1,
+        }}
+      >
+        <Text>Color</Text>
+        <ScrollView
+          horizontal
+          contentContainerStyle={{
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            justifyContent: 'space-between',
+          }}
+        >
+          {COLORS.map(color => (
+            <TouchableOpacity
+              key={color}
+              style={{
+                margin: SPACING.sm,
+                backgroundColor: color,
+                width: 50,
+                height: 50,
+              }}
+              onPress={() => setColor(color)}
+            ></TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>
+      <View
+        style={{
+          flex: 1,
+          marginRight: SPACING.md,
+          marginLeft: SPACING.md,
+          marginBottom: SPACING.md,
+          borderBottomColor: theme.colors.backdrop,
+          borderBottomWidth: 1,
+        }}
+      >
+        <Text>Icon</Text>
+        <ScrollView
+          contentContainerStyle={{
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            justifyContent: 'space-between',
+          }}
+        >
+          {ICONS.map(icon => (
+            <TouchableOpacity
+              onPress={() => setIcon(icon)}
+              key={icon}
+              style={{
+                width: 50,
+                height: 50,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Icon size={32} source={icon} color={color} />
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>
       <View
         style={{
           flexDirection: 'column',
           marginRight: SPACING.md,
           marginLeft: SPACING.md,
           marginBottom: SPACING.md,
-          flex: 1,
+          height: 70,
+          borderBottomColor: theme.colors.backdrop,
+          borderBottomWidth: 1,
         }}
       >
-        <Text>Preview:</Text>
+        <Text>Preview</Text>
         <Label
           fullWidth
           color={color}
@@ -159,10 +163,18 @@ const IdeaInput = ({
           marginBottom: SPACING.md,
         }}
       >
-        <Button style={{ flex: 1 }} mode="outlined" onPress={handleCancel}>
-          Back
+        <Button
+          style={{ flex: 1, marginRight: SPACING.md }}
+          mode="outlined"
+          onPress={handleCancel}
+        >
+          Cancel
         </Button>
-        <Button style={{ flex: 1 }} mode="contained" onPress={handleSubmit}>
+        <Button
+          style={{ flex: 1, marginLeft: SPACING.md }}
+          mode="contained"
+          onPress={handleSubmit}
+        >
           Create
         </Button>
       </View>

@@ -15,3 +15,8 @@ https://reactnative.dev/docs/scrollview
 # Icons
 
 https://pictogrammers.com/library/mdi/
+
+# Development Builds
+
+- A development build is a debug build. It can be used instead of Expo Go. With this you gain full control over the native runtime to install native libraries, modify any project configuration, or write your own native code. 
+- Development builds take as long as other builds to run. (woo :( )

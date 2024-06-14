@@ -4,11 +4,10 @@ import { LabelsTable, SelectLabel } from '@/db/schema'
 import Label from '@/shared/components/Label'
 import * as React from 'react'
 import { SafeAreaView, View, ScrollView } from 'react-native'
-import { ActivityIndicator, Button, useTheme } from 'react-native-paper'
+import { ActivityIndicator, Button, Text, useTheme } from 'react-native-paper'
 
 const LabelInput = ({
   submitCallback,
-  cancelCallback,
   newLabelCallback,
 }: {
   submitCallback: (ideaText: string) => void
@@ -21,10 +20,6 @@ const LabelInput = ({
   React.useEffect(() => {
     db.select().from(LabelsTable).then(setLabels)
   }, [])
-
-  const handleCancel = React.useCallback(() => {
-    cancelCallback()
-  }, [cancelCallback])
 
   const handleSubmit = React.useCallback(
     (button: string) => {
@@ -51,7 +46,7 @@ const LabelInput = ({
           mode="contained"
           onPress={newLabelCallback}
         >
-          Add New Label
+          Add Your First Label
         </Button>
       </SafeAreaView>
     )
@@ -59,36 +54,42 @@ const LabelInput = ({
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <ScrollView
-        contentContainerStyle={{
-          alignItems: 'center',
-          justifyContent: 'center',
-          paddingVertical: 20,
-        }}
+      <View
         style={{
           flex: 1,
         }}
       >
-        {labels.map(({ color, uuid, icon, text }, index) => (
-          <View
-            key={index}
-            style={{
-              borderRadius: 5,
-              width: '100%',
-              padding: SPACING.sm,
-              flex: 1,
-            }}
-          >
-            <Label
-              color={color}
-              icon={icon}
-              text={text}
-              readonly={false}
-              handlePress={() => handleSubmit(uuid)}
-            />
-          </View>
-        ))}
-      </ScrollView>
+        <Text>Label</Text>
+        <ScrollView
+          contentContainerStyle={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            paddingVertical: 20,
+          }}
+          style={{
+            flex: 1,
+          }}
+        >
+          {labels.map(({ color, uuid, icon, text }, index) => (
+            <View
+              key={index}
+              style={{
+                width: '100%',
+                padding: SPACING.sm,
+                flex: 1,
+              }}
+            >
+              <Label
+                color={color}
+                icon={icon}
+                text={text}
+                readonly={false}
+                handlePress={() => handleSubmit(uuid)}
+              />
+            </View>
+          ))}
+        </ScrollView>
+      </View>
       <View
         style={{
           flexDirection: 'row',
@@ -97,9 +98,6 @@ const LabelInput = ({
           marginBottom: SPACING.md,
         }}
       >
-        <Button style={{ flex: 1 }} mode="outlined" onPress={handleCancel}>
-          Back
-        </Button>
         <Button style={{ flex: 1 }} mode="contained" onPress={newLabelCallback}>
           Add New Label
         </Button>

@@ -22,9 +22,13 @@ const Idea = ({ color, icon, text, label }: Props) => {
     >
       <View style={{ flexDirection: 'row' }}>
         <Icon source={icon} size={24} color="#fff" />
-        <Text style={{ fontWeight: 900, marginLeft: SPACING.sm }}>{label}</Text>
+        <Text
+          style={{ fontWeight: 900, marginLeft: SPACING.sm, color: '#fff' }}
+        >
+          {label}
+        </Text>
       </View>
-      <Text>{text}</Text>
+      <Text style={{ color: '#fff' }}>{text}</Text>
     </View>
   )
 }

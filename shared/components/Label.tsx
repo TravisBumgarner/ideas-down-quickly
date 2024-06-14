@@ -30,7 +30,6 @@ const Label = ({ color, icon, text, ...rest }: Props & ReadonlyCondition) => {
       buttonColor={color}
       style={{
         borderRadius: BORDER_RADIUS.md,
-        flex: rest.fullWidth ? 1 : 0,
       }}
       onPress={handlePress}
     >

@@ -1,11 +1,15 @@
 import * as React from 'react'
-import { Animated, SafeAreaView, View } from 'react-native'
+import {
+  Animated,
+  KeyboardAvoidingView,
+  SafeAreaView,
+  View,
+  Platform,
+} from 'react-native'
 import {
   TextInput,
   Button,
   ActivityIndicator,
-  Icon,
-  Text,
   useTheme,
 } from 'react-native-paper'
 import { SPACING } from '@/app/theme'
@@ -14,6 +18,7 @@ import { db } from '@/db/client'
 import { eq } from 'drizzle-orm'
 import 'react-native-get-random-values'
 import { v4 as uuidv4 } from 'uuid'
+import Label from '@/shared/components/Label'
 
 const IdeaInput = ({
   submitCallback,
@@ -28,22 +33,6 @@ const IdeaInput = ({
   const [label, setLabel] = React.useState<SelectLabel | null>(null)
   const isFocused = React.useRef(new Animated.Value(0)).current
   const theme = useTheme()
-
-  const onFocus = React.useCallback(() => {
-    Animated.timing(isFocused, {
-      toValue: 1,
-      duration: 200,
-      useNativeDriver: false,
-    }).start()
-  }, [isFocused])
-
-  const onBlur = React.useCallback(() => {
-    Animated.timing(isFocused, {
-      toValue: 0,
-      duration: 200,
-      useNativeDriver: false,
-    }).start()
-  }, [isFocused])
 
   React.useEffect(() => {
     db.select()
@@ -83,54 +72,61 @@ const IdeaInput = ({
   }
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: theme.colors.background,
-        justifyContent: 'space-between',
-      }}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{ flex: 1 }}
     >
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Icon source={label.icon} size={50} color="white" />
-        <Text>{label.text}</Text>
-      </View>
-      <Animated.View
+      <SafeAreaView
         style={{
-          flex: isFocused.interpolate({
-            inputRange: [0, 1],
-            outputRange: [0, 1],
-          }),
+          flex: 1,
+          backgroundColor: theme.colors.background,
+          justifyContent: 'space-between',
         }}
       >
-        <TextInput
+        <View style={{ margin: SPACING.md }}>
+          <Label
+            color={label.color}
+            icon={label.icon}
+            text={label.text}
+            readonly
+          />
+        </View>
+        <View style={{ flex: 1 }}>
+          <TextInput
+            style={{
+              margin: SPACING.md,
+            }}
+            label="Spill it..."
+            value={ideaText}
+            onChangeText={text => setIdeaText(text)}
+            multiline
+          />
+        </View>
+        <View
           style={{
-            margin: SPACING.md,
-            flex: 1,
+            flexDirection: 'row',
+            marginRight: SPACING.md,
+            marginLeft: SPACING.md,
+            marginBottom: SPACING.md,
           }}
-          label="Spill it..."
-          value={ideaText}
-          onChangeText={text => setIdeaText(text)}
-          onFocus={onFocus}
-          onBlur={onBlur}
-          multiline
-        />
-      </Animated.View>
-      <View
-        style={{
-          flexDirection: 'row',
-          marginRight: SPACING.md,
-          marginLeft: SPACING.md,
-          marginBottom: SPACING.md,
-        }}
-      >
-        <Button style={{ flex: 1 }} mode="outlined" onPress={handleCancel}>
-          Clear
-        </Button>
-        <Button style={{ flex: 1 }} mode="contained" onPress={handleSubmit}>
-          Submit
-        </Button>
-      </View>
-    </SafeAreaView>
+        >
+          <Button
+            style={{ flex: 1, marginRight: SPACING.md }}
+            mode="outlined"
+            onPress={handleCancel}
+          >
+            Clear
+          </Button>
+          <Button
+            style={{ flex: 1, marginLeft: SPACING.md }}
+            mode="contained"
+            onPress={handleSubmit}
+          >
+            Submit
+          </Button>
+        </View>
+      </SafeAreaView>
+    </KeyboardAvoidingView>
   )
 }
 

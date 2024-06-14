@@ -61,37 +61,7 @@ interface EditUserSettings {
   payload: State['settings']
 }
 
-// interface SetActiveModal {
-//   type: 'SET_ACTIVE_MODAL'
-//   payload: ActiveModal
-// }
-
-// interface ClearActiveModal {
-//   type: 'CLEAR_ACTIVE_MODAL'
-// }
-
-// interface AddMessage {
-//   type: 'ADD_MESSAGE'
-//   payload: {
-//     text: string
-//     severity: 'error' | 'warning' | 'info' | 'success'
-//     url?: string
-//     confirmCallback?: () => void
-//     confirmCallbackText?: string
-//     cancelCallback?: () => void
-//     cancelCallbackText?: string
-//   }
-// }
-
-// interface DeleteMessage {
-//   type: 'DELETE_MESSAGE'
-// }
-
 export type Action = EditUserSettings | HydrateUserSettings
-// | SetActiveModal
-// | ClearActiveModal
-// | AddMessage
-// | DeleteMessage
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -104,18 +74,6 @@ const reducer = (state: State, action: Action): State => {
       })
       return { ...state, settings: { ...state.settings, ...action.payload } }
     }
-    // case 'SET_ACTIVE_MODAL': {
-    //   return { ...state, activeModal: action.payload }
-    // }
-    // case 'CLEAR_ACTIVE_MODAL': {
-    //   return { ...state, activeModal: null }
-    // }
-    // case 'ADD_MESSAGE': {
-    //   return { ...state, message: { ...action.payload } }
-    // }
-    // case 'DELETE_MESSAGE': {
-    //   return { ...state, message: null }
-    // }
     default:
       throw new Error('Unexpected action')
   }

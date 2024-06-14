@@ -8,7 +8,6 @@ import { ActivityIndicator, Button, Text, useTheme } from 'react-native-paper'
 
 const LabelInput = ({
   submitCallback,
-  cancelCallback,
   newLabelCallback,
 }: {
   submitCallback: (ideaText: string) => void
@@ -21,10 +20,6 @@ const LabelInput = ({
   React.useEffect(() => {
     db.select().from(LabelsTable).then(setLabels)
   }, [])
-
-  const handleCancel = React.useCallback(() => {
-    cancelCallback()
-  }, [cancelCallback])
 
   const handleSubmit = React.useCallback(
     (button: string) => {
@@ -62,9 +57,6 @@ const LabelInput = ({
       <View
         style={{
           flex: 1,
-          marginLeft: SPACING.md,
-          marginRight: SPACING.md,
-          marginBottom: SPACING.md,
         }}
       >
         <Text>Label</Text>
@@ -83,6 +75,7 @@ const LabelInput = ({
               key={index}
               style={{
                 width: '100%',
+                padding: SPACING.sm,
                 flex: 1,
               }}
             >

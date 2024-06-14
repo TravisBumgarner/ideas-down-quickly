@@ -26,10 +26,6 @@ const Brainstorm = () => {
     setCurrentPage(CurrentPage.IdeaInput)
   }, [])
 
-  const labelSelectCancelCallback = React.useCallback(() => {
-    setCurrentPage(CurrentPage.IdeaInput)
-  }, [])
-
   const newLabelSubmitCallback = React.useCallback(
     ({ labelUUID }: { labelUUID: string }) => {
       setSelectedLabelUUID(labelUUID)
@@ -54,7 +50,6 @@ const Brainstorm = () => {
     case CurrentPage.LabelSelect:
       return (
         <LabelSelect
-          cancelCallback={labelSelectCancelCallback}
           submitCallback={labelSelectSubmitCallback}
           newLabelCallback={() => setCurrentPage(CurrentPage.NewLabelInput)}
         />

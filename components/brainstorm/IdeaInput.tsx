@@ -52,7 +52,7 @@ const IdeaInput = ({
       uuid: uuidv4(),
       text: ideaText,
       labelId: labelUUID,
-      createdAt: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
+      createdAt: new Date().toISOString(),
     }
     const result = await db
       .insert(IdeasTable)

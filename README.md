@@ -29,3 +29,12 @@ This still requires a connection to the macbook and local dev running in VS COde
   2. Scan QR Code on phone and goto Settings -> General ->VPN & Device Management -> Register for Development
   3. Install
 2. `yarn run build:ios:development`
+
+# Distribution for Review
+
+[Tutorial](https://docs.expo.dev/build/internal-distribution/)
+
+- TestFlight share app with up to 100 internal testers
+- Internal distribution - EAS feature that allows developers to share a URL to install app
+
+1. `yarn run build:ios:internal`

@@ -12,7 +12,8 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "db:generate": "npx drizzle-kit generate",
     "build:ios:register": "eas device:create",
-    "build:ios:development": "eas build --profile development --platform ios"
+    "build:ios:development": "eas build --profile development --platform ios",
+    "build:ios:internal": "eas build --profile preview --platform ios"
   },
   "jest": {
     "preset": "jest-expo"

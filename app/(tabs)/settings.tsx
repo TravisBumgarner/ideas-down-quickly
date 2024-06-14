@@ -18,10 +18,12 @@ const Settings = () => {
   const theme = useTheme()
 
   const [deleteText, setDeleteText] = useState('')
+  const [showRestartText, setShowRestartText] = useState(false)
 
   const handleWipeDatabase = useCallback(() => {
     db.delete(IdeasTable).run()
     db.delete(LabelsTable).run()
+    setShowRestartText(true)
   }, [])
 
   const updateTheme = useCallback(
@@ -41,21 +43,31 @@ const Settings = () => {
       <View
         style={{
           margin: SPACING.md,
-          flexDirection: 'row',
         }}
       >
         <Text>Theme</Text>
-        <ToggleButton.Group
-          onValueChange={updateTheme}
-          value={state.settings.colorTheme}
-        >
-          <ToggleButton icon="weather-sunny" value="light" />
-          <ToggleButton icon="moon-waxing-crescent" value="dark" />
-        </ToggleButton.Group>
+        <View style={{ width: '100%', height: 60, flexDirection: 'row' }}>
+          <ToggleButton.Group
+            onValueChange={updateTheme}
+            value={state.settings.colorTheme}
+          >
+            <ToggleButton
+              style={{ flex: 1 }}
+              icon="weather-sunny"
+              value="light"
+            />
+            <ToggleButton
+              style={{ flex: 1 }}
+              icon="moon-waxing-crescent"
+              value="dark"
+            />
+          </ToggleButton.Group>
+        </View>
       </View>
       <View style={{ margin: SPACING.md }}>
+        <Text>Wipe Database</Text>
         <TextInput
-          label="Type 'Delete' to confirm wiping database and migrations"
+          label="Type 'Delete' to wipe database"
           value={deleteText}
           onChangeText={text => setDeleteText(text)}
         />
@@ -68,6 +80,11 @@ const Settings = () => {
         >
           Wipe Database and Migrations
         </Button>
+        {showRestartText && (
+          <Text style={{ marginTop: SPACING.md }}>
+            Database and migrations wiped. Please restart the app.
+          </Text>
+        )}
       </View>
     </SafeAreaView>
   )

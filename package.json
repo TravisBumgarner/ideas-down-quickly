@@ -4,13 +4,16 @@
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
+    "start:android": "expo start --android",
+    "start:ios": "expo start --ios",
+    "start:web": "expo start --web",
     "test": "jest --watchAll",
     "no-thanks-lint": "expo lint",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "db:generate": "npx drizzle-kit generate"
+    "db:generate": "npx drizzle-kit generate",
+    "build:ios:register": "eas device:create",
+    "build:ios:development": "eas build --profile development --platform ios",
+    "build:ios:internal": "eas build --profile preview --platform ios"
   },
   "jest": {
     "preset": "jest-expo"
@@ -23,6 +26,7 @@
     "drizzle-orm": "^0.31.0",
     "expo": "~51.0.9",
     "expo-constants": "~16.0.2",
+    "expo-dev-client": "~4.0.18",
     "expo-font": "~12.0.6",
     "expo-linking": "~6.3.1",
     "expo-router": "~3.5.14",

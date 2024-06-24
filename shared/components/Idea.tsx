@@ -1,6 +1,8 @@
-import { BORDER_RADIUS, SPACING } from '@/app/theme'
+import { BORDER_RADIUS, SPACING } from '@/shared/theme'
 import { View } from 'react-native'
-import { Icon, Text } from 'react-native-paper'
+import { Icon } from 'react-native-paper'
+
+import Typography from './Typography'
 
 type Props = {
   color: string
@@ -22,13 +24,9 @@ const Idea = ({ color, icon, text, label }: Props) => {
     >
       <View style={{ flexDirection: 'row' }}>
         <Icon source={icon} size={24} color="#fff" />
-        <Text
-          style={{ fontWeight: 900, marginLeft: SPACING.sm, color: '#fff' }}
-        >
-          {label}
-        </Text>
+        <Typography variant="h2">{label}</Typography>
       </View>
-      <Text style={{ color: '#fff' }}>{text}</Text>
+      <Typography variant="body1">{text}</Typography>
     </View>
   )
 }

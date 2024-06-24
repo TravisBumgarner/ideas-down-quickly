@@ -1,17 +1,12 @@
 import { SafeAreaView, View } from 'react-native'
 import { db } from '@/db/client'
 import { IdeasTable, LabelsTable } from '@/db/schema'
-import {
-  Button,
-  Text,
-  TextInput,
-  ToggleButton,
-  useTheme,
-} from 'react-native-paper'
+import { Text, TextInput, ToggleButton, useTheme } from 'react-native-paper'
 import { useCallback, useContext, useState } from 'react'
 import { context } from '@/shared/context'
-
-import { SPACING } from '../theme'
+import { SPACING } from '@/shared/theme'
+import Button from '@/shared/components/Button'
+import Typography from '@/shared/components/Typography'
 
 const Settings = () => {
   const { state, dispatch } = useContext(context)
@@ -45,7 +40,8 @@ const Settings = () => {
           margin: SPACING.md,
         }}
       >
-        <Text>Theme</Text>
+        <Typography variant="h1">Settings</Typography>
+        <Typography variant="h2">Theme</Typography>
         <View style={{ width: '100%', height: 60, flexDirection: 'row' }}>
           <ToggleButton.Group
             onValueChange={updateTheme}
@@ -65,21 +61,21 @@ const Settings = () => {
         </View>
       </View>
       <View style={{ margin: SPACING.md }}>
-        <Text>Wipe Database</Text>
+        <Typography variant="h2">Wipe Database</Typography>
         <TextInput
           label="Type 'Delete' to wipe database"
           value={deleteText}
           onChangeText={text => setDeleteText(text)}
         />
-        <Button
-          disabled={deleteText !== 'Delete'}
-          buttonColor="red"
-          mode="contained"
-          onPress={handleWipeDatabase}
-          style={{ marginTop: SPACING.md }}
-        >
-          Wipe Database and Migrations
-        </Button>
+        <View style={{ marginTop: SPACING.md }}>
+          <Button
+            disabled={deleteText !== 'Delete'}
+            onPress={handleWipeDatabase}
+            variant="error"
+          >
+            Wipe Database and Migrations
+          </Button>
+        </View>
         {showRestartText && (
           <Text style={{ marginTop: SPACING.md }}>
             Database and migrations wiped. Please restart the app.

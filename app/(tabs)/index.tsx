@@ -43,7 +43,7 @@ const Brainstorm = () => {
   }, [])
 
   const ideaInputCancelCallback = React.useCallback(() => {
-    setCurrentPage(CurrentPage.IdeaInput)
+    setCurrentPage(CurrentPage.LabelSelect)
   }, [])
 
   switch (currentPage) {
@@ -52,6 +52,7 @@ const Brainstorm = () => {
         <LabelSelect
           submitCallback={labelSelectSubmitCallback}
           newLabelCallback={() => setCurrentPage(CurrentPage.NewLabelInput)}
+          cancelCallback={() => setCurrentPage(CurrentPage.LabelSelect)}
         />
       )
     case CurrentPage.NewLabelInput:

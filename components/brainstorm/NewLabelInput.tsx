@@ -1,29 +1,37 @@
 import * as React from 'react'
 import { SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
-import { TextInput, Button, Text, Icon, useTheme } from 'react-native-paper'
-import { SPACING } from '@/app/theme'
+import { TextInput, Icon, useTheme } from 'react-native-paper'
+import { SPACING } from '@/shared/theme'
 import Label from '@/shared/components/Label'
 import { db } from '@/db/client'
 import { LabelsTable, NewLabel } from '@/db/schema'
 import 'react-native-get-random-values'
 import { v4 as uuidv4 } from 'uuid'
 import { ICONS } from '@/assets/iconlist'
+import Typography from '@/shared/components/Typography'
+import Button from '@/shared/components/Button'
+import ButtonWrapper from '@/shared/components/ButtonWrapper'
 
 const COLORS = [
-  '#ff5722',
-  '#3f51b5',
-  '#009688',
-  '#ff9800',
-  '#795548',
-  '#607d8b',
-  '#9c27b0',
+  '#f44336',
   '#e91e63',
+  '#9c27b0',
+  '#673ab7',
+  '#3f51b5',
+  '#2196f3',
   '#03a9f4',
   '#00bcd4',
+  '#009688',
   '#4caf50',
   '#8bc34a',
   '#cddc39',
   '#ffeb3b',
+  '#ffc107',
+  '#ff9800',
+  '#ff5722',
+  '#795548',
+  '#9e9e9e',
+  '#607d8b',
 ]
 
 const IdeaInput = ({
@@ -33,7 +41,7 @@ const IdeaInput = ({
   submitCallback: (args: { labelUUID: string }) => void
   cancelCallback: () => void
 }) => {
-  const [labelText, setLabelText] = React.useState('Label Name')
+  const [labelText, setLabelText] = React.useState('')
   const [color, setColor] = React.useState(COLORS[0])
   const [icon, setIcon] = React.useState(ICONS[0])
   const theme = useTheme()
@@ -60,6 +68,7 @@ const IdeaInput = ({
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
+      <Typography variant="h1">Create a Label</Typography>
       <TextInput
         style={{ height: 80, margin: SPACING.md }}
         label="Label Text"
@@ -76,9 +85,10 @@ const IdeaInput = ({
           marginBottom: SPACING.md,
           borderBottomColor: theme.colors.backdrop,
           borderBottomWidth: 1,
+          paddingBottom: SPACING.md,
         }}
       >
-        <Text>Color</Text>
+        <Typography variant="h2">Color</Typography>
         <ScrollView
           horizontal
           contentContainerStyle={{
@@ -91,7 +101,10 @@ const IdeaInput = ({
             <TouchableOpacity
               key={color}
               style={{
-                margin: SPACING.sm,
+                marginTop: SPACING.sm,
+                marginBottom: SPACING.sm,
+                marginLeft: 0,
+                marginRight: SPACING.md,
                 backgroundColor: color,
                 width: 50,
                 height: 50,
@@ -109,12 +122,14 @@ const IdeaInput = ({
           marginBottom: SPACING.md,
           borderBottomColor: theme.colors.backdrop,
           borderBottomWidth: 1,
+          paddingBottom: SPACING.md,
         }}
       >
-        <Text>Icon</Text>
+        <Typography variant="h2">Icon</Typography>
         <ScrollView
+          horizontal
           contentContainerStyle={{
-            flexDirection: 'row',
+            flexDirection: 'column',
             flexWrap: 'wrap',
             justifyContent: 'space-between',
           }}
@@ -141,12 +156,12 @@ const IdeaInput = ({
           marginRight: SPACING.md,
           marginLeft: SPACING.md,
           marginBottom: SPACING.md,
-          height: 70,
           borderBottomColor: theme.colors.backdrop,
           borderBottomWidth: 1,
+          paddingBottom: SPACING.md,
         }}
       >
-        <Text>Preview</Text>
+        <Typography variant="h2">Preview</Typography>
         <Label
           fullWidth
           color={color}
@@ -155,29 +170,22 @@ const IdeaInput = ({
           readonly={true}
         />
       </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          marginRight: SPACING.md,
-          marginLeft: SPACING.md,
-          marginBottom: SPACING.md,
-        }}
-      >
-        <Button
-          style={{ flex: 1, marginRight: SPACING.md }}
-          mode="outlined"
-          onPress={handleCancel}
-        >
-          Cancel
-        </Button>
-        <Button
-          style={{ flex: 1, marginLeft: SPACING.md }}
-          mode="contained"
-          onPress={handleSubmit}
-        >
-          Create
-        </Button>
-      </View>
+      <ButtonWrapper
+        left={
+          <Button variant="error" onPress={handleCancel}>
+            Cancel
+          </Button>
+        }
+        right={
+          <Button
+            disabled={labelText.length === 0}
+            variant="primary"
+            onPress={handleSubmit}
+          >
+            Create
+          </Button>
+        }
+      />
     </SafeAreaView>
   )
 }

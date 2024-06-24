@@ -1,24 +1,20 @@
 import * as React from 'react'
 import {
-  Animated,
   KeyboardAvoidingView,
   SafeAreaView,
   View,
   Platform,
 } from 'react-native'
-import {
-  TextInput,
-  Button,
-  ActivityIndicator,
-  useTheme,
-} from 'react-native-paper'
-import { SPACING } from '@/app/theme'
+import { TextInput, ActivityIndicator, useTheme } from 'react-native-paper'
+import { SPACING } from '@/shared/theme'
 import { IdeasTable, LabelsTable, NewIdea, SelectLabel } from '@/db/schema'
 import { db } from '@/db/client'
 import { eq } from 'drizzle-orm'
 import 'react-native-get-random-values'
 import { v4 as uuidv4 } from 'uuid'
 import Label from '@/shared/components/Label'
+import Button from '@/shared/components/Button'
+import ButtonWrapper from '@/shared/components/ButtonWrapper'
 
 const IdeaInput = ({
   submitCallback,
@@ -31,7 +27,6 @@ const IdeaInput = ({
 }) => {
   const [ideaText, setIdeaText] = React.useState('')
   const [label, setLabel] = React.useState<SelectLabel | null>(null)
-  const isFocused = React.useRef(new Animated.Value(0)).current
   const theme = useTheme()
 
   React.useEffect(() => {
@@ -102,29 +97,18 @@ const IdeaInput = ({
             multiline
           />
         </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            marginRight: SPACING.md,
-            marginLeft: SPACING.md,
-            marginBottom: SPACING.md,
-          }}
-        >
-          <Button
-            style={{ flex: 1, marginRight: SPACING.md }}
-            mode="outlined"
-            onPress={handleCancel}
-          >
-            Clear
-          </Button>
-          <Button
-            style={{ flex: 1, marginLeft: SPACING.md }}
-            mode="contained"
-            onPress={handleSubmit}
-          >
-            Submit
-          </Button>
-        </View>
+        <ButtonWrapper
+          left={
+            <Button variant="error" onPress={handleCancel}>
+              Cancel
+            </Button>
+          }
+          right={
+            <Button variant="primary" onPress={handleSubmit}>
+              Submit
+            </Button>
+          }
+        />
       </SafeAreaView>
     </KeyboardAvoidingView>
   )

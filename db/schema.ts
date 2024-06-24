@@ -15,7 +15,7 @@ export type NewIdea = typeof IdeasTable.$inferInsert
 
 export const LabelsTable = sqliteTable('label', {
   uuid: text('uuid').primaryKey().unique().notNull(),
-  text: text('text').unique().notNull(),
+  text: text('text').notNull(),
   createdAt: text('date').notNull(),
   updatedAt: text('updatedAt'),
   lastUsedAt: text('lastUsedAt'),

@@ -8,8 +8,8 @@ import { desc, eq } from 'drizzle-orm'
 import Idea from '@/shared/components/Idea'
 import { useFocusEffect } from '@react-navigation/native'
 import { areSameDay, formatDisplayDate } from '@/shared/utilities'
-
-import { SPACING } from '../theme'
+import { SPACING } from '@/shared/theme'
+import Typography from '@/shared/components/Typography'
 
 const History = () => {
   const [ideasWithLabel, setIdeasWithLabel] = useState<
@@ -96,10 +96,13 @@ const History = () => {
           flex: 1,
           justifyContent: 'center',
           alignContent: 'center',
+          padding: SPACING.md,
         }}
       >
         <Link href="/">
-          <Text>Go to brainstorm tab!</Text>
+          <Typography variant="body1" style={{ textAlign: 'center' }}>
+            Go to Brainstorm Tab to create your first Idea.
+          </Typography>
         </Link>
       </SafeAreaView>
     )

@@ -1,6 +1,6 @@
-import { BORDER_RADIUS } from '@/app/theme'
+import { BORDER_RADIUS } from '@/shared/theme'
 import { useCallback } from 'react'
-import { Button, Icon } from 'react-native-paper'
+import { Icon, Button } from 'react-native-paper'
 
 type ReadonlyCondition =
   | {

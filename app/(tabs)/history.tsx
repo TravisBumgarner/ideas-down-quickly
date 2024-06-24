@@ -9,7 +9,7 @@ import { desc, eq } from 'drizzle-orm'
 import { Link } from 'expo-router'
 import { useCallback, useMemo, useState } from 'react'
 import { SafeAreaView, ScrollView, View } from 'react-native'
-import { ActivityIndicator, Text, useTheme } from 'react-native-paper'
+import { ActivityIndicator, useTheme } from 'react-native-paper'
 
 const History = () => {
   const [ideasWithLabel, setIdeasWithLabel] = useState<
@@ -17,14 +17,18 @@ const History = () => {
   >(null)
   const theme = useTheme()
 
+  const fetchFromDB = useCallback(() => {
+    db.select()
+      .from(IdeasTable)
+      .leftJoin(LabelsTable, eq(IdeasTable.labelId, LabelsTable.id))
+      .orderBy(desc(IdeasTable.createdAt))
+      .then(setIdeasWithLabel)
+  }, [])
+
   useFocusEffect(
     useCallback(() => {
-      db.select()
-        .from(IdeasTable)
-        .leftJoin(LabelsTable, eq(IdeasTable.labelId, LabelsTable.uuid))
-        .orderBy(desc(IdeasTable.createdAt))
-        .then(setIdeasWithLabel)
-    }, [])
+      fetchFromDB()
+    }, [fetchFromDB])
   )
 
   const rows = useMemo(() => {
@@ -38,9 +42,9 @@ const History = () => {
     ideasWithLabel.forEach(item => {
       if (item.label === null || item.idea === null) {
         output.push(
-          <Text style={{ flex: 1 }} key={item.label?.uuid || item.idea?.uuid}>
+          <Typography variant="body1" key={item.label?.id || item.idea?.id}>
             Something went wrong
-          </Text>
+          </Typography>
         )
       } else {
         const parsedCreatedAt = new Date(item.idea.createdAt)
@@ -60,7 +64,7 @@ const History = () => {
 
         output.push(
           <View
-            key={item.idea.uuid}
+            key={item.idea.id}
             style={{
               borderRadius: SPACING.md,
               width: '100%',
@@ -75,6 +79,8 @@ const History = () => {
               icon={item.label.icon}
               text={item.idea.text}
               label={item.label.text}
+              id={item.idea.id}
+              onDeleteCallback={fetchFromDB}
             />
           </View>
         )
@@ -82,7 +88,7 @@ const History = () => {
     })
 
     return output
-  }, [ideasWithLabel])
+  }, [ideasWithLabel, fetchFromDB])
 
   if (ideasWithLabel === null) {
     return (
@@ -129,6 +135,12 @@ const History = () => {
         }}
       >
         {rows}
+        {!rows ||
+          (rows.length < 5 && (
+            <Typography variant="body1" style={{ textAlign: 'center' }}>
+              Swipe right on Idea to delete or left to edit.
+            </Typography>
+          ))}
       </ScrollView>
     </SafeAreaView>
   )

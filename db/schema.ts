@@ -1,12 +1,12 @@
 import { sqliteTable, text } from 'drizzle-orm/sqlite-core'
 
 export const IdeasTable = sqliteTable('idea', {
-  uuid: text('uuid').primaryKey().unique().notNull(),
+  id: text('id').primaryKey().unique().notNull(),
   createdAt: text('date').notNull(),
   updatedAt: text('updatedAt'),
   text: text('text').notNull(),
   labelId: text('labelId')
-    .references(() => LabelsTable.uuid)
+    .references(() => LabelsTable.id)
     .notNull(),
 })
 
@@ -14,7 +14,7 @@ export type SelectIdea = typeof IdeasTable.$inferSelect
 export type NewIdea = typeof IdeasTable.$inferInsert
 
 export const LabelsTable = sqliteTable('label', {
-  uuid: text('uuid').primaryKey().unique().notNull(),
+  id: text('id').primaryKey().unique().notNull(),
   text: text('text').notNull(),
   createdAt: text('date').notNull(),
   updatedAt: text('updatedAt'),

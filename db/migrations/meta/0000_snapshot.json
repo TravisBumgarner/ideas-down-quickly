@@ -1,14 +1,14 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "df7e8a5d-7d8f-45b8-95b5-3206b7de0829",
+  "id": "3dd22a6f-4663-4c48-9fd3-a2d4a86b3d47",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "idea": {
       "name": "idea",
       "columns": {
-        "uuid": {
-          "name": "uuid",
+        "id": {
+          "name": "id",
           "type": "text",
           "primaryKey": true,
           "notNull": true,
@@ -44,24 +44,24 @@
         }
       },
       "indexes": {
-        "idea_uuid_unique": {
-          "name": "idea_uuid_unique",
+        "idea_id_unique": {
+          "name": "idea_id_unique",
           "columns": [
-            "uuid"
+            "id"
           ],
           "isUnique": true
         }
       },
       "foreignKeys": {
-        "idea_labelId_label_uuid_fk": {
-          "name": "idea_labelId_label_uuid_fk",
+        "idea_labelId_label_id_fk": {
+          "name": "idea_labelId_label_id_fk",
           "tableFrom": "idea",
           "tableTo": "label",
           "columnsFrom": [
             "labelId"
           ],
           "columnsTo": [
-            "uuid"
+            "id"
           ],
           "onDelete": "no action",
           "onUpdate": "no action"
@@ -73,8 +73,8 @@
     "label": {
       "name": "label",
       "columns": {
-        "uuid": {
-          "name": "uuid",
+        "id": {
+          "name": "id",
           "type": "text",
           "primaryKey": true,
           "notNull": true,
@@ -124,17 +124,10 @@
         }
       },
       "indexes": {
-        "label_uuid_unique": {
-          "name": "label_uuid_unique",
+        "label_id_unique": {
+          "name": "label_id_unique",
           "columns": [
-            "uuid"
-          ],
-          "isUnique": true
-        },
-        "label_text_unique": {
-          "name": "label_text_unique",
-          "columns": [
-            "text"
+            "id"
           ],
           "isUnique": true
         }

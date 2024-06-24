@@ -1,16 +1,16 @@
-import * as React from 'react'
-import { SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
-import { TextInput, Icon, useTheme } from 'react-native-paper'
-import { SPACING } from '@/shared/theme'
-import Label from '@/shared/components/Label'
+import { ICONS } from '@/assets/iconlist'
 import { db } from '@/db/client'
 import { LabelsTable, NewLabel } from '@/db/schema'
-import 'react-native-get-random-values'
-import { v4 as uuidv4 } from 'uuid'
-import { ICONS } from '@/assets/iconlist'
-import Typography from '@/shared/components/Typography'
 import Button from '@/shared/components/Button'
 import ButtonWrapper from '@/shared/components/ButtonWrapper'
+import Label from '@/shared/components/Label'
+import Typography from '@/shared/components/Typography'
+import { SPACING } from '@/shared/theme'
+import * as React from 'react'
+import { SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
+import 'react-native-get-random-values'
+import { Icon, TextInput, useTheme } from 'react-native-paper'
+import { v4 as uuidv4 } from 'uuid'
 
 const COLORS = [
   '#f44336',
@@ -38,7 +38,7 @@ const IdeaInput = ({
   submitCallback,
   cancelCallback,
 }: {
-  submitCallback: (args: { labelUUID: string }) => void
+  submitCallback: (args: { labelId: string }) => void
   cancelCallback: () => void
 }) => {
   const [labelText, setLabelText] = React.useState('')
@@ -53,7 +53,7 @@ const IdeaInput = ({
 
   const handleSubmit = React.useCallback(async () => {
     const newLabel: NewLabel = {
-      uuid: uuidv4(),
+      id: uuidv4(),
       text: labelText,
       createdAt: new Date().toISOString(),
       color,
@@ -61,9 +61,9 @@ const IdeaInput = ({
     }
 
     const result = await db.insert(LabelsTable).values(newLabel).returning({
-      uuid: LabelsTable.uuid,
+      id: LabelsTable.id,
     })
-    submitCallback({ labelUUID: result[0].uuid })
+    submitCallback({ labelId: result[0].id })
   }, [labelText, color, icon, submitCallback])
 
   return (

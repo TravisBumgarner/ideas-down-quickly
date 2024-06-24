@@ -1,10 +1,12 @@
-import { db } from '@/db/client'
 import queries from '@/db/queries'
-import { IdeasTable, NewIdea, SelectLabel } from '@/db/schema'
+import { SelectLabel } from '@/db/schema'
 import Button from '@/shared/components/Button'
 import ButtonWrapper from '@/shared/components/ButtonWrapper'
+import Dropdown from '@/shared/components/Dropdown'
 import Label from '@/shared/components/Label'
 import { SPACING } from '@/shared/theme'
+import { URLParams } from '@/shared/types'
+import { router, useLocalSearchParams } from 'expo-router'
 import * as React from 'react'
 import {
   KeyboardAvoidingView,
@@ -14,11 +16,9 @@ import {
 } from 'react-native'
 import 'react-native-get-random-values'
 import { ActivityIndicator, TextInput, useTheme } from 'react-native-paper'
-import { v4 as uuidv4 } from 'uuid'
+import { useAsyncEffect } from 'use-async-effect'
 
-const IdeaInput = ({
-  submitCallback,
-  cancelCallback,
+const IdeaEdit = ({
   labelId,
 }: {
   submitCallback: (ideaText: string) => void
@@ -28,30 +28,43 @@ const IdeaInput = ({
   const [ideaText, setIdeaText] = React.useState('')
   const [label, setLabel] = React.useState<SelectLabel | null>(null)
   const theme = useTheme()
-  React.useEffect(() => {
-    queries.select.labelById(labelId).then(setLabel)
-  }, [labelId])
+  const params = useLocalSearchParams<URLParams['edit-idea']>()
+  const [isVisible, setIsVisible] = React.useState(false)
+  const [selectedLabelId, setSelectedLabelId] = React.useState('')
+  const [labelList, setLabelList] = React.useState<
+    { label: string; value: string }[]
+  >([])
+
+  useAsyncEffect(async () => {
+    if (!params.ideaId) {
+      router.navigate('/')
+      return
+    }
+
+    const idea = await queries.select.ideaById(params.ideaId)
+    const label = await queries.select.labelById(idea.labelId)
+    const labels = await queries.select.labels()
+    setIdeaText(idea.text)
+    setLabel(label)
+    setLabelList(labels.map(label => ({ label: label.text, value: label.id })))
+    setSelectedLabelId(idea.labelId)
+  }, [labelId, params.ideaId])
 
   const handleCancel = React.useCallback(() => {
-    setIdeaText('')
-    cancelCallback()
-  }, [cancelCallback])
+    router.navigate('/history')
+  }, [])
 
   const handleSubmit = React.useCallback(async () => {
-    const idea: NewIdea = {
-      id: uuidv4(),
-      text: ideaText,
-      labelId: labelId,
-      createdAt: new Date().toISOString(),
+    if (!params.ideaId) {
+      return
     }
-    const result = await db
-      .insert(IdeasTable)
-      .values(idea)
-      .returning({ uuid: IdeasTable.id })
 
-    setIdeaText('')
-    submitCallback(result[0].uuid)
-  }, [submitCallback, ideaText, labelId])
+    await queries.update.idea(params.ideaId, {
+      text: ideaText,
+      labelId: selectedLabelId,
+    })
+    router.navigate('/history')
+  }, [params.ideaId, ideaText, selectedLabelId])
 
   if (label === null) {
     return (
@@ -79,6 +92,14 @@ const IdeaInput = ({
             icon={label.icon}
             text={label.text}
             readonly
+          />
+          <Dropdown
+            label="Select a label"
+            setIsVisible={setIsVisible}
+            isVisible={isVisible}
+            value={selectedLabelId}
+            setValue={setSelectedLabelId}
+            list={labelList}
           />
         </View>
         <View style={{ flex: 1 }}>
@@ -109,4 +130,4 @@ const IdeaInput = ({
   )
 }
 
-export default IdeaInput
+export default IdeaEdit

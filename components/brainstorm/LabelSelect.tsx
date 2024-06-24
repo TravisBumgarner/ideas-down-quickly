@@ -1,11 +1,11 @@
-import { SPACING } from '@/shared/theme'
 import { db } from '@/db/client'
 import { LabelsTable, SelectLabel } from '@/db/schema'
 import Button from '@/shared/components/Button'
 import Label from '@/shared/components/Label'
 import Typography from '@/shared/components/Typography'
+import { SPACING } from '@/shared/theme'
 import * as React from 'react'
-import { SafeAreaView, View, ScrollView } from 'react-native'
+import { SafeAreaView, ScrollView, View } from 'react-native'
 import { ActivityIndicator, useTheme } from 'react-native-paper'
 
 const LabelInput = ({
@@ -13,7 +13,6 @@ const LabelInput = ({
   newLabelCallback,
 }: {
   submitCallback: (ideaText: string) => void
-  cancelCallback: () => void
   newLabelCallback: () => void
 }) => {
   const [labels, setLabels] = React.useState<SelectLabel[] | null>(null)
@@ -77,7 +76,7 @@ const LabelInput = ({
             flex: 1,
           }}
         >
-          {labels.map(({ color, uuid, icon, text }, index) => (
+          {labels.map(({ color, id, icon, text }, index) => (
             <View
               key={index}
               style={{
@@ -93,7 +92,7 @@ const LabelInput = ({
                 icon={icon}
                 text={text}
                 readonly={false}
-                handlePress={() => handleSubmit(uuid)}
+                handlePress={() => handleSubmit(id)}
               />
             </View>
           ))}

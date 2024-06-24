@@ -69,8 +69,6 @@ const History = () => {
             style={{
               borderRadius: SPACING.md,
               width: '100%',
-              paddingRight: SPACING.md,
-              paddingLeft: SPACING.md,
               marginBottom: SPACING.md,
               flex: 1,
             }}
@@ -107,7 +105,8 @@ const History = () => {
         style={{
           justifyContent: 'center',
           alignContent: 'center',
-          padding: SPACING.md,
+          paddingTop: SPACING.md,
+          paddingBottom: SPACING.md,
         }}
       >
         <Link href="/">

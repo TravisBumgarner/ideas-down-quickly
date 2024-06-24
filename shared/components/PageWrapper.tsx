@@ -1,5 +1,5 @@
 import Typography from '@/shared/components/Typography'
-import { COLORS } from '@/shared/theme'
+import { COLORS, SPACING } from '@/shared/theme'
 import * as React from 'react'
 import {
   KeyboardAvoidingView,
@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.dark.opaque,
     flex: 1,
+    padding: SPACING.md,
   },
 })
 

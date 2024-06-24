@@ -59,7 +59,7 @@ const IdeaInput = ({
 
   return (
     <PageWrapper>
-      <View style={{ margin: SPACING.md }}>
+      <View style={{ marginBottom: SPACING.md }}>
         <Label
           color={label.color}
           icon={label.icon}
@@ -69,9 +69,6 @@ const IdeaInput = ({
       </View>
       <View style={{ flex: 1 }}>
         <TextInput
-          style={{
-            margin: SPACING.md,
-          }}
           label="Spill it..."
           value={ideaText}
           onChangeText={text => setIdeaText(text)}

@@ -7,7 +7,7 @@ import Typography from '@/shared/components/Typography'
 import { SPACING } from '@/shared/theme'
 import * as React from 'react'
 import { SafeAreaView, ScrollView, View } from 'react-native'
-import { ActivityIndicator, useTheme } from 'react-native-paper'
+import { ActivityIndicator } from 'react-native-paper'
 
 const LabelInput = ({
   submitCallback,
@@ -17,7 +17,6 @@ const LabelInput = ({
   newLabelCallback: () => void
 }) => {
   const [labels, setLabels] = React.useState<SelectLabel[] | null>(null)
-  const theme = useTheme()
 
   React.useEffect(() => {
     db.select().from(LabelsTable).then(setLabels)
@@ -45,7 +44,6 @@ const LabelInput = ({
           flex: 1,
           justifyContent: 'center',
           alignContent: 'center',
-          margin: SPACING.md,
         }}
       >
         <Button variant="primary" onPress={newLabelCallback}>
@@ -62,13 +60,12 @@ const LabelInput = ({
   }
 
   return (
-    <PageWrapper>
+    <PageWrapper title="Select a Label">
       <View
         style={{
           flex: 1,
         }}
       >
-        <Typography variant="h1">Select a Label</Typography>
         <ScrollView
           contentContainerStyle={{
             justifyContent: 'flex-start',
@@ -82,8 +79,6 @@ const LabelInput = ({
               key={index}
               style={{
                 width: '100%',
-                paddingLeft: SPACING.md,
-                paddingRight: SPACING.md,
                 paddingBottom: SPACING.sm,
                 paddingTop: SPACING.sm,
               }}
@@ -102,8 +97,6 @@ const LabelInput = ({
       <View
         style={{
           flexDirection: 'row',
-          marginRight: SPACING.md,
-          marginLeft: SPACING.md,
           marginBottom: SPACING.md,
         }}
       >

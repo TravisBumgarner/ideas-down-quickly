@@ -4,10 +4,11 @@ import { LabelsTable, NewLabel } from '@/db/schema'
 import Button from '@/shared/components/Button'
 import ButtonWrapper from '@/shared/components/ButtonWrapper'
 import Label from '@/shared/components/Label'
+import PageWrapper from '@/shared/components/PageWrapper'
 import Typography from '@/shared/components/Typography'
-import { SPACING } from '@/shared/theme'
+import { SPACING, COLORS as THEME } from '@/shared/theme'
 import * as React from 'react'
-import { SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
+import { ScrollView, TouchableOpacity, View } from 'react-native'
 import 'react-native-get-random-values'
 import { Icon, TextInput, useTheme } from 'react-native-paper'
 import { v4 as uuidv4 } from 'uuid'
@@ -67,10 +68,9 @@ const IdeaInput = ({
   }, [labelText, color, icon, submitCallback])
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <Typography variant="h1">Create a Label</Typography>
+    <PageWrapper title="Create a Label">
       <TextInput
-        style={{ height: 80, margin: SPACING.md }}
+        style={{ height: 80 }}
         label="Label Text"
         value={labelText}
         onChangeText={text => setLabelText(text)}
@@ -80,10 +80,8 @@ const IdeaInput = ({
       />
       <View
         style={{
-          marginRight: SPACING.md,
-          marginLeft: SPACING.md,
           marginBottom: SPACING.md,
-          borderBottomColor: theme.colors.backdrop,
+          borderBottomColor: THEME.light.opaque,
           borderBottomWidth: 1,
           paddingBottom: SPACING.md,
         }}
@@ -117,10 +115,8 @@ const IdeaInput = ({
       <View
         style={{
           flex: 1,
-          marginRight: SPACING.md,
-          marginLeft: SPACING.md,
           marginBottom: SPACING.md,
-          borderBottomColor: theme.colors.backdrop,
+          borderBottomColor: THEME.light.opaque,
           borderBottomWidth: 1,
           paddingBottom: SPACING.md,
         }}
@@ -153,10 +149,8 @@ const IdeaInput = ({
       <View
         style={{
           flexDirection: 'column',
-          marginRight: SPACING.md,
-          marginLeft: SPACING.md,
           marginBottom: SPACING.md,
-          borderBottomColor: theme.colors.backdrop,
+          borderBottomColor: THEME.light.opaque,
           borderBottomWidth: 1,
           paddingBottom: SPACING.md,
         }}
@@ -186,7 +180,7 @@ const IdeaInput = ({
           </Button>
         }
       />
-    </SafeAreaView>
+    </PageWrapper>
   )
 }
 

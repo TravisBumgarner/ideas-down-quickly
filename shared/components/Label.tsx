@@ -1,4 +1,4 @@
-import { BORDER_RADIUS } from '@/app/theme'
+import { BORDER_RADIUS, COLORS } from '@/shared/theme'
 import { useCallback } from 'react'
 import { Button, Icon } from 'react-native-paper'
 
@@ -25,9 +25,10 @@ const Label = ({ color, icon, text, ...rest }: Props & ReadonlyCondition) => {
 
   return (
     <Button
-      icon={() => <Icon source={icon} size={24} color="#fff" />}
+      icon={() => <Icon source={icon} size={24} color={COLORS.light.opaque} />}
       mode="contained"
       buttonColor={color}
+      textColor={COLORS.light.opaque}
       style={{
         borderRadius: BORDER_RADIUS.md,
       }}

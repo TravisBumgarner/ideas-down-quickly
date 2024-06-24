@@ -1,46 +1,32 @@
-import * as React from 'react'
-import {
-  Animated,
-  KeyboardAvoidingView,
-  SafeAreaView,
-  View,
-  Platform,
-} from 'react-native'
-import {
-  TextInput,
-  Button,
-  ActivityIndicator,
-  useTheme,
-} from 'react-native-paper'
-import { SPACING } from '@/app/theme'
-import { IdeasTable, LabelsTable, NewIdea, SelectLabel } from '@/db/schema'
 import { db } from '@/db/client'
-import { eq } from 'drizzle-orm'
-import 'react-native-get-random-values'
-import { v4 as uuidv4 } from 'uuid'
+import queries from '@/db/queries'
+import { IdeasTable, NewIdea, SelectLabel } from '@/db/schema'
+import Button from '@/shared/components/Button'
+import ButtonWrapper from '@/shared/components/ButtonWrapper'
 import Label from '@/shared/components/Label'
+import PageWrapper from '@/shared/components/PageWrapper'
+import { SPACING } from '@/shared/theme'
+import * as React from 'react'
+import { SafeAreaView, View } from 'react-native'
+import 'react-native-get-random-values'
+import { ActivityIndicator, TextInput, useTheme } from 'react-native-paper'
+import { v4 as uuidv4 } from 'uuid'
 
 const IdeaInput = ({
   submitCallback,
   cancelCallback,
-  labelUUID,
+  labelId,
 }: {
   submitCallback: (ideaText: string) => void
   cancelCallback: () => void
-  labelUUID: string
+  labelId: string
 }) => {
   const [ideaText, setIdeaText] = React.useState('')
   const [label, setLabel] = React.useState<SelectLabel | null>(null)
-  const isFocused = React.useRef(new Animated.Value(0)).current
   const theme = useTheme()
-
   React.useEffect(() => {
-    db.select()
-      .from(LabelsTable)
-      .where(eq(LabelsTable.uuid, labelUUID))
-      .limit(1)
-      .then(r => setLabel(r[0]))
-  }, [labelUUID])
+    queries.select.labelById(labelId).then(setLabel)
+  }, [labelId])
 
   const handleCancel = React.useCallback(() => {
     setIdeaText('')
@@ -49,19 +35,19 @@ const IdeaInput = ({
 
   const handleSubmit = React.useCallback(async () => {
     const idea: NewIdea = {
-      uuid: uuidv4(),
+      id: uuidv4(),
       text: ideaText,
-      labelId: labelUUID,
+      labelId: labelId,
       createdAt: new Date().toISOString(),
     }
     const result = await db
       .insert(IdeasTable)
       .values(idea)
-      .returning({ uuid: IdeasTable.uuid })
+      .returning({ uuid: IdeasTable.id })
 
     setIdeaText('')
     submitCallback(result[0].uuid)
-  }, [submitCallback, ideaText, labelUUID])
+  }, [submitCallback, ideaText, labelId])
 
   if (label === null) {
     return (
@@ -72,61 +58,36 @@ const IdeaInput = ({
   }
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={{ flex: 1 }}
-    >
-      <SafeAreaView
-        style={{
-          flex: 1,
-          backgroundColor: theme.colors.background,
-          justifyContent: 'space-between',
-        }}
-      >
-        <View style={{ margin: SPACING.md }}>
-          <Label
-            color={label.color}
-            icon={label.icon}
-            text={label.text}
-            readonly
-          />
-        </View>
-        <View style={{ flex: 1 }}>
-          <TextInput
-            style={{
-              margin: SPACING.md,
-            }}
-            label="Spill it..."
-            value={ideaText}
-            onChangeText={text => setIdeaText(text)}
-            multiline
-          />
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            marginRight: SPACING.md,
-            marginLeft: SPACING.md,
-            marginBottom: SPACING.md,
-          }}
-        >
-          <Button
-            style={{ flex: 1, marginRight: SPACING.md }}
-            mode="outlined"
-            onPress={handleCancel}
-          >
-            Clear
+    <PageWrapper>
+      <View style={{ marginBottom: SPACING.md }}>
+        <Label
+          color={label.color}
+          icon={label.icon}
+          text={label.text}
+          readonly
+        />
+      </View>
+      <View style={{ flex: 1 }}>
+        <TextInput
+          label="Spill it..."
+          value={ideaText}
+          onChangeText={text => setIdeaText(text)}
+          multiline
+        />
+      </View>
+      <ButtonWrapper
+        left={
+          <Button variant="error" onPress={handleCancel}>
+            Cancel
           </Button>
-          <Button
-            style={{ flex: 1, marginLeft: SPACING.md }}
-            mode="contained"
-            onPress={handleSubmit}
-          >
+        }
+        right={
+          <Button variant="primary" onPress={handleSubmit}>
             Submit
           </Button>
-        </View>
-      </SafeAreaView>
-    </KeyboardAvoidingView>
+        }
+      />
+    </PageWrapper>
   )
 }
 

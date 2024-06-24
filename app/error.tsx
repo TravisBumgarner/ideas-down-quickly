@@ -1,9 +1,10 @@
+import PageWrapper from '@/shared/components/PageWrapper'
 import { Link, Stack } from 'expo-router'
 import { StyleSheet, Text, View } from 'react-native'
 
 export default function Error() {
   return (
-    <>
+    <PageWrapper title="Error">
       <Stack.Screen options={{ title: 'Oops!' }} />
       <View style={styles.container}>
         <Text>Something went wrong.</Text>
@@ -11,7 +12,7 @@ export default function Error() {
           <Text>Go to home screen!</Text>
         </Link>
       </View>
-    </>
+    </PageWrapper>
   )
 }
 

@@ -1,15 +1,16 @@
-import { SafeAreaView, ScrollView, View } from 'react-native'
-import { IdeasTable, LabelsTable, SelectIdea, SelectLabel } from '@/db/schema'
-import { useCallback, useMemo, useState } from 'react'
 import { db } from '@/db/client'
-import { ActivityIndicator, useTheme, Text } from 'react-native-paper'
-import { Link } from 'expo-router'
-import { desc, eq } from 'drizzle-orm'
+import { IdeasTable, LabelsTable, SelectIdea, SelectLabel } from '@/db/schema'
 import Idea from '@/shared/components/Idea'
-import { useFocusEffect } from '@react-navigation/native'
+import PageWrapper from '@/shared/components/PageWrapper'
+import Typography from '@/shared/components/Typography'
+import { SPACING } from '@/shared/theme'
 import { areSameDay, formatDisplayDate } from '@/shared/utilities'
-
-import { SPACING } from '../theme'
+import { useFocusEffect } from '@react-navigation/native'
+import { desc, eq } from 'drizzle-orm'
+import { Link } from 'expo-router'
+import { useCallback, useMemo, useState } from 'react'
+import { SafeAreaView, ScrollView, View } from 'react-native'
+import { ActivityIndicator, useTheme } from 'react-native-paper'
 
 const History = () => {
   const [ideasWithLabel, setIdeasWithLabel] = useState<
@@ -17,14 +18,18 @@ const History = () => {
   >(null)
   const theme = useTheme()
 
+  const fetchFromDB = useCallback(() => {
+    db.select()
+      .from(IdeasTable)
+      .leftJoin(LabelsTable, eq(IdeasTable.labelId, LabelsTable.id))
+      .orderBy(desc(IdeasTable.createdAt))
+      .then(setIdeasWithLabel)
+  }, [])
+
   useFocusEffect(
     useCallback(() => {
-      db.select()
-        .from(IdeasTable)
-        .leftJoin(LabelsTable, eq(IdeasTable.labelId, LabelsTable.uuid))
-        .orderBy(desc(IdeasTable.createdAt))
-        .then(setIdeasWithLabel)
-    }, [])
+      fetchFromDB()
+    }, [fetchFromDB])
   )
 
   const rows = useMemo(() => {
@@ -38,29 +43,33 @@ const History = () => {
     ideasWithLabel.forEach(item => {
       if (item.label === null || item.idea === null) {
         output.push(
-          <Text style={{ flex: 1 }} key={item.label?.uuid || item.idea?.uuid}>
+          <Typography variant="body1" key={item.label?.id || item.idea?.id}>
             Something went wrong
-          </Text>
+          </Typography>
         )
       } else {
         const parsedCreatedAt = new Date(item.idea.createdAt)
         if (!areSameDay(currentDate, parsedCreatedAt)) {
           // There might be a better way to attach dates but for now this works.
           output.push(
-            <Text style={{ flex: 1 }} key={item.idea.createdAt}>
+            <Typography
+              variant="h2"
+              style={{ flex: 1 }}
+              key={item.idea.createdAt}
+            >
               {formatDisplayDate(parsedCreatedAt)}
-            </Text>
+            </Typography>
           )
           currentDate = parsedCreatedAt
         }
 
         output.push(
           <View
-            key={item.idea.uuid}
+            key={item.idea.id}
             style={{
-              borderRadius: 5,
+              borderRadius: SPACING.md,
               width: '100%',
-              padding: SPACING.sm,
+              marginBottom: SPACING.md,
               flex: 1,
             }}
           >
@@ -69,6 +78,8 @@ const History = () => {
               icon={item.label.icon}
               text={item.idea.text}
               label={item.label.text}
+              id={item.idea.id}
+              onDeleteCallback={fetchFromDB}
             />
           </View>
         )
@@ -76,7 +87,7 @@ const History = () => {
     })
 
     return output
-  }, [ideasWithLabel])
+  }, [ideasWithLabel, fetchFromDB])
 
   if (ideasWithLabel === null) {
     return (
@@ -90,36 +101,43 @@ const History = () => {
 
   if (ideasWithLabel.length === 0) {
     return (
-      <SafeAreaView
+      <PageWrapper
         style={{
-          backgroundColor: theme.colors.background,
-          flex: 1,
           justifyContent: 'center',
           alignContent: 'center',
+          paddingTop: SPACING.md,
+          paddingBottom: SPACING.md,
         }}
       >
         <Link href="/">
-          <Text>Go to brainstorm tab!</Text>
+          <Typography variant="body1" style={{ textAlign: 'center' }}>
+            Go to Brainstorm Tab to create your first Idea.
+          </Typography>
         </Link>
-      </SafeAreaView>
+      </PageWrapper>
     )
   }
 
   return (
-    <SafeAreaView style={{ backgroundColor: theme.colors.background, flex: 1 }}>
+    <PageWrapper title="History">
       <ScrollView
         contentContainerStyle={{
           alignItems: 'center',
           justifyContent: 'center',
-          paddingVertical: 20,
         }}
         style={{
           flex: 1,
         }}
       >
         {rows}
+        {!rows ||
+          (rows.length < 5 && (
+            <Typography variant="body1" style={{ textAlign: 'center' }}>
+              Swipe right on Idea to delete or left to edit.
+            </Typography>
+          ))}
       </ScrollView>
-    </SafeAreaView>
+    </PageWrapper>
   )
 }
 

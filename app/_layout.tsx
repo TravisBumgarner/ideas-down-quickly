@@ -1,13 +1,14 @@
-import { useFonts } from 'expo-font'
-import { Stack, router } from 'expo-router'
-import { useContext, useEffect, useState } from 'react'
-import 'react-native-reanimated'
-import * as SplashScreen from 'expo-splash-screen'
-import { MD3DarkTheme, MD3LightTheme, PaperProvider } from 'react-native-paper'
 import { db } from '@/db/client'
-import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator'
 import migrations from '@/db/migrations/migrations'
 import Context, { context } from '@/shared/context'
+import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator'
+import { useFonts } from 'expo-font'
+import { Stack, router } from 'expo-router'
+import * as SplashScreen from 'expo-splash-screen'
+import { useContext, useEffect, useState } from 'react'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { MD3DarkTheme, MD3LightTheme, PaperProvider } from 'react-native-paper'
+import 'react-native-reanimated'
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync()
@@ -64,11 +65,14 @@ function App() {
 
   return (
     <PaperProvider theme={paperTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-        <Stack.Screen name="error" />
-      </Stack>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="+not-found" options={{ headerShown: false }} />
+          <Stack.Screen name="error" options={{ headerShown: false }} />
+          <Stack.Screen name="edit-idea" options={{ headerShown: false }} />
+        </Stack>
+      </GestureHandlerRootView>
     </PaperProvider>
   )
 }

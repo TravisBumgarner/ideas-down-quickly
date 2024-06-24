@@ -44,3 +44,10 @@ This still requires a connection to the macbook and local dev running in VS COde
 - Internal distribution - EAS feature that allows developers to share a URL to install app
 
 1. `yarn run build:ios:internal`
+
+# SQLite
+
+cd /Users/travisbumgarner/Library/Developer/CoreSimulator/Devices
+find . -name brainstorm.db
+open [pathname]
+Should open in SQLite Browser

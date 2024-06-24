@@ -1,39 +1,48 @@
-import * as React from 'react'
-import { SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
-import { TextInput, Button, Text, Icon, useTheme } from 'react-native-paper'
-import { SPACING } from '@/app/theme'
-import Label from '@/shared/components/Label'
+import { ICONS } from '@/assets/iconlist'
 import { db } from '@/db/client'
 import { LabelsTable, NewLabel } from '@/db/schema'
+import Button from '@/shared/components/Button'
+import ButtonWrapper from '@/shared/components/ButtonWrapper'
+import Label from '@/shared/components/Label'
+import PageWrapper from '@/shared/components/PageWrapper'
+import Typography from '@/shared/components/Typography'
+import { SPACING, COLORS as THEME } from '@/shared/theme'
+import * as React from 'react'
+import { ScrollView, TouchableOpacity, View } from 'react-native'
 import 'react-native-get-random-values'
+import { Icon, TextInput, useTheme } from 'react-native-paper'
 import { v4 as uuidv4 } from 'uuid'
-import { ICONS } from '@/assets/iconlist'
 
 const COLORS = [
-  '#ff5722',
-  '#3f51b5',
-  '#009688',
-  '#ff9800',
-  '#795548',
-  '#607d8b',
-  '#9c27b0',
+  '#f44336',
   '#e91e63',
+  '#9c27b0',
+  '#673ab7',
+  '#3f51b5',
+  '#2196f3',
   '#03a9f4',
   '#00bcd4',
+  '#009688',
   '#4caf50',
   '#8bc34a',
   '#cddc39',
   '#ffeb3b',
+  '#ffc107',
+  '#ff9800',
+  '#ff5722',
+  '#795548',
+  '#9e9e9e',
+  '#607d8b',
 ]
 
 const IdeaInput = ({
   submitCallback,
   cancelCallback,
 }: {
-  submitCallback: (args: { labelUUID: string }) => void
+  submitCallback: (args: { labelId: string }) => void
   cancelCallback: () => void
 }) => {
-  const [labelText, setLabelText] = React.useState('Label Name')
+  const [labelText, setLabelText] = React.useState('')
   const [color, setColor] = React.useState(COLORS[0])
   const [icon, setIcon] = React.useState(ICONS[0])
   const theme = useTheme()
@@ -45,7 +54,7 @@ const IdeaInput = ({
 
   const handleSubmit = React.useCallback(async () => {
     const newLabel: NewLabel = {
-      uuid: uuidv4(),
+      id: uuidv4(),
       text: labelText,
       createdAt: new Date().toISOString(),
       color,
@@ -53,15 +62,15 @@ const IdeaInput = ({
     }
 
     const result = await db.insert(LabelsTable).values(newLabel).returning({
-      uuid: LabelsTable.uuid,
+      id: LabelsTable.id,
     })
-    submitCallback({ labelUUID: result[0].uuid })
+    submitCallback({ labelId: result[0].id })
   }, [labelText, color, icon, submitCallback])
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
+    <PageWrapper title="Create a Label">
       <TextInput
-        style={{ height: 80, margin: SPACING.md }}
+        style={{ height: 80 }}
         label="Label Text"
         value={labelText}
         onChangeText={text => setLabelText(text)}
@@ -71,14 +80,13 @@ const IdeaInput = ({
       />
       <View
         style={{
-          marginRight: SPACING.md,
-          marginLeft: SPACING.md,
           marginBottom: SPACING.md,
-          borderBottomColor: theme.colors.backdrop,
+          borderBottomColor: THEME.light.opaque,
           borderBottomWidth: 1,
+          paddingBottom: SPACING.md,
         }}
       >
-        <Text>Color</Text>
+        <Typography variant="h2">Color</Typography>
         <ScrollView
           horizontal
           contentContainerStyle={{
@@ -91,7 +99,10 @@ const IdeaInput = ({
             <TouchableOpacity
               key={color}
               style={{
-                margin: SPACING.sm,
+                marginTop: SPACING.sm,
+                marginBottom: SPACING.sm,
+                marginLeft: 0,
+                marginRight: SPACING.md,
                 backgroundColor: color,
                 width: 50,
                 height: 50,
@@ -104,17 +115,17 @@ const IdeaInput = ({
       <View
         style={{
           flex: 1,
-          marginRight: SPACING.md,
-          marginLeft: SPACING.md,
           marginBottom: SPACING.md,
-          borderBottomColor: theme.colors.backdrop,
+          borderBottomColor: THEME.light.opaque,
           borderBottomWidth: 1,
+          paddingBottom: SPACING.md,
         }}
       >
-        <Text>Icon</Text>
+        <Typography variant="h2">Icon</Typography>
         <ScrollView
+          horizontal
           contentContainerStyle={{
-            flexDirection: 'row',
+            flexDirection: 'column',
             flexWrap: 'wrap',
             justifyContent: 'space-between',
           }}
@@ -124,13 +135,13 @@ const IdeaInput = ({
               onPress={() => setIcon(icon)}
               key={icon}
               style={{
-                width: 50,
-                height: 50,
+                width: 25,
+                height: 25,
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
             >
-              <Icon size={32} source={icon} color={color} />
+              <Icon size={20} source={icon} color={color} />
             </TouchableOpacity>
           ))}
         </ScrollView>
@@ -138,15 +149,13 @@ const IdeaInput = ({
       <View
         style={{
           flexDirection: 'column',
-          marginRight: SPACING.md,
-          marginLeft: SPACING.md,
           marginBottom: SPACING.md,
-          height: 70,
-          borderBottomColor: theme.colors.backdrop,
+          borderBottomColor: THEME.light.opaque,
           borderBottomWidth: 1,
+          paddingBottom: SPACING.md,
         }}
       >
-        <Text>Preview</Text>
+        <Typography variant="h2">Preview</Typography>
         <Label
           fullWidth
           color={color}
@@ -155,30 +164,23 @@ const IdeaInput = ({
           readonly={true}
         />
       </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          marginRight: SPACING.md,
-          marginLeft: SPACING.md,
-          marginBottom: SPACING.md,
-        }}
-      >
-        <Button
-          style={{ flex: 1, marginRight: SPACING.md }}
-          mode="outlined"
-          onPress={handleCancel}
-        >
-          Cancel
-        </Button>
-        <Button
-          style={{ flex: 1, marginLeft: SPACING.md }}
-          mode="contained"
-          onPress={handleSubmit}
-        >
-          Create
-        </Button>
-      </View>
-    </SafeAreaView>
+      <ButtonWrapper
+        left={
+          <Button variant="error" onPress={handleCancel}>
+            Cancel
+          </Button>
+        }
+        right={
+          <Button
+            disabled={labelText.length === 0}
+            variant="primary"
+            onPress={handleSubmit}
+          >
+            Create
+          </Button>
+        }
+      />
+    </PageWrapper>
   )
 }
 

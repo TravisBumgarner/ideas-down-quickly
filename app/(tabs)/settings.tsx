@@ -1,12 +1,13 @@
-import { SafeAreaView, View } from 'react-native'
 import { db } from '@/db/client'
 import { IdeasTable, LabelsTable } from '@/db/schema'
-import { Text, TextInput, ToggleButton, useTheme } from 'react-native-paper'
-import { useCallback, useContext, useState } from 'react'
+import Button from '@/shared/components/Button'
+import PageWrapper from '@/shared/components/PageWrapper'
+import Typography from '@/shared/components/Typography'
 import { context } from '@/shared/context'
 import { SPACING } from '@/shared/theme'
-import Button from '@/shared/components/Button'
-import Typography from '@/shared/components/Typography'
+import { useCallback, useContext, useState } from 'react'
+import { View } from 'react-native'
+import { Text, TextInput, ToggleButton, useTheme } from 'react-native-paper'
 
 const Settings = () => {
   const { state, dispatch } = useContext(context)
@@ -34,13 +35,12 @@ const Settings = () => {
   )
 
   return (
-    <SafeAreaView style={{ backgroundColor: theme.colors.background, flex: 1 }}>
+    <PageWrapper title="Settings">
       <View
         style={{
           margin: SPACING.md,
         }}
       >
-        <Typography variant="h1">Settings</Typography>
         <Typography variant="h2">Theme</Typography>
         <View style={{ width: '100%', height: 60, flexDirection: 'row' }}>
           <ToggleButton.Group
@@ -82,7 +82,7 @@ const Settings = () => {
           </Text>
         )}
       </View>
-    </SafeAreaView>
+    </PageWrapper>
   )
 }
 

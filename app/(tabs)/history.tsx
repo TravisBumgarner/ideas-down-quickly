@@ -1,6 +1,7 @@
 import { db } from '@/db/client'
 import { IdeasTable, LabelsTable, SelectIdea, SelectLabel } from '@/db/schema'
 import Idea from '@/shared/components/Idea'
+import PageWrapper from '@/shared/components/PageWrapper'
 import Typography from '@/shared/components/Typography'
 import { SPACING } from '@/shared/theme'
 import { areSameDay, formatDisplayDate } from '@/shared/utilities'
@@ -102,10 +103,8 @@ const History = () => {
 
   if (ideasWithLabel.length === 0) {
     return (
-      <SafeAreaView
+      <PageWrapper
         style={{
-          backgroundColor: theme.colors.background,
-          flex: 1,
           justifyContent: 'center',
           alignContent: 'center',
           padding: SPACING.md,
@@ -116,15 +115,12 @@ const History = () => {
             Go to Brainstorm Tab to create your first Idea.
           </Typography>
         </Link>
-      </SafeAreaView>
+      </PageWrapper>
     )
   }
 
   return (
-    <SafeAreaView style={{ backgroundColor: theme.colors.background, flex: 1 }}>
-      <Typography variant="h1" style={{ textAlign: 'center' }}>
-        History
-      </Typography>
+    <PageWrapper title="History">
       <ScrollView
         contentContainerStyle={{
           alignItems: 'center',
@@ -142,7 +138,7 @@ const History = () => {
             </Typography>
           ))}
       </ScrollView>
-    </SafeAreaView>
+    </PageWrapper>
   )
 }
 

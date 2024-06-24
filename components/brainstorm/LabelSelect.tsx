@@ -2,6 +2,7 @@ import { db } from '@/db/client'
 import { LabelsTable, SelectLabel } from '@/db/schema'
 import Button from '@/shared/components/Button'
 import Label from '@/shared/components/Label'
+import PageWrapper from '@/shared/components/PageWrapper'
 import Typography from '@/shared/components/Typography'
 import { SPACING } from '@/shared/theme'
 import * as React from 'react'
@@ -39,7 +40,7 @@ const LabelInput = ({
 
   if (labels.length === 0) {
     return (
-      <SafeAreaView
+      <PageWrapper
         style={{
           flex: 1,
           justifyContent: 'center',
@@ -56,12 +57,12 @@ const LabelInput = ({
         >
           Labels are used to group ideas.
         </Typography>
-      </SafeAreaView>
+      </PageWrapper>
     )
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
+    <PageWrapper>
       <View
         style={{
           flex: 1,
@@ -110,7 +111,7 @@ const LabelInput = ({
           Add New Label
         </Button>
       </View>
-    </SafeAreaView>
+    </PageWrapper>
   )
 }
 

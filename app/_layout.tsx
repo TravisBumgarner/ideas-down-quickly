@@ -1,6 +1,6 @@
 import { useFonts } from 'expo-font'
 import { Stack, router } from 'expo-router'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import 'react-native-reanimated'
 import * as SplashScreen from 'expo-splash-screen'
 import { MD3DarkTheme, MD3LightTheme, PaperProvider } from 'react-native-paper'
@@ -20,15 +20,30 @@ function App() {
       settings: { colorTheme },
     },
   } = useContext(context)
+  const [hasTimeoutExecuted, setHasTimeoutExecuted] = useState(false)
 
   const [haveFontsLoaded] = useFonts({
     Montserrat: require('../assets/fonts/Montserrat.ttf'),
   })
 
-  const hasLoaded = [haveFontsLoaded, haveMigrationsRun].every(i => i)
+  const hasLoaded = [
+    haveFontsLoaded,
+    haveMigrationsRun,
+    hasTimeoutExecuted,
+  ].every(i => i)
+
+  console.log('haveMigrationsErrored', haveMigrationsErrored)
+  console.log('haveMigrationsRun', haveMigrationsRun)
+  console.log('haveFontsLoaded', haveFontsLoaded)
+  console.log('hasTimeoutExecuted', hasTimeoutExecuted)
+  console.log('hasLoaded', hasLoaded)
 
   const hasErrored = [haveMigrationsErrored].some(i => i)
   const paperTheme = colorTheme === 'dark' ? MD3DarkTheme : MD3LightTheme
+
+  useEffect(() => {
+    setTimeout(() => setHasTimeoutExecuted(true), 500)
+  }, [])
 
   useEffect(() => {
     if (hasErrored) {
@@ -38,6 +53,7 @@ function App() {
 
   useEffect(() => {
     if (hasLoaded || hasErrored) {
+      console.log("I'm hiding the splash screen")
       SplashScreen.hideAsync()
     }
   }, [hasLoaded, hasErrored])

@@ -1,4 +1,4 @@
-import { BORDER_RADIUS, SPACING } from '@/shared/theme'
+import { BORDER_RADIUS, COLORS, SPACING } from '@/shared/theme'
 import { View } from 'react-native'
 import { Icon } from 'react-native-paper'
 
@@ -16,17 +16,28 @@ const Idea = ({ color, icon, text, label }: Props) => {
     <View
       style={{
         borderRadius: BORDER_RADIUS.md,
-        flex: 1,
         backgroundColor: color,
-        padding: SPACING.sm,
-        flexDirection: 'column',
+        padding: SPACING.md,
       }}
     >
-      <View style={{ flexDirection: 'row' }}>
-        <Icon source={icon} size={24} color="#fff" />
-        <Typography variant="h2">{label}</Typography>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          width: '100%',
+        }}
+      >
+        <Icon source={icon} size={24} color={COLORS.light.opaque} />
+        <Typography
+          style={{ lineHeight: 0, marginLeft: SPACING.sm }}
+          variant="h2"
+        >
+          {label}
+        </Typography>
       </View>
-      <Typography variant="body1">{text}</Typography>
+      <Typography variant="body1" style={{ marginTop: SPACING.sm }}>
+        {text}
+      </Typography>
     </View>
   )
 }

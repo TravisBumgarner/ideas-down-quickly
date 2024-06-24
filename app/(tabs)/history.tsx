@@ -1,15 +1,15 @@
-import { SafeAreaView, ScrollView, View } from 'react-native'
-import { IdeasTable, LabelsTable, SelectIdea, SelectLabel } from '@/db/schema'
-import { useCallback, useMemo, useState } from 'react'
 import { db } from '@/db/client'
-import { ActivityIndicator, useTheme, Text } from 'react-native-paper'
-import { Link } from 'expo-router'
-import { desc, eq } from 'drizzle-orm'
+import { IdeasTable, LabelsTable, SelectIdea, SelectLabel } from '@/db/schema'
 import Idea from '@/shared/components/Idea'
-import { useFocusEffect } from '@react-navigation/native'
-import { areSameDay, formatDisplayDate } from '@/shared/utilities'
-import { SPACING } from '@/shared/theme'
 import Typography from '@/shared/components/Typography'
+import { SPACING } from '@/shared/theme'
+import { areSameDay, formatDisplayDate } from '@/shared/utilities'
+import { useFocusEffect } from '@react-navigation/native'
+import { desc, eq } from 'drizzle-orm'
+import { Link } from 'expo-router'
+import { useCallback, useMemo, useState } from 'react'
+import { SafeAreaView, ScrollView, View } from 'react-native'
+import { ActivityIndicator, Text, useTheme } from 'react-native-paper'
 
 const History = () => {
   const [ideasWithLabel, setIdeasWithLabel] = useState<
@@ -47,9 +47,13 @@ const History = () => {
         if (!areSameDay(currentDate, parsedCreatedAt)) {
           // There might be a better way to attach dates but for now this works.
           output.push(
-            <Text style={{ flex: 1 }} key={item.idea.createdAt}>
+            <Typography
+              variant="h2"
+              style={{ flex: 1 }}
+              key={item.idea.createdAt}
+            >
               {formatDisplayDate(parsedCreatedAt)}
-            </Text>
+            </Typography>
           )
           currentDate = parsedCreatedAt
         }
@@ -58,9 +62,11 @@ const History = () => {
           <View
             key={item.idea.uuid}
             style={{
-              borderRadius: 5,
+              borderRadius: SPACING.md,
               width: '100%',
-              padding: SPACING.sm,
+              paddingRight: SPACING.md,
+              paddingLeft: SPACING.md,
+              marginBottom: SPACING.md,
               flex: 1,
             }}
           >
@@ -110,11 +116,13 @@ const History = () => {
 
   return (
     <SafeAreaView style={{ backgroundColor: theme.colors.background, flex: 1 }}>
+      <Typography variant="h1" style={{ textAlign: 'center' }}>
+        History
+      </Typography>
       <ScrollView
         contentContainerStyle={{
           alignItems: 'center',
           justifyContent: 'center',
-          paddingVertical: 20,
         }}
         style={{
           flex: 1,

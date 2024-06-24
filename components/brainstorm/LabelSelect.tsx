@@ -6,7 +6,7 @@ import Label from '@/shared/components/Label'
 import Typography from '@/shared/components/Typography'
 import * as React from 'react'
 import { SafeAreaView, View, ScrollView } from 'react-native'
-import { ActivityIndicator, Divider, useTheme } from 'react-native-paper'
+import { ActivityIndicator, useTheme } from 'react-native-paper'
 
 const LabelInput = ({
   submitCallback,

@@ -68,9 +68,9 @@ function App() {
       <GestureHandlerRootView style={{ flex: 1 }}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" />
-          <Stack.Screen name="error" />
-          <Stack.Screen name="edit-idea" />
+          <Stack.Screen name="+not-found" options={{ headerShown: false }} />
+          <Stack.Screen name="error" options={{ headerShown: false }} />
+          <Stack.Screen name="edit-idea" options={{ headerShown: false }} />
         </Stack>
       </GestureHandlerRootView>
     </PaperProvider>

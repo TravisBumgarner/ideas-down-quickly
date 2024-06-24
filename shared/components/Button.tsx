@@ -5,12 +5,15 @@ import { IconSource } from 'react-native-paper/lib/typescript/components/Icon'
 
 import { BORDER_RADIUS, COLORS } from '../theme'
 
+const SHARED = {
+  mode: 'contained',
+  textColor: COLORS.light.opaque,
+} as const
+
 const Button = ({
   children,
   variant,
-  onPress,
-  disabled,
-  icon,
+  ...shared
 }: {
   children: React.ReactNode
   variant: 'primary' | 'secondary' | 'warning' | 'error'
@@ -22,11 +25,9 @@ const Button = ({
     case 'primary':
       return (
         <ButtonRNP
-          icon={icon}
           style={{ ...styles.base, ...styles.primary }}
-          mode="contained"
-          onPress={onPress}
-          disabled={disabled}
+          {...SHARED}
+          {...shared}
         >
           <Text>{children}</Text>
         </ButtonRNP>
@@ -34,11 +35,9 @@ const Button = ({
     case 'secondary':
       return (
         <ButtonRNP
-          icon={icon}
           style={{ ...styles.base, ...styles.secondary }}
-          mode="contained"
-          onPress={onPress}
-          disabled={disabled}
+          {...SHARED}
+          {...shared}
         >
           <Text>{children}</Text>
         </ButtonRNP>
@@ -46,11 +45,9 @@ const Button = ({
     case 'warning':
       return (
         <ButtonRNP
-          icon={icon}
           style={{ ...styles.base, ...styles.warning }}
-          mode="contained"
-          onPress={onPress}
-          disabled={disabled}
+          {...SHARED}
+          {...shared}
         >
           <Text>{children}</Text>
         </ButtonRNP>
@@ -58,11 +55,9 @@ const Button = ({
     case 'error':
       return (
         <ButtonRNP
-          icon={icon}
           style={{ ...styles.base, ...styles.error }}
-          mode="contained"
-          onPress={onPress}
-          disabled={disabled}
+          {...SHARED}
+          {...shared}
         >
           <Text>{children}</Text>
         </ButtonRNP>

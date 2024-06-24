@@ -135,13 +135,13 @@ const IdeaInput = ({
               onPress={() => setIcon(icon)}
               key={icon}
               style={{
-                width: 50,
-                height: 50,
+                width: 25,
+                height: 25,
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
             >
-              <Icon size={32} source={icon} color={color} />
+              <Icon size={20} source={icon} color={color} />
             </TouchableOpacity>
           ))}
         </ScrollView>

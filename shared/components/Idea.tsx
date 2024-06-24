@@ -32,7 +32,8 @@ const Idea = ({ color, icon, text, label, id, onDeleteCallback }: Props) => {
 
   const renderLeftActions = useCallback(
     () => (
-      <View
+      <TouchableOpacity
+        onPress={handleDelete}
         style={{
           backgroundColor: color,
           justifyContent: 'center',
@@ -42,17 +43,16 @@ const Idea = ({ color, icon, text, label, id, onDeleteCallback }: Props) => {
           marginRight: SPACING.md,
         }}
       >
-        <TouchableOpacity onPress={handleDelete}>
-          <Icon source="delete" size={24} color={COLORS.dark.opaque} />
-        </TouchableOpacity>
-      </View>
+        <Icon source="delete" size={24} color={COLORS.dark.opaque} />
+      </TouchableOpacity>
     ),
     [color, handleDelete]
   )
 
   const renderRightActions = useCallback(
     () => (
-      <View
+      <TouchableOpacity
+        onPress={handleEdit}
         style={{
           backgroundColor: color,
           justifyContent: 'center',
@@ -62,10 +62,8 @@ const Idea = ({ color, icon, text, label, id, onDeleteCallback }: Props) => {
           marginLeft: SPACING.md,
         }}
       >
-        <TouchableOpacity onPress={handleEdit}>
-          <Icon source="pencil" size={24} color={COLORS.dark.opaque} />
-        </TouchableOpacity>
-      </View>
+        <Icon source="pencil" size={24} color={COLORS.dark.opaque} />
+      </TouchableOpacity>
     ),
     [color, handleEdit]
   )

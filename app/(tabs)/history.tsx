@@ -1,5 +1,6 @@
 import { db } from '@/db/client'
 import { IdeasTable, LabelsTable, SelectIdea, SelectLabel } from '@/db/schema'
+import Dropdown from '@/shared/components/Dropdown'
 import Idea from '@/shared/components/Idea'
 import PageWrapper from '@/shared/components/PageWrapper'
 import Typography from '@/shared/components/Typography'
@@ -17,6 +18,11 @@ const History = () => {
     { idea: SelectIdea | null; label: SelectLabel | null }[] | null
   >(null)
   const theme = useTheme()
+  const [isFilterMenuVisible, setIsFilterMenuVisible] = useState(false)
+  const [selectedFilterLabelId, setSelectedFilterLabelId] = useState('')
+  const [filterLabelList, setFilterLabelList] = useState<
+    { label: string; value: string }[]
+  >([])
 
   const fetchFromDB = useCallback(() => {
     db.select()
@@ -24,6 +30,15 @@ const History = () => {
       .leftJoin(LabelsTable, eq(IdeasTable.labelId, LabelsTable.id))
       .orderBy(desc(IdeasTable.createdAt))
       .then(setIdeasWithLabel)
+
+    db.select()
+      .from(LabelsTable)
+      .then(labels => {
+        setFilterLabelList([
+          { label: 'All', value: '' },
+          ...labels.map(label => ({ label: label.text, value: label.id })),
+        ])
+      })
   }, [])
 
   useFocusEffect(
@@ -41,6 +56,13 @@ const History = () => {
     let currentDate: Date | null = null
 
     ideasWithLabel.forEach(item => {
+      if (
+        item.idea?.labelId !== selectedFilterLabelId &&
+        selectedFilterLabelId !== ''
+      ) {
+        return
+      }
+
       if (item.label === null || item.idea === null) {
         output.push(
           <Typography variant="body1" key={item.label?.id || item.idea?.id}>
@@ -87,7 +109,7 @@ const History = () => {
     })
 
     return output
-  }, [ideasWithLabel, fetchFromDB])
+  }, [ideasWithLabel, fetchFromDB, selectedFilterLabelId])
 
   if (ideasWithLabel === null) {
     return (
@@ -120,6 +142,14 @@ const History = () => {
 
   return (
     <PageWrapper title="History">
+      <Dropdown
+        value={selectedFilterLabelId}
+        setValue={setSelectedFilterLabelId}
+        list={filterLabelList}
+        isVisible={isFilterMenuVisible}
+        setIsVisible={setIsFilterMenuVisible}
+        label="Filter by Label"
+      ></Dropdown>
       <ScrollView
         contentContainerStyle={{
           alignItems: 'center',

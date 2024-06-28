@@ -68,19 +68,24 @@ const Button = ({
 const styles = StyleSheet.create({
   base: {
     borderRadius: BORDER_RADIUS.md,
+    borderWidth: 1,
     width: '100%',
   },
   error: {
-    backgroundColor: COLORS.error.opaque,
+    backgroundColor: COLORS.error.transparent,
+    borderColor: COLORS.dark.opaque,
   },
   primary: {
-    backgroundColor: COLORS.primary.opaque,
+    backgroundColor: COLORS.primary.transparent,
+    borderColor: COLORS.primary.opaque,
   },
   secondary: {
-    backgroundColor: COLORS.secondary.opaque,
+    backgroundColor: COLORS.secondary.transparent,
+    borderColor: COLORS.secondary.opaque,
   },
   warning: {
-    backgroundColor: COLORS.warning.opaque,
+    backgroundColor: COLORS.warning.transparent,
+    borderColor: COLORS.warning.opaque,
   },
 })
 

@@ -16,12 +16,17 @@ export interface State {
   settings: {
     colorTheme: 'dark' | 'light'
   }
+  toast: {
+    message: string
+    variant: 'success' | 'error' | 'warning'
+  } | null
 }
 
 const EMPTY_STATE: State = {
   settings: {
     colorTheme: 'light',
   },
+  toast: null,
 }
 
 const initialSetup = () => {
@@ -61,7 +66,12 @@ interface EditUserSettings {
   payload: State['settings']
 }
 
-export type Action = EditUserSettings | HydrateUserSettings
+interface Toast {
+  type: 'TOAST'
+  payload: State['toast']
+}
+
+export type Action = EditUserSettings | HydrateUserSettings | Toast
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -73,6 +83,9 @@ const reducer = (state: State, action: Action): State => {
         saveValueToKeyStore(key as SettingsKey, value)
       })
       return { ...state, settings: { ...state.settings, ...action.payload } }
+    }
+    case 'TOAST': {
+      return { ...state, toast: action.payload }
     }
     default:
       throw new Error('Unexpected action')
@@ -87,7 +100,7 @@ const context = createContext({
   dispatch: Dispatch<Action>
 })
 
-const ResultsContext = ({ children }: { children: JSX.Element }) => {
+const ResultsContext = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, EMPTY_STATE)
   const [isLoading, setIsLoading] = useState<boolean>(true)
 

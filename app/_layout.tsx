@@ -1,5 +1,6 @@
 import { db } from '@/db/client'
 import migrations from '@/db/migrations/migrations'
+import Toast from '@/shared/components/Toast'
 import Context, { context } from '@/shared/context'
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator'
 import { useFonts } from 'expo-font'
@@ -81,6 +82,7 @@ const AppWrapper = () => {
   return (
     <Context>
       <App />
+      <Toast />
     </Context>
   )
 }

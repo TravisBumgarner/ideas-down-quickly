@@ -1,6 +1,7 @@
 import IdeaInput from '@/components/brainstorm/IdeaInput'
 import LabelSelect from '@/components/brainstorm/LabelSelect'
 import NewLabelInput from '@/components/brainstorm/NewLabelInput'
+import { context } from '@/shared/context'
 import { useFocusEffect } from 'expo-router'
 import * as React from 'react'
 
@@ -11,6 +12,7 @@ enum CurrentPage {
 }
 
 const Brainstorm = () => {
+  const { dispatch } = React.useContext(context)
   const [currentPage, setCurrentPage] = React.useState(CurrentPage.LabelSelect)
   const [selectedLabelId, setSelectedLabelId] = React.useState('')
   useFocusEffect(
@@ -39,7 +41,11 @@ const Brainstorm = () => {
 
   const ideaInputSubmitCallback = React.useCallback(() => {
     setCurrentPage(CurrentPage.LabelSelect)
-  }, [])
+    dispatch({
+      type: 'TOAST',
+      payload: { message: 'Idea added!', variant: 'success' },
+    })
+  }, [dispatch])
 
   const ideaInputCancelCallback = React.useCallback(() => {
     setCurrentPage(CurrentPage.LabelSelect)

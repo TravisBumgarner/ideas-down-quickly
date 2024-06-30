@@ -1,5 +1,5 @@
 import Typography from '@/shared/components/Typography'
-import { COLORS, SPACING } from '@/shared/theme'
+import { COLORS2, SPACING } from '@/shared/theme'
 import * as React from 'react'
 import {
   KeyboardAvoidingView,
@@ -32,7 +32,7 @@ const PageWrapper: React.FC<{
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: COLORS.dark.opaque,
+    backgroundColor: COLORS2.NEUTRAL[900],
     flex: 1,
     padding: SPACING.md,
   },

@@ -92,6 +92,11 @@ const LabelInput = ({
               />
             </View>
           ))}
+          {labels.length < 3 && (
+            <Typography style={{ textAlign: 'center' }} variant="caption">
+              Swipe left on label to edit
+            </Typography>
+          )}
         </ScrollView>
       </View>
       <View

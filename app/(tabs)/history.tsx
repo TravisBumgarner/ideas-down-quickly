@@ -132,8 +132,8 @@ const History = () => {
         }}
       >
         <Link href="/">
-          <Typography variant="body1" style={{ textAlign: 'center' }}>
-            Go to Brainstorm Tab to create your first Idea.
+          <Typography variant="caption" style={{ textAlign: 'center' }}>
+            Get ideating on the brainstorm tab.
           </Typography>
         </Link>
       </PageWrapper>

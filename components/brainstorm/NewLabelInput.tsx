@@ -5,13 +5,19 @@ import Button from '@/shared/components/Button'
 import ButtonWrapper from '@/shared/components/ButtonWrapper'
 import Label from '@/shared/components/Label'
 import PageWrapper from '@/shared/components/PageWrapper'
-import Typography from '@/shared/components/Typography'
-import { COLORS2, SPACING, COLORS as THEME } from '@/shared/theme'
+import { COLORS2, SPACING2 } from '@/shared/theme'
 import * as React from 'react'
-import { ScrollView, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 import 'react-native-get-random-values'
 import { Icon, TextInput } from 'react-native-paper'
 import { v4 as uuidv4 } from 'uuid'
+
+enum Step {
+  Text = 0,
+  Color = 1,
+  Icon = 2,
+}
 
 const IdeaInput = ({
   submitCallback,
@@ -21,8 +27,26 @@ const IdeaInput = ({
   cancelCallback: () => void
 }) => {
   const [labelText, setLabelText] = React.useState('')
-  const [color, setColor] = React.useState<string>(COLORS2.LABELS[1])
+  const [color, setColor] = React.useState<string>(COLORS2.NEUTRAL[800])
   const [icon, setIcon] = React.useState<string>(ICONS[0])
+  const [lastusedAt, setLastUsedAt] = React.useState<string | null>(null)
+  const [currentStep, setCurrentStep] = React.useState<Step>(Step.Text)
+  //For whatever reason, myself and Co-Pilot are horribly confused about the type for the next line.
+  const textInputRef = React.useRef<any>(null)
+
+  const incrementStep = React.useCallback(() => {
+    setCurrentStep(prev => prev + 1)
+  }, [])
+
+  React.useEffect(() => {
+    if (currentStep === Step.Color) {
+      setLastUsedAt(new Date().toISOString())
+    }
+  }, [currentStep])
+
+  const decrementStep = React.useCallback(() => {
+    setCurrentStep(prev => prev - 1)
+  }, [])
 
   const handleCancel = React.useCallback(() => {
     setLabelText('')
@@ -44,121 +68,181 @@ const IdeaInput = ({
     submitCallback({ labelId: result[0].id })
   }, [labelText, color, icon, submitCallback])
 
-  return (
-    <PageWrapper title="Create a Label">
-      <TextInput
-        style={{ height: 80 }}
-        label="Label Text"
-        value={labelText}
-        onChangeText={text => setLabelText(text)}
-        multiline
-        selectTextOnFocus
-        returnKeyType="done"
-      />
-      <View
-        style={{
-          marginBottom: SPACING.md,
-          borderBottomColor: THEME.light.opaque,
-          borderBottomWidth: 1,
-          paddingBottom: SPACING.md,
-        }}
-      >
-        <Typography variant="h2">Color</Typography>
-        <ScrollView
-          horizontal
-          contentContainerStyle={{
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            justifyContent: 'space-between',
-          }}
-        >
-          {Object.values(COLORS2.LABELS).map(color => (
-            <TouchableOpacity
-              key={color}
-              style={{
-                marginVertical: SPACING.sm,
-                marginLeft: 0,
-                marginRight: SPACING.md,
-                backgroundColor: color,
-                width: 50,
-                height: 50,
-              }}
-              onPress={() => setColor(color)}
-            ></TouchableOpacity>
-          ))}
-        </ScrollView>
-      </View>
-      <View
-        style={{
-          flex: 1,
-          marginBottom: SPACING.md,
-          borderBottomColor: THEME.light.opaque,
-          borderBottomWidth: 1,
-          paddingBottom: SPACING.md,
-        }}
-      >
-        <Typography variant="h2">Icon</Typography>
-        <ScrollView
-          horizontal
-          contentContainerStyle={{
-            flexDirection: 'column',
-            flexWrap: 'wrap',
-            justifyContent: 'space-between',
-          }}
-        >
-          {ICONS.map(icon => (
-            <TouchableOpacity
-              onPress={() => setIcon(icon)}
-              key={icon}
-              style={{
-                width: 25,
-                height: 25,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <Icon size={20} source={icon} color={color} />
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
-      </View>
-      <View
-        style={{
-          flexDirection: 'column',
-          marginBottom: SPACING.md,
-          borderBottomColor: THEME.light.opaque,
-          borderBottomWidth: 1,
-          paddingBottom: SPACING.md,
-        }}
-      >
-        <Typography variant="h2">Preview</Typography>
-        <Label
-          fullWidth
-          color={color}
-          icon={icon}
-          text={labelText}
-          readonly={true}
-        />
-      </View>
-      <ButtonWrapper
-        left={
-          <Button color="warning" variant="link" onPress={handleCancel}>
-            Cancel
-          </Button>
-        }
-        right={
-          <Button
-            disabled={labelText.length === 0}
-            color="primary"
-            variant="filled"
-            onPress={handleSubmit}
+  let content: React.ReactNode
+  switch (currentStep) {
+    case Step.Text: {
+      content = (
+        <>
+          <Label
+            fullWidth
+            color={color}
+            icon={icon}
+            text={labelText}
+            readonly={false}
+            lastUsedAt={lastusedAt}
+            handlePress={() => textInputRef.current?.focus()}
+          />
+          <TextInput
+            ref={textInputRef}
+            style={{ display: 'none' }}
+            label="Label Text"
+            value={labelText}
+            onChangeText={text => setLabelText(text)}
+            selectTextOnFocus
+            returnKeyType="done"
+          />
+        </>
+      )
+      break
+    }
+    case Step.Color: {
+      content = (
+        <>
+          <Label
+            fullWidth
+            color={color}
+            icon={icon}
+            text={labelText}
+            readonly={true}
+            lastUsedAt={lastusedAt}
+          />
+          <View
+            style={{
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              justifyContent: 'space-between',
+            }}
           >
-            Create
-          </Button>
-        }
-      />
+            {Object.values(COLORS2.LABELS).map(color => (
+              <TouchableOpacity
+                key={color}
+                style={{
+                  marginVertical: SPACING2.SMALL,
+                  marginLeft: 0,
+                  marginRight: SPACING2.SMALL,
+                  backgroundColor: color,
+                  width: 50,
+                  height: 50,
+                }}
+                onPress={() => setColor(color)}
+              ></TouchableOpacity>
+            ))}
+          </View>
+        </>
+      )
+      break
+    }
+
+    case Step.Icon: {
+      content = (
+        <>
+          <Label
+            fullWidth
+            color={color}
+            icon={icon}
+            text={labelText}
+            readonly={true}
+            lastUsedAt={lastusedAt}
+          />
+          <ScrollView
+            contentContainerStyle={{
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              justifyContent: 'space-between',
+            }}
+          >
+            {ICONS.map(icon => (
+              <TouchableOpacity
+                onPress={() => setIcon(icon)}
+                key={icon}
+                style={{
+                  width: 50,
+                  height: 50,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <Icon size={30} source={icon} color={color} />
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </>
+      )
+      break
+    }
+  }
+
+  let buttons: React.ReactNode
+  switch (currentStep) {
+    case Step.Text: {
+      buttons = (
+        <ButtonWrapper
+          left={
+            <Button color="warning" variant="link" onPress={handleCancel}>
+              Cancel
+            </Button>
+          }
+          right={
+            <Button color="primary" variant="filled" onPress={incrementStep}>
+              Add color
+            </Button>
+          }
+        />
+      )
+      break
+    }
+    case Step.Color: {
+      buttons = (
+        <ButtonWrapper
+          left={
+            <Button color="warning" variant="link" onPress={decrementStep}>
+              Back
+            </Button>
+          }
+          right={
+            <Button color="primary" variant="filled" onPress={incrementStep}>
+              Add Icon
+            </Button>
+          }
+        />
+      )
+      break
+    }
+
+    case Step.Icon: {
+      buttons = (
+        <ButtonWrapper
+          left={
+            <Button color="warning" variant="link" onPress={decrementStep}>
+              Back
+            </Button>
+          }
+          right={
+            <Button color="primary" variant="filled" onPress={handleSubmit}>
+              Submit
+            </Button>
+          }
+        />
+      )
+      break
+    }
+  }
+
+  return (
+    <PageWrapper>
+      <View style={styles.container}>{content}</View>
+      {buttons}
     </PageWrapper>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    flex: 1,
+    justifyContent: 'center',
+    marginHorizontal: SPACING2.MEDIUM,
+  },
+})
 
 export default IdeaInput

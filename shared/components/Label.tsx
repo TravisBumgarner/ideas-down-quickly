@@ -1,14 +1,8 @@
-import {
-  BORDER_RADIUS,
-  BORDER_WIDTH,
-  COLORS,
-  COLORS2,
-  SPACING2,
-} from '@/shared/theme'
+import { BORDER_RADIUS, BORDER_WIDTH, COLORS2, SPACING2 } from '@/shared/theme'
 import { useCallback } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import { Button, Icon, Text } from 'react-native-paper'
+import { Icon, Text } from 'react-native-paper'
 
 import Typography from './Typography'
 
@@ -25,37 +19,7 @@ type Props = {
   color: string
   icon: string
   text: string
-  fullWidth?: boolean
   lastUsedAt: string | null
-}
-
-const Label = ({ color, icon, text, ...rest }: Props & ReadonlyCondition) => {
-  const handlePress = useCallback(() => {
-    rest.readonly ? null : rest.handlePress()
-  }, [rest])
-
-  return (
-    <Button
-      icon={() => <Icon source={icon} size={24} color={color} />}
-      mode="contained"
-      buttonColor={COLORS2.NEUTRAL[900]}
-      textColor={COLORS.light.opaque}
-      contentStyle={{
-        justifyContent: 'flex-start',
-      }}
-      labelStyle={{
-        fontSize: 20,
-      }}
-      style={{
-        borderRadius: BORDER_RADIUS.NONE,
-        borderRightWidth: BORDER_WIDTH.LARGE,
-        borderRightColor: color,
-      }}
-      onPress={handlePress}
-    >
-      {text}
-    </Button>
-  )
 }
 
 const Label2 = ({
@@ -82,7 +46,9 @@ const Label2 = ({
       <Icon source={icon} size={24} color={color} />
       <View style={styles.textContainer}>
         <Typography variant="h2">{text}</Typography>
-        <Text style={styles.text}>Last ideated on {lastUsedAt}</Text>
+        {lastUsedAt && (
+          <Text style={styles.text}>Last ideated on {lastUsedAt}</Text>
+        )}
       </View>
     </TouchableOpacity>
   )

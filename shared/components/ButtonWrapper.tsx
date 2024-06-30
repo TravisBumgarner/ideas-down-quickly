@@ -1,14 +1,19 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import { SPACING } from '../theme'
+import { SPACING2 } from '../theme'
 
 type ButtonWrapperProps = {
   left?: React.ReactElement
   right?: React.ReactElement
+  full?: React.ReactElement
 }
 
-const ButtonWrapper: React.FC<ButtonWrapperProps> = ({ left, right }) => {
+const ButtonWrapper: React.FC<ButtonWrapperProps> = ({ left, right, full }) => {
+  if (full) {
+    return <View style={styles.full}>{full}</View>
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.buttonLeft}>{left}</View>
@@ -20,17 +25,20 @@ const ButtonWrapper: React.FC<ButtonWrapperProps> = ({ left, right }) => {
 const styles = StyleSheet.create({
   buttonLeft: {
     flex: 1,
-    marginRight: SPACING.sm,
+    marginRight: SPACING2.SMALL,
   },
   buttonRight: {
     flex: 1,
-    marginLeft: SPACING.sm,
+    marginLeft: SPACING2.SMALL,
   },
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: SPACING.md,
-    marginTop: SPACING.md,
+    marginBottom: SPACING2.MEDIUM,
+    marginTop: SPACING2.MEDIUM,
+  },
+  full: {
+    margin: SPACING2.MEDIUM,
   },
 })
 

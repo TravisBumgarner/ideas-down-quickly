@@ -39,7 +39,7 @@ const Idea = ({ color, icon, text, label, id, onDeleteCallback }: Props) => {
           justifyContent: 'center',
           alignItems: 'center',
           padding: SPACING.md,
-          borderRadius: BORDER_RADIUS.md,
+          borderRadius: BORDER_RADIUS.MEDIUM,
           marginRight: SPACING.md,
         }}
       >
@@ -58,7 +58,7 @@ const Idea = ({ color, icon, text, label, id, onDeleteCallback }: Props) => {
           justifyContent: 'center',
           alignItems: 'center',
           padding: SPACING.md,
-          borderRadius: BORDER_RADIUS.md,
+          borderRadius: BORDER_RADIUS.MEDIUM,
           marginLeft: SPACING.md,
         }}
       >
@@ -76,7 +76,7 @@ const Idea = ({ color, icon, text, label, id, onDeleteCallback }: Props) => {
     >
       <View
         style={{
-          borderRadius: BORDER_RADIUS.md,
+          borderRadius: BORDER_RADIUS.MEDIUM,
           backgroundColor: color,
           padding: SPACING.md,
         }}

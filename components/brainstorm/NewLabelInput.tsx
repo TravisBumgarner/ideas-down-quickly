@@ -10,7 +10,7 @@ import { SPACING, COLORS as THEME } from '@/shared/theme'
 import * as React from 'react'
 import { ScrollView, TouchableOpacity, View } from 'react-native'
 import 'react-native-get-random-values'
-import { Icon, TextInput, useTheme } from 'react-native-paper'
+import { Icon, TextInput } from 'react-native-paper'
 import { v4 as uuidv4 } from 'uuid'
 
 const COLORS = [
@@ -45,7 +45,6 @@ const IdeaInput = ({
   const [labelText, setLabelText] = React.useState('')
   const [color, setColor] = React.useState(COLORS[0])
   const [icon, setIcon] = React.useState(ICONS[0])
-  const theme = useTheme()
 
   const handleCancel = React.useCallback(() => {
     setLabelText('')
@@ -166,14 +165,15 @@ const IdeaInput = ({
       </View>
       <ButtonWrapper
         left={
-          <Button variant="error" onPress={handleCancel}>
+          <Button color="warning" variant="link" onPress={handleCancel}>
             Cancel
           </Button>
         }
         right={
           <Button
             disabled={labelText.length === 0}
-            variant="primary"
+            color="primary"
+            variant="filled"
             onPress={handleSubmit}
           >
             Create

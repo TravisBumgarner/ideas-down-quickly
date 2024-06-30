@@ -107,12 +107,12 @@ const IdeaEdit = ({
       </View>
       <ButtonWrapper
         left={
-          <Button variant="error" onPress={handleCancel}>
+          <Button color="warning" variant="link" onPress={handleCancel}>
             Cancel
           </Button>
         }
         right={
-          <Button variant="primary" onPress={handleSubmit}>
+          <Button color="primary" variant="filled" onPress={handleSubmit}>
             Submit
           </Button>
         }

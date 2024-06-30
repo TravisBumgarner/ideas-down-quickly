@@ -4,12 +4,12 @@ import { Button, Icon } from 'react-native-paper'
 
 type ReadonlyCondition =
   | {
-      readonly: false
-      handlePress: () => void
-    }
+    readonly: false
+    handlePress: () => void
+  }
   | {
-      readonly: true
-    }
+    readonly: true
+  }
 
 type Props = {
   color: string
@@ -30,7 +30,7 @@ const Label = ({ color, icon, text, ...rest }: Props & ReadonlyCondition) => {
       buttonColor={color}
       textColor={COLORS.light.opaque}
       style={{
-        borderRadius: BORDER_RADIUS.md,
+        borderRadius: BORDER_RADIUS.MEDIUM,
       }}
       onPress={handlePress}
     >

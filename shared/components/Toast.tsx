@@ -26,7 +26,7 @@ const Toast = () => {
       onDismiss={onDismissSnackBar}
       style={{
         backgroundColor: COLORS[toast.variant].opaque,
-        borderRadius: BORDER_RADIUS.md,
+        borderRadius: BORDER_RADIUS.MEDIUM,
         justifyContent: 'center',
         alignItems: 'center',
         margin: SPACING.md,

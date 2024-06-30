@@ -3,89 +3,108 @@ import { StyleSheet, Text } from 'react-native'
 import { Button as ButtonRNP } from 'react-native-paper'
 import { IconSource } from 'react-native-paper/lib/typescript/components/Icon'
 
-import { BORDER_RADIUS, COLORS } from '../theme'
+import { BORDER_RADIUS, COLORS, COLORS2 } from '../theme'
 
 const SHARED = {
-  mode: 'contained',
   textColor: COLORS.light.opaque,
 } as const
 
 const Button = ({
   children,
+  color,
   variant,
   ...shared
 }: {
   children: React.ReactNode
-  variant: 'primary' | 'secondary' | 'warning' | 'error'
+  color: 'primary' | 'warning'
   onPress: () => void
   disabled?: boolean
   icon?: IconSource
+  variant: 'filled' | 'link'
 }): React.ReactElement => {
-  switch (variant) {
+  switch (color) {
     case 'primary':
       return (
         <ButtonRNP
-          style={{ ...styles.base, ...styles.primary }}
+          style={{
+            ...buttonStyles.base,
+            ...(variant === 'filled'
+              ? buttonStyles.primaryFilled
+              : buttonStyles.primaryLink),
+          }}
           {...SHARED}
           {...shared}
         >
-          <Text>{children}</Text>
-        </ButtonRNP>
-      )
-    case 'secondary':
-      return (
-        <ButtonRNP
-          style={{ ...styles.base, ...styles.secondary }}
-          {...SHARED}
-          {...shared}
-        >
-          <Text>{children}</Text>
+          <Text
+            style={{
+              ...(variant === 'filled'
+                ? textStyles.primaryFilled
+                : textStyles.primaryLink),
+            }}
+          >
+            {children}
+          </Text>
         </ButtonRNP>
       )
     case 'warning':
       return (
         <ButtonRNP
-          style={{ ...styles.base, ...styles.warning }}
+          style={{
+            ...buttonStyles.base,
+            ...(variant === 'filled'
+              ? buttonStyles.warningFilled
+              : buttonStyles.warningLink),
+          }}
           {...SHARED}
           {...shared}
         >
-          <Text>{children}</Text>
-        </ButtonRNP>
-      )
-    case 'error':
-      return (
-        <ButtonRNP
-          style={{ ...styles.base, ...styles.error }}
-          {...SHARED}
-          {...shared}
-        >
-          <Text>{children}</Text>
+          <Text
+            style={{
+              ...(variant === 'filled'
+                ? textStyles.warningFilled
+                : textStyles.warningLink),
+            }}
+          >
+            {children}
+          </Text>
         </ButtonRNP>
       )
   }
 }
 
-const styles = StyleSheet.create({
+const buttonStyles = StyleSheet.create({
   base: {
-    borderRadius: BORDER_RADIUS.md,
-    borderWidth: 1,
+    borderRadius: BORDER_RADIUS.NONE,
     width: '100%',
   },
-  error: {
-    backgroundColor: COLORS.error.transparent,
-    borderColor: COLORS.dark.opaque,
+  primaryFilled: {
+    backgroundColor: COLORS2.PRIMARY[300],
   },
-  primary: {
-    backgroundColor: COLORS.primary.transparent,
-    borderColor: COLORS.primary.opaque,
+  primaryLink: {
+    backgroundColor: COLORS2.MISC.TRANSPARENT,
   },
-  secondary: {
-    backgroundColor: COLORS.secondary.transparent,
-    borderColor: COLORS.secondary.opaque,
+  warningFilled: {
+    backgroundColor: COLORS2.WARNING[300],
   },
-  warning: {
-    backgroundColor: COLORS.warning.transparent,
-    borderColor: COLORS.warning.opaque,
+  warningLink: {
+    backgroundColor: COLORS2.MISC.TRANSPARENT,
+  },
+})
+
+const textStyles = StyleSheet.create({
+  primaryFilled: {
+    color: COLORS2.NEUTRAL[900],
+    fontWeight: 'bold',
+  },
+  primaryLink: {
+    color: COLORS2.PRIMARY[300],
+  },
+  warningFilled: {
+    color: COLORS2.NEUTRAL[900],
+    fontWeight: 'bold',
+  },
+  warningLink: {
+    color: COLORS2.WARNING[300],
   },
 })
 

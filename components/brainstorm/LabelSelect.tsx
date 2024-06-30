@@ -46,7 +46,7 @@ const LabelInput = ({
           alignContent: 'center',
         }}
       >
-        <Button variant="primary" onPress={newLabelCallback}>
+        <Button variant="filled" color="primary" onPress={newLabelCallback}>
           Add Your First Label
         </Button>
         <Typography
@@ -100,7 +100,7 @@ const LabelInput = ({
           marginBottom: SPACING.md,
         }}
       >
-        <Button variant="primary" onPress={newLabelCallback}>
+        <Button variant="filled" color="primary" onPress={newLabelCallback}>
           Add New Label
         </Button>
       </View>

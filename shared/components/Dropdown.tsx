@@ -80,10 +80,10 @@ const DropDown = (props: DropDownPropsInterface<string>) => {
               }
               underlineColor="transparent"
               style={{
-                borderRadius: BORDER_RADIUS.md,
+                borderRadius: BORDER_RADIUS.MEDIUM,
                 // For some reason, something is overriding the border radius so the next two lines are needed.
-                borderTopEndRadius: BORDER_RADIUS.md,
-                borderTopLeftRadius: BORDER_RADIUS.md,
+                borderTopEndRadius: BORDER_RADIUS.MEDIUM,
+                borderTopLeftRadius: BORDER_RADIUS.MEDIUM,
                 backgroundColor: COLORS.light.transparent,
                 borderWidth: 1,
                 borderColor: COLORS.light.opaque,
@@ -94,7 +94,7 @@ const DropDown = (props: DropDownPropsInterface<string>) => {
       }
       contentStyle={{
         backgroundColor: COLORS.dark.opaque,
-        borderRadius: BORDER_RADIUS.md,
+        borderRadius: BORDER_RADIUS.MEDIUM,
       }}
       style={{
         width: inputLayout?.width,

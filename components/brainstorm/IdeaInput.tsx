@@ -9,7 +9,7 @@ import { SPACING } from '@/shared/theme'
 import * as React from 'react'
 import { SafeAreaView, View } from 'react-native'
 import 'react-native-get-random-values'
-import { ActivityIndicator, TextInput, useTheme } from 'react-native-paper'
+import { ActivityIndicator, TextInput } from 'react-native-paper'
 import { v4 as uuidv4 } from 'uuid'
 
 const IdeaInput = ({
@@ -23,7 +23,7 @@ const IdeaInput = ({
 }) => {
   const [ideaText, setIdeaText] = React.useState('')
   const [label, setLabel] = React.useState<SelectLabel | null>(null)
-  const theme = useTheme()
+
   React.useEffect(() => {
     queries.select.labelById(labelId).then(setLabel)
   }, [labelId])
@@ -77,12 +77,12 @@ const IdeaInput = ({
       </View>
       <ButtonWrapper
         left={
-          <Button variant="error" onPress={handleCancel}>
+          <Button variant="link" color="warning" onPress={handleCancel}>
             Cancel
           </Button>
         }
         right={
-          <Button variant="primary" onPress={handleSubmit}>
+          <Button variant="filled" color="primary" onPress={handleSubmit}>
             Submit
           </Button>
         }

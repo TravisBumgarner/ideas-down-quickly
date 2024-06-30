@@ -2,11 +2,11 @@ import React from 'react'
 import { StyleProp, StyleSheet, TextStyle } from 'react-native'
 import { Text } from 'react-native-paper'
 
-import { COLORS } from '../theme'
+import { COLORS, COLORS2, SPACING2 } from '../theme'
 
 type TypographyProps = {
   children: React.ReactNode
-  variant: 'h1' | 'h2' | 'body1'
+  variant: 'h1' | 'h2' | 'body1' | 'caption'
   style?: StyleProp<TextStyle>
 }
 
@@ -43,6 +43,15 @@ const Typography: React.FC<TypographyProps> = ({
           {children}
         </Text>
       )
+    case 'caption':
+      return (
+        <Text
+          style={StyleSheet.flatten([styles.base, styles.caption, styleProp])}
+          variant="bodyLarge"
+        >
+          {children}
+        </Text>
+      )
   }
 }
 
@@ -53,8 +62,15 @@ const styles = StyleSheet.create({
   body1: {
     fontSize: 16,
   },
+  caption: {
+    color: COLORS2.NEUTRAL[500],
+    fontSize: 13,
+  },
   h1: {
+    backgroundColor: COLORS2.NEUTRAL[800],
+    color: COLORS2.NEUTRAL[400],
     fontSize: 24,
+    marginVertical: SPACING2.SMALL,
     textAlign: 'center',
   },
   h2: {

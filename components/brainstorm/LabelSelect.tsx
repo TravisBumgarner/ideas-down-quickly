@@ -46,14 +46,15 @@ const LabelInput = ({
           alignContent: 'center',
         }}
       >
-        <Button variant="filled" color="primary" onPress={newLabelCallback}>
+        <Typography variant="h1">What&apos;s on your mind?</Typography>
+        <Button color="primary" variant="filled" onPress={newLabelCallback}>
           Add Your First Label
         </Button>
         <Typography
-          variant="body1"
+          variant="caption"
           style={{ textAlign: 'center', marginTop: SPACING.md }}
         >
-          Labels are used to group ideas.
+          Ideas are grouped by label
         </Typography>
       </PageWrapper>
     )
@@ -100,7 +101,7 @@ const LabelInput = ({
           marginBottom: SPACING.md,
         }}
       >
-        <Button variant="filled" color="primary" onPress={newLabelCallback}>
+        <Button variant="primary" onPress={newLabelCallback}>
           Add New Label
         </Button>
       </View>

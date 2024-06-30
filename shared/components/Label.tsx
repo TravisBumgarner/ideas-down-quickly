@@ -4,12 +4,12 @@ import { Button, Icon } from 'react-native-paper'
 
 type ReadonlyCondition =
   | {
-    readonly: false
-    handlePress: () => void
-  }
+      readonly: false
+      handlePress: () => void
+    }
   | {
-    readonly: true
-  }
+      readonly: true
+    }
 
 type Props = {
   color: string

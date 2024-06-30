@@ -6,34 +6,12 @@ import ButtonWrapper from '@/shared/components/ButtonWrapper'
 import Label from '@/shared/components/Label'
 import PageWrapper from '@/shared/components/PageWrapper'
 import Typography from '@/shared/components/Typography'
-import { SPACING, COLORS as THEME } from '@/shared/theme'
+import { COLORS2, SPACING, COLORS as THEME } from '@/shared/theme'
 import * as React from 'react'
 import { ScrollView, TouchableOpacity, View } from 'react-native'
 import 'react-native-get-random-values'
-import { Icon, TextInput, useTheme } from 'react-native-paper'
+import { Icon, TextInput } from 'react-native-paper'
 import { v4 as uuidv4 } from 'uuid'
-
-const COLORS = [
-  '#f44336',
-  '#e91e63',
-  '#9c27b0',
-  '#673ab7',
-  '#3f51b5',
-  '#2196f3',
-  '#03a9f4',
-  '#00bcd4',
-  '#009688',
-  '#4caf50',
-  '#8bc34a',
-  '#cddc39',
-  '#ffeb3b',
-  '#ffc107',
-  '#ff9800',
-  '#ff5722',
-  '#795548',
-  '#9e9e9e',
-  '#607d8b',
-]
 
 const IdeaInput = ({
   submitCallback,
@@ -43,9 +21,8 @@ const IdeaInput = ({
   cancelCallback: () => void
 }) => {
   const [labelText, setLabelText] = React.useState('')
-  const [color, setColor] = React.useState(COLORS[0])
+  const [color, setColor] = React.useState(COLORS2.LABELS[1])
   const [icon, setIcon] = React.useState(ICONS[0])
-  const theme = useTheme()
 
   const handleCancel = React.useCallback(() => {
     setLabelText('')
@@ -95,7 +72,7 @@ const IdeaInput = ({
             justifyContent: 'space-between',
           }}
         >
-          {COLORS.map(color => (
+          {Object.values(COLORS2.LABELS).map(color => (
             <TouchableOpacity
               key={color}
               style={{
@@ -155,7 +132,7 @@ const IdeaInput = ({
           paddingBottom: SPACING.md,
         }}
       >
-        <Typography variant="h2">Preview</Typography>
+        <Typography variant="h2">Preview</Typography>rr
         <Label
           fullWidth
           color={color}
@@ -166,14 +143,15 @@ const IdeaInput = ({
       </View>
       <ButtonWrapper
         left={
-          <Button variant="error" onPress={handleCancel}>
+          <Button variant="link" color="warning" onPress={handleCancel}>
             Cancel
           </Button>
         }
         right={
           <Button
             disabled={labelText.length === 0}
-            variant="primary"
+            variant="filled"
+            color="primary"
             onPress={handleSubmit}
           >
             Create

@@ -71,7 +71,8 @@ const Settings = () => {
           <Button
             disabled={deleteText !== 'Delete'}
             onPress={handleWipeDatabase}
-            variant="error"
+            variant="filled"
+            color="warning"
           >
             Wipe Database and Migrations
           </Button>

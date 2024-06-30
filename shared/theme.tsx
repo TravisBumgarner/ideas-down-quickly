@@ -98,7 +98,7 @@ export const COLORS2 = {
     '14': '#FFFFFF',
     '15': '#A3A3A3',
   },
-}
+} as const
 
 export const SPACING = {
   sm: 8,
@@ -110,7 +110,7 @@ export const BORDER_RADIUS = {
   SMALL: 4,
   MEDIUM: 8,
   LARGE: 12,
-}
+} as const
 
 export const SPACING2 = {
   XXSMALL: 4,
@@ -120,4 +120,10 @@ export const SPACING2 = {
   LARGE: 24,
   XLARGE: 32,
   XXLARGE: 48,
-}
+} as const
+
+export const BORDER_WIDTH = {
+  NONE: 0,
+  SMALL: 2,
+  LARGE: 8,
+} as const

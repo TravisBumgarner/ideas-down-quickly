@@ -4,7 +4,7 @@ import Button from '@/shared/components/Button'
 import Label from '@/shared/components/Label'
 import PageWrapper from '@/shared/components/PageWrapper'
 import Typography from '@/shared/components/Typography'
-import { SPACING } from '@/shared/theme'
+import { SPACING, SPACING2 } from '@/shared/theme'
 import * as React from 'react'
 import { SafeAreaView, ScrollView, View } from 'react-native'
 import { ActivityIndicator } from 'react-native-paper'
@@ -40,13 +40,13 @@ const LabelInput = ({
   if (labels.length === 0) {
     return (
       <PageWrapper
+        title="What's on your mind?"
         style={{
           flex: 1,
           justifyContent: 'center',
           alignContent: 'center',
         }}
       >
-        <Typography variant="h1">What&apos;s on your mind?</Typography>
         <Button color="primary" variant="filled" onPress={newLabelCallback}>
           Add Your First Label
         </Button>
@@ -61,7 +61,7 @@ const LabelInput = ({
   }
 
   return (
-    <PageWrapper title="Select a Label">
+    <PageWrapper title="What's on your mind?">
       <View
         style={{
           flex: 1,
@@ -75,16 +75,15 @@ const LabelInput = ({
             flex: 1,
           }}
         >
-          {labels.map(({ color, id, icon, text }, index) => (
+          {labels.map(({ color, id, icon, text, lastUsedAt }, index) => (
             <View
               key={index}
               style={{
-                width: '100%',
-                paddingBottom: SPACING.sm,
-                paddingTop: SPACING.sm,
+                marginBottom: SPACING2.SMALL,
               }}
             >
               <Label
+                lastUsedAt={lastUsedAt}
                 color={color}
                 icon={icon}
                 text={text}
@@ -101,8 +100,8 @@ const LabelInput = ({
           marginBottom: SPACING.md,
         }}
       >
-        <Button variant="primary" onPress={newLabelCallback}>
-          Add New Label
+        <Button variant="filled" color="primary" onPress={newLabelCallback}>
+          Something Different
         </Button>
       </View>
     </PageWrapper>

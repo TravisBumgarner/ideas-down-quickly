@@ -74,7 +74,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   h2: {
+    color: COLORS2.NEUTRAL[200],
     fontSize: 20,
+    fontWeight: 'bold',
+    lineHeight: 0, // TODO - ugh.
   },
 })
 

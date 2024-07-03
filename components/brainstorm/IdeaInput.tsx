@@ -3,13 +3,12 @@ import queries from '@/db/queries'
 import { IdeasTable, NewIdea, SelectLabel } from '@/db/schema'
 import Button from '@/shared/components/Button'
 import ButtonWrapper from '@/shared/components/ButtonWrapper'
-import Label from '@/shared/components/Label'
 import PageWrapper from '@/shared/components/PageWrapper'
-import { SPACING } from '@/shared/theme'
+import TextInput from '@/shared/components/TextInput'
 import * as React from 'react'
 import { SafeAreaView, View } from 'react-native'
 import 'react-native-get-random-values'
-import { ActivityIndicator, TextInput } from 'react-native-paper'
+import { ActivityIndicator } from 'react-native-paper'
 import { v4 as uuidv4 } from 'uuid'
 
 const IdeaInput = ({
@@ -59,20 +58,13 @@ const IdeaInput = ({
 
   return (
     <PageWrapper>
-      <View style={{ marginBottom: SPACING.md }}>
-        <Label
-          color={label.color}
-          icon={label.icon}
-          text={label.text}
-          readonly
-        />
-      </View>
       <View style={{ flex: 1 }}>
         <TextInput
-          label="Spill it..."
+          label="What's on your mind?"
           value={ideaText}
           onChangeText={text => setIdeaText(text)}
           multiline
+          color={'red'}
         />
       </View>
       <ButtonWrapper

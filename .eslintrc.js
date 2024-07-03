@@ -56,6 +56,7 @@ module.exports = {
     'react-native/no-raw-text': 'off',
     'react-native/split-platform-components': 'off',
     'import/no-unresolved': 'error',
+    'react/prop-types': 'off',
   },
   settings: {
     'import/parsers': {

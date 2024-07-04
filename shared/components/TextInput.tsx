@@ -27,7 +27,6 @@ const TextInput: React.FC<Props> = ({
         onChangeText={onChangeText}
         value={value}
         mode="flat"
-        selectTextOnFocus
         multiline={multiline}
         style={StyleSheet.flatten([
           styles.textInput,

@@ -10,7 +10,7 @@ import { BORDER_WIDTH, COLORS, SPACING } from '@/shared/theme'
 import { navigateWithParams } from '@/shared/utilities'
 import { router } from 'expo-router'
 import * as React from 'react'
-import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Keyboard, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import 'react-native-get-random-values'
 import { Icon } from 'react-native-paper'
@@ -25,6 +25,16 @@ const AddLabel = () => {
 
   const handleCancel = React.useCallback(() => {
     router.back()
+  }, [])
+
+  const handleColorPress = React.useCallback((color: string) => {
+    setColor(color)
+    Keyboard.dismiss()
+  }, [])
+
+  const handleIconPress = React.useCallback((icon: string) => {
+    setIcon(icon)
+    Keyboard.dismiss()
   }, [])
 
   const handleSubmit = React.useCallback(async () => {
@@ -51,6 +61,7 @@ const AddLabel = () => {
           lastUsedAt={DISPLAY_DATE}
         />
         <TextInput
+          autoFocus={true} //eslint-disable-line
           color={COLORS.NEUTRAL[700]}
           value={labelText}
           onChangeText={text => setLabelText(text)}
@@ -72,7 +83,7 @@ const AddLabel = () => {
                 width: 35,
                 height: 35,
               }}
-              onPress={() => setColor(color)}
+              onPress={() => handleColorPress(color)}
             ></TouchableOpacity>
           ))}
         </View>
@@ -98,7 +109,7 @@ const AddLabel = () => {
           >
             {ICONS.map(icon => (
               <TouchableOpacity
-                onPress={() => setIcon(icon)}
+                onPress={() => handleIconPress(icon)}
                 key={icon}
                 style={{
                   width: 35,

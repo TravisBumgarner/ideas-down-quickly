@@ -7,6 +7,7 @@ import Label from '@/shared/components/Label'
 import PageWrapper from '@/shared/components/PageWrapper'
 import TextInput from '@/shared/components/TextInput'
 import { COLORS, SPACING } from '@/shared/theme'
+import { router } from 'expo-router'
 import * as React from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -14,21 +15,14 @@ import 'react-native-get-random-values'
 import { Icon } from 'react-native-paper'
 import { v4 as uuidv4 } from 'uuid'
 
-const IdeaInput = ({
-  submitCallback,
-  cancelCallback,
-}: {
-  submitCallback: (args: { labelId: string }) => void
-  cancelCallback: () => void
-}) => {
+const AddLabel = () => {
   const [labelText, setLabelText] = React.useState('Category')
   const [color, setColor] = React.useState<string>(COLORS.NEUTRAL[700])
   const [icon, setIcon] = React.useState<string>(ICONS[0])
 
   const handleCancel = React.useCallback(() => {
-    setLabelText('')
-    cancelCallback()
-  }, [cancelCallback])
+    router.back()
+  }, [])
 
   const handleSubmit = React.useCallback(async () => {
     const newLabel: NewLabel = {
@@ -38,12 +32,11 @@ const IdeaInput = ({
       color,
       icon,
     }
-
-    const result = await db.insert(LabelsTable).values(newLabel).returning({
+    await db.insert(LabelsTable).values(newLabel).returning({
       id: LabelsTable.id,
     })
-    submitCallback({ labelId: result[0].id })
-  }, [labelText, color, icon, submitCallback])
+    router.push('/')
+  }, [labelText, color, icon])
 
   return (
     <PageWrapper>
@@ -122,8 +115,8 @@ const IdeaInput = ({
       </View>
       <ButtonWrapper
         left={
-          <Button color="warning" variant="link" onPress={() => ({})}>
-            Back
+          <Button color="warning" variant="link" onPress={handleCancel}>
+            Cancel
           </Button>
         }
         right={
@@ -142,4 +135,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default IdeaInput
+export default AddLabel

@@ -72,6 +72,8 @@ function App() {
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" options={{ headerShown: false }} />
           <Stack.Screen name="error" options={{ headerShown: false }} />
+          <Stack.Screen name="add-idea" options={{ headerShown: false }} />
+          <Stack.Screen name="add-label" options={{ headerShown: false }} />
           <Stack.Screen name="edit-idea" options={{ headerShown: false }} />
           <Stack.Screen name="edit-label" options={{ headerShown: false }} />
         </Stack>

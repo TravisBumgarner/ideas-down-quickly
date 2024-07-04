@@ -49,7 +49,12 @@ Add new devices
   2. Scan QR Code on phone and goto Settings -> General ->VPN & Device Management -> Register for Development
   3. Install
 
-1. `yarn run build:ios:internal`
+Build on Server
+1. `yarn run build:ios:internal:cloud`
+
+Build Locally
+1. `yarn run build:ios:internal:local`
+2. Open XCode -> Window -> Devices & Simulators -> Select phone -> Drag IPA onto phone. 
 
 # SQLite
 

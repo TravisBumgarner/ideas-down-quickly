@@ -14,7 +14,8 @@
     "build:ios:localdev": "eas build --profile development-simulator --platform ios",
     "build:ios:register": "eas device:create",
     "build:ios:development": "eas build --profile development --platform ios",
-    "build:ios:internal": "eas build --profile preview --platform ios"
+    "build:ios:internal:cloud": "eas build --profile preview --platform ios",
+    "build:ios:internal:local": "eas build --platform ios --local --profile preview && mkdir -p ./builds/ios && mv *.ipa ./builds/ios"
   },
   "jest": {
     "preset": "jest-expo"

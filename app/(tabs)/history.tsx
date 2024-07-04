@@ -1,5 +1,5 @@
-import { db } from '@/db/client'
-import { IdeasTable, LabelsTable, SelectIdea, SelectLabel } from '@/db/schema'
+import queries from '@/db/queries'
+import { SelectIdea, SelectLabel } from '@/db/schema'
 import Button from '@/shared/components/Button'
 import Dropdown from '@/shared/components/Dropdown'
 import Idea from '@/shared/components/Idea'
@@ -8,7 +8,6 @@ import Typography from '@/shared/components/Typography'
 import { COLORS, SPACING } from '@/shared/theme'
 import { areSameDay, formatDisplayDate } from '@/shared/utilities'
 import { useFocusEffect } from '@react-navigation/native'
-import { desc, eq } from 'drizzle-orm'
 import { router } from 'expo-router'
 import { useCallback, useMemo, useState } from 'react'
 import { SafeAreaView, ScrollView, View } from 'react-native'
@@ -28,21 +27,15 @@ const History = () => {
     setSelectedFilterLabelId('')
   }, [])
 
-  const fetchFromDB = useCallback(() => {
-    db.select()
-      .from(IdeasTable)
-      .leftJoin(LabelsTable, eq(IdeasTable.labelId, LabelsTable.id))
-      .orderBy(desc(IdeasTable.createdAt))
-      .then(setIdeasWithLabel)
+  const fetchFromDB = useCallback(async () => {
+    const ideasWithLabel = await queries.select.ideasWithLabel()
+    setIdeasWithLabel(ideasWithLabel)
 
-    db.select()
-      .from(LabelsTable)
-      .then(labels => {
-        setFilterLabelList([
-          { label: 'All', value: '' },
-          ...labels.map(label => ({ label: label.text, value: label.id })),
-        ])
-      })
+    const labels = await queries.select.labels()
+    setFilterLabelList([
+      { label: 'All', value: '' },
+      ...labels.map(label => ({ label: label.text, value: label.id })),
+    ])
   }, [])
 
   const navigateHome = useCallback(() => {

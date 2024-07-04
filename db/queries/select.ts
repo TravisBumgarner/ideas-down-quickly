@@ -1,5 +1,5 @@
 import { db } from '@/db/client'
-import { eq } from 'drizzle-orm'
+import { desc, eq } from 'drizzle-orm'
 
 import { IdeasTable, LabelsTable } from '../schema'
 
@@ -19,8 +19,17 @@ const labels = async () => {
   return await db.select().from(LabelsTable)
 }
 
+const ideasWithLabel = async () => {
+  return db
+    .select()
+    .from(IdeasTable)
+    .leftJoin(LabelsTable, eq(IdeasTable.labelId, LabelsTable.id))
+    .orderBy(desc(IdeasTable.createdAt))
+}
+
 export default {
   ideaById,
   labelById,
   labels,
+  ideasWithLabel,
 }

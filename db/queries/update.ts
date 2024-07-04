@@ -26,7 +26,7 @@ const idea = async (
 
 const label = async (
   id: string,
-  { text }: Partial<Omit<NewLabel, 'id'>>
+  { text, icon, color }: Partial<Omit<NewLabel, 'id'>>
 ): Promise<PartialWithRequiredKeys<NewLabel, 'id'>> => {
   return {
     id,
@@ -34,7 +34,9 @@ const label = async (
       .update(LabelsTable)
       .set({
         id,
-        text,
+        ...(text ? { text } : {}),
+        ...(icon ? { icon } : {}),
+        ...(color ? { color } : {}),
         updatedAt: new Date().toISOString(),
       })
       .where(eq(LabelsTable.id, id))

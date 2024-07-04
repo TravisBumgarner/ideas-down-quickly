@@ -1,5 +1,5 @@
 import queries from '@/db/queries'
-import { BORDER_RADIUS, COLORS, SPACING } from '@/shared/theme'
+import { BORDER_RADIUS, BORDER_WIDTH, COLORS, SPACING } from '@/shared/theme'
 import { useCallback, useRef } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Swipeable } from 'react-native-gesture-handler'
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.NEUTRAL[900],
     borderRadius: BORDER_RADIUS.NONE,
-    borderRightWidth: 8,
+    borderRightWidth: BORDER_WIDTH.LARGE,
     padding: SPACING.MEDIUM,
   },
   textContainer: {

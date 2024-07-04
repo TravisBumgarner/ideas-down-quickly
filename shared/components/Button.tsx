@@ -13,7 +13,9 @@ const Button = ({
   children,
   color,
   variant,
-  ...shared
+  onPress,
+  disabled,
+  icon,
 }: {
   children: React.ReactNode
   color: 'primary' | 'warning'
@@ -26,20 +28,26 @@ const Button = ({
     case 'primary':
       return (
         <ButtonRNP
-          style={{
-            ...buttonStyles.base,
-            ...(variant === 'filled'
-              ? buttonStyles.primaryFilled
-              : buttonStyles.primaryLink),
-          }}
+          style={StyleSheet.flatten([
+            {
+              ...buttonStyles.base,
+              ...(variant === 'filled'
+                ? buttonStyles.primaryFilled
+                : buttonStyles.primaryLink),
+              ...(disabled ? { backgroundColor: COLORS.NEUTRAL[700] } : {}),
+            },
+          ])}
+          onPress={onPress}
+          disabled={disabled}
+          icon={icon}
           {...SHARED}
-          {...shared}
         >
           <Text
             style={{
               ...(variant === 'filled'
                 ? textStyles.primaryFilled
                 : textStyles.primaryLink),
+              ...(disabled ? { color: COLORS.NEUTRAL[400] } : {}),
             }}
           >
             {children}
@@ -49,21 +57,29 @@ const Button = ({
     case 'warning':
       return (
         <ButtonRNP
-          style={{
-            ...buttonStyles.base,
-            ...(variant === 'filled'
-              ? buttonStyles.warningFilled
-              : buttonStyles.warningLink),
-          }}
+          style={StyleSheet.flatten([
+            {
+              ...buttonStyles.base,
+              ...(variant === 'filled'
+                ? buttonStyles.warningFilled
+                : buttonStyles.warningLink),
+              ...(disabled ? { backgroundColor: COLORS.NEUTRAL[700] } : {}),
+            },
+          ])}
           {...SHARED}
-          {...shared}
+          onPress={onPress}
+          disabled={disabled}
+          icon={icon}
         >
           <Text
-            style={{
-              ...(variant === 'filled'
-                ? textStyles.warningFilled
-                : textStyles.warningLink),
-            }}
+            style={StyleSheet.flatten([
+              {
+                ...(variant === 'filled'
+                  ? textStyles.warningFilled
+                  : textStyles.warningLink),
+                ...(disabled ? { color: COLORS.NEUTRAL[400] } : {}),
+              },
+            ])}
           >
             {children}
           </Text>

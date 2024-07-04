@@ -1,7 +1,7 @@
 import { StyleSheet, View } from 'react-native'
 import { Text, TextInput as TextInputRNP } from 'react-native-paper'
 
-import { COLORS, SPACING } from '../theme'
+import { BORDER_WIDTH, COLORS, SPACING } from '../theme'
 
 type Props = {
   label?: string
@@ -9,7 +9,6 @@ type Props = {
   onChangeText: (text: string) => void
   multiline?: boolean
   color: string
-  borderWidth?: number
 }
 
 const TextInput: React.FC<Props> = ({
@@ -18,7 +17,6 @@ const TextInput: React.FC<Props> = ({
   value,
   onChangeText,
   color,
-  borderWidth,
 }) => {
   return (
     <View style={styles.container}>
@@ -35,7 +33,7 @@ const TextInput: React.FC<Props> = ({
         ])}
         underlineStyle={{
           borderColor: color,
-          borderWidth: borderWidth || 1,
+          borderWidth: BORDER_WIDTH.XSMALL,
         }}
       />
     </View>

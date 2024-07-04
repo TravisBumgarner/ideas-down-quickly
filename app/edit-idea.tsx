@@ -96,7 +96,12 @@ const IdeaEdit = ({
           </Button>
         }
         right={
-          <Button color="primary" variant="filled" onPress={handleSubmit}>
+          <Button
+            disabled={ideaText.length === 0}
+            color="primary"
+            variant="filled"
+            onPress={handleSubmit}
+          >
             Submit
           </Button>
         }

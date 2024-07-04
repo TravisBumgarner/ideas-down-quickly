@@ -6,7 +6,7 @@ import ButtonWrapper from '@/shared/components/ButtonWrapper'
 import Label from '@/shared/components/Label'
 import PageWrapper from '@/shared/components/PageWrapper'
 import TextInput from '@/shared/components/TextInput'
-import { COLORS, SPACING } from '@/shared/theme'
+import { BORDER_WIDTH, COLORS, SPACING } from '@/shared/theme'
 import { router } from 'expo-router'
 import * as React from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
@@ -15,8 +15,10 @@ import 'react-native-get-random-values'
 import { Icon } from 'react-native-paper'
 import { v4 as uuidv4 } from 'uuid'
 
+const DISPLAY_DATE = new Date().toISOString()
+
 const AddLabel = () => {
-  const [labelText, setLabelText] = React.useState('Category')
+  const [labelText, setLabelText] = React.useState('')
   const [color, setColor] = React.useState<string>(COLORS.NEUTRAL[700])
   const [icon, setIcon] = React.useState<string>(ICONS[0])
 
@@ -47,13 +49,12 @@ const AddLabel = () => {
           icon={icon}
           text={labelText}
           readonly={true}
-          lastUsedAt={new Date().toISOString()}
+          lastUsedAt={DISPLAY_DATE}
         />
         <TextInput
           color={COLORS.NEUTRAL[700]}
           value={labelText}
           onChangeText={text => setLabelText(text)}
-          borderWidth={1}
         />
         <View
           style={{
@@ -78,11 +79,11 @@ const AddLabel = () => {
         <View
           style={{
             borderTopColor: COLORS.NEUTRAL[700],
-            borderTopWidth: 1,
+            borderTopWidth: BORDER_WIDTH.XSMALL,
             paddingTop: SPACING.SMALL,
             marginTop: SPACING.SMALL,
             borderBottomColor: COLORS.NEUTRAL[700],
-            borderBottomWidth: 1,
+            borderBottomWidth: BORDER_WIDTH.XSMALL,
             paddingBottom: SPACING.SMALL,
             marginBottom: SPACING.SMALL,
             flex: 1,
@@ -120,7 +121,12 @@ const AddLabel = () => {
           </Button>
         }
         right={
-          <Button color="primary" variant="filled" onPress={handleSubmit}>
+          <Button
+            disabled={labelText.length === 0}
+            color="primary"
+            variant="filled"
+            onPress={handleSubmit}
+          >
             Submit
           </Button>
         }

@@ -25,7 +25,7 @@ const AddIdea = () => {
     }
 
     queries.select.labelById(params.labelId).then(setLabel)
-  }, [params.labelId, params])
+  }, [params.labelId])
 
   const handleCancel = React.useCallback(() => {
     setIdeaText('')
@@ -61,7 +61,7 @@ const AddIdea = () => {
     <PageWrapper>
       <View style={{ flex: 1, justifyContent: 'center' }}>
         <TextInput
-          label="What's on your mind?"
+          label="What's on your mind??"
           value={ideaText}
           onChangeText={text => setIdeaText(text)}
           multiline
@@ -71,11 +71,16 @@ const AddIdea = () => {
       <ButtonWrapper
         left={
           <Button variant="link" color="warning" onPress={handleCancel}>
-            Cancel
+            Cancel!
           </Button>
         }
         right={
-          <Button variant="filled" color="primary" onPress={handleSubmit}>
+          <Button
+            disabled={ideaText.length === 0}
+            variant="filled"
+            color="primary"
+            onPress={handleSubmit}
+          >
             Submit
           </Button>
         }

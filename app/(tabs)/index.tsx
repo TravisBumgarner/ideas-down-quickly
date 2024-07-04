@@ -1,83 +1,115 @@
-import IdeaInput from '@/components/brainstorm/IdeaInput'
-import LabelSelect from '@/components/brainstorm/LabelSelect'
-import NewLabelInput from '@/components/brainstorm/NewLabelInput'
-import { context } from '@/shared/context'
-import { useFocusEffect } from 'expo-router'
+import { db } from '@/db/client'
+import { LabelsTable, SelectLabel } from '@/db/schema'
+import Button from '@/shared/components/Button'
+import Label from '@/shared/components/Label'
+import PageWrapper from '@/shared/components/PageWrapper'
+import Typography from '@/shared/components/Typography'
+import { SPACING } from '@/shared/theme'
+import { navigateWithParams } from '@/shared/utilities'
+import { router, useFocusEffect } from 'expo-router'
 import * as React from 'react'
+import { SafeAreaView, ScrollView, View } from 'react-native'
+import { ActivityIndicator } from 'react-native-paper'
 
-enum CurrentPage {
-  IdeaInput = 'ideaInput',
-  LabelSelect = 'labelSelect',
-  NewLabelInput = 'newLabelInput',
-}
+const LabelSelect = () => {
+  const [labels, setLabels] = React.useState<SelectLabel[] | null>(null)
 
-const Brainstorm = () => {
-  const { dispatch } = React.useContext(context)
-  const [currentPage, setCurrentPage] = React.useState(CurrentPage.LabelSelect)
-  const [selectedLabelId, setSelectedLabelId] = React.useState('')
   useFocusEffect(
     React.useCallback(() => {
-      setCurrentPage(CurrentPage.LabelSelect)
-      setSelectedLabelId('')
+      db.select().from(LabelsTable).then(setLabels)
     }, [])
   )
 
-  const labelSelectSubmitCallback = React.useCallback((labelId: string) => {
-    setSelectedLabelId(labelId)
-    setCurrentPage(CurrentPage.IdeaInput)
+  const addNewLabel = React.useCallback(() => {
+    router.push('add-label')
   }, [])
 
-  const newLabelSubmitCallback = React.useCallback(
-    ({ labelId }: { labelId: string }) => {
-      setSelectedLabelId(labelId)
-      setCurrentPage(CurrentPage.IdeaInput)
-    },
-    []
-  )
-
-  const newLabelCancelCallback = React.useCallback(() => {
-    setCurrentPage(CurrentPage.LabelSelect)
-  }, [])
-
-  const ideaInputSubmitCallback = React.useCallback(() => {
-    setCurrentPage(CurrentPage.LabelSelect)
-    // dispatch({
-    //   type: 'TOAST',
-    //   payload: { message: 'Idea added!', variant: 'success' },
-    // })
-  }, [])
-
-  const ideaInputCancelCallback = React.useCallback(() => {
-    setCurrentPage(CurrentPage.LabelSelect)
-  }, [])
-
-  switch (currentPage) {
-    case CurrentPage.LabelSelect:
-      return (
-        <LabelSelect
-          submitCallback={labelSelectSubmitCallback}
-          newLabelCallback={() => setCurrentPage(CurrentPage.NewLabelInput)}
-        />
-      )
-    case CurrentPage.NewLabelInput:
-      return (
-        <NewLabelInput
-          cancelCallback={newLabelCancelCallback}
-          submitCallback={newLabelSubmitCallback}
-        />
-      )
-    case CurrentPage.IdeaInput:
-      return (
-        <IdeaInput
-          labelId={selectedLabelId}
-          cancelCallback={ideaInputCancelCallback}
-          submitCallback={ideaInputSubmitCallback}
-        />
-      )
-
-    default:
-      return null
+  if (labels === null) {
+    return (
+      <SafeAreaView style={{ flex: 1 }}>
+        <ActivityIndicator animating size="large" />
+      </SafeAreaView>
+    )
   }
+
+  if (labels.length === 0) {
+    return (
+      <PageWrapper title="What's on your mind?">
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignContent: 'center',
+          }}
+        >
+          <Button color="primary" variant="filled" onPress={addNewLabel}>
+            Add Your First Label
+          </Button>
+          <Typography
+            variant="caption"
+            style={{ textAlign: 'center', marginTop: SPACING.MEDIUM }}
+          >
+            Ideas are grouped by label
+          </Typography>
+        </View>
+      </PageWrapper>
+    )
+  }
+
+  return (
+    <PageWrapper title="What's on your mind?">
+      <View
+        style={{
+          flex: 1,
+        }}
+      >
+        <ScrollView
+          contentContainerStyle={{
+            justifyContent: 'flex-start',
+          }}
+          style={{
+            flex: 1,
+          }}
+        >
+          {labels.map(({ color, id, icon, text, lastUsedAt }, index) => (
+            <View
+              key={index}
+              style={{
+                marginBottom: SPACING.SMALL,
+              }}
+            >
+              <Label
+                lastUsedAt={lastUsedAt}
+                color={color}
+                icon={icon}
+                text={text}
+                readonly={false}
+                id={id}
+                handlePress={() =>
+                  navigateWithParams('add-idea', { labelId: id })
+                }
+              />
+            </View>
+          ))}
+          {labels.length < 3 && (
+            <Typography style={{ textAlign: 'center' }} variant="caption">
+              Swipe right to delete or left to edit.
+            </Typography>
+          )}
+        </ScrollView>
+      </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          marginBottom: SPACING.MEDIUM,
+        }}
+      >
+        <Button variant="filled" color="primary" onPress={addNewLabel}>
+          Something Different
+        </Button>
+      </View>
+    </PageWrapper>
+  )
 }
 
-export default Brainstorm
+export default LabelSelect

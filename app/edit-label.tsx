@@ -12,13 +12,7 @@ import 'react-native-get-random-values'
 import { ActivityIndicator } from 'react-native-paper'
 import { useAsyncEffect } from 'use-async-effect'
 
-const IdeaEdit = ({
-  labelId,
-}: {
-  submitCallback: (labelText: string) => void
-  cancelCallback: () => void
-  labelId: string
-}) => {
+const IdeaEdit = () => {
   const [labelText, setLabelText] = React.useState('')
   const [label, setLabel] = React.useState<SelectLabel | null>(null)
   const params = useLocalSearchParams<URLParams['edit-label']>()
@@ -32,7 +26,7 @@ const IdeaEdit = ({
     const label = await queries.select.labelById(params.labelId)
     setLabelText(label.text)
     setLabel(label)
-  }, [labelId, params.labelId])
+  }, [params.labelId])
 
   const handleCancel = React.useCallback(() => {
     router.navigate('/')

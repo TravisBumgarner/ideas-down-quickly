@@ -5,48 +5,51 @@ import Button from '@/shared/components/Button'
 import ButtonWrapper from '@/shared/components/ButtonWrapper'
 import PageWrapper from '@/shared/components/PageWrapper'
 import TextInput from '@/shared/components/TextInput'
+import { URLParams } from '@/shared/types'
+import { router, useLocalSearchParams } from 'expo-router'
 import * as React from 'react'
 import { SafeAreaView, View } from 'react-native'
 import 'react-native-get-random-values'
 import { ActivityIndicator } from 'react-native-paper'
 import { v4 as uuidv4 } from 'uuid'
 
-const IdeaInput = ({
-  submitCallback,
-  cancelCallback,
-  labelId,
-}: {
-  submitCallback: (ideaText: string) => void
-  cancelCallback: () => void
-  labelId: string
-}) => {
+const AddIdea = () => {
   const [ideaText, setIdeaText] = React.useState('')
   const [label, setLabel] = React.useState<SelectLabel | null>(null)
+  const params = useLocalSearchParams<URLParams['add-idea']>()
 
+  console.log('params', params)
   React.useEffect(() => {
-    queries.select.labelById(labelId).then(setLabel)
-  }, [labelId])
+    console.log('params', params)
+    if (!params.labelId) {
+      router.back()
+      return
+    }
+
+    queries.select.labelById(params.labelId).then(setLabel)
+  }, [params.labelId, params])
 
   const handleCancel = React.useCallback(() => {
     setIdeaText('')
-    cancelCallback()
-  }, [cancelCallback])
+    router.back()
+  }, [])
 
   const handleSubmit = React.useCallback(async () => {
+    if (!params.labelId) {
+      return
+    }
+
     const idea: NewIdea = {
       id: uuidv4(),
       text: ideaText,
-      labelId: labelId,
+      labelId: params.labelId,
       createdAt: new Date().toISOString(),
     }
-    const result = await db
-      .insert(IdeasTable)
-      .values(idea)
-      .returning({ uuid: IdeasTable.id })
+    await db.insert(IdeasTable).values(idea).returning({ uuid: IdeasTable.id })
 
     setIdeaText('')
-    submitCallback(result[0].uuid)
-  }, [submitCallback, ideaText, labelId])
+    router.navigate('/')
+  }, [ideaText, params.labelId])
 
   if (label === null) {
     return (
@@ -64,7 +67,7 @@ const IdeaInput = ({
           value={ideaText}
           onChangeText={text => setIdeaText(text)}
           multiline
-          color={'red'}
+          color={label.color}
         />
       </View>
       <ButtonWrapper
@@ -83,4 +86,4 @@ const IdeaInput = ({
   )
 }
 
-export default IdeaInput
+export default AddIdea

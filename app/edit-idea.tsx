@@ -32,7 +32,7 @@ const IdeaEdit = ({
 
   useAsyncEffect(async () => {
     if (!params.ideaId) {
-      router.navigate('/')
+      router.back()
       return
     }
 
@@ -46,7 +46,7 @@ const IdeaEdit = ({
   }, [labelId, params.ideaId])
 
   const handleCancel = React.useCallback(() => {
-    router.navigate('/history')
+    router.back()
   }, [])
 
   const handleSubmit = React.useCallback(async () => {
@@ -58,7 +58,7 @@ const IdeaEdit = ({
       text: ideaText,
       labelId: selectedLabelId,
     })
-    router.navigate('/history')
+    router.back()
   }, [params.ideaId, ideaText, selectedLabelId])
 
   if (label === null) {

@@ -140,7 +140,7 @@ const History = () => {
           }}
         >
           <Button onPress={navigateHome} variant="filled" color="primary">
-            Get ideating on the brainstorm tab.
+            Ideation First
           </Button>
         </View>
       </PageWrapper>
@@ -162,7 +162,7 @@ const History = () => {
           {rows}
           {rows.length < 5 && (
             <Typography variant="caption" style={{ textAlign: 'center' }}>
-              Swipe right to delete or left to edit.
+              Swipe right to delete or left to edit
             </Typography>
           )}
         </ScrollView>

@@ -1,9 +1,8 @@
 import * as React from 'react'
-import { Snackbar } from 'react-native-paper'
+import { Snackbar, Text } from 'react-native-paper'
 
 import { context } from '../context'
 import { BORDER_RADIUS, COLORS, SPACING } from '../theme'
-import Typography from './Typography'
 
 const Toast = () => {
   const {
@@ -25,16 +24,23 @@ const Toast = () => {
       duration={3000}
       onDismiss={onDismissSnackBar}
       style={{
-        backgroundColor: COLORS[toast.variant].opaque,
-        borderRadius: BORDER_RADIUS.MEDIUM,
+        backgroundColor: COLORS[toast.variant][400],
+        borderRadius: BORDER_RADIUS.NONE,
         justifyContent: 'center',
         alignItems: 'center',
         margin: SPACING.MEDIUM,
+        bottom: -20,
       }}
     >
-      <Typography variant="body1" style={{ textAlign: 'center' }}>
+      <Text
+        style={{
+          textAlign: 'center',
+          color: COLORS.NEUTRAL[100],
+          fontWeight: 'bold',
+        }}
+      >
         {toast?.message}
-      </Typography>
+      </Text>
     </Snackbar>
   )
 }

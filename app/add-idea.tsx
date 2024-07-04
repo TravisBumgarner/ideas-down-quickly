@@ -5,6 +5,7 @@ import Button from '@/shared/components/Button'
 import ButtonWrapper from '@/shared/components/ButtonWrapper'
 import PageWrapper from '@/shared/components/PageWrapper'
 import TextInput from '@/shared/components/TextInput'
+import { context } from '@/shared/context'
 import { URLParams } from '@/shared/types'
 import { router, useLocalSearchParams } from 'expo-router'
 import * as React from 'react'
@@ -14,22 +15,27 @@ import { ActivityIndicator } from 'react-native-paper'
 import { v4 as uuidv4 } from 'uuid'
 
 const AddIdea = () => {
+  const { dispatch } = React.useContext(context)
   const [ideaText, setIdeaText] = React.useState('')
   const [label, setLabel] = React.useState<SelectLabel | null>(null)
   const params = useLocalSearchParams<URLParams['add-idea']>()
 
   React.useEffect(() => {
     if (!params.labelId) {
-      router.back()
+      dispatch({
+        type: 'TOAST',
+        payload: { message: 'Something went wrong', variant: 'ERROR' },
+      })
+      router.navigate('/')
       return
     }
 
     queries.select.labelById(params.labelId).then(setLabel)
-  }, [params.labelId])
+  }, [params.labelId, dispatch])
 
   const handleCancel = React.useCallback(() => {
     setIdeaText('')
-    router.back()
+    router.navigate('/')
   }, [])
 
   const handleSubmit = React.useCallback(async () => {
@@ -61,7 +67,7 @@ const AddIdea = () => {
     <PageWrapper>
       <View style={{ flex: 1, justifyContent: 'center' }}>
         <TextInput
-          label="What's on your mind?"
+          label="Ideating..."
           value={ideaText}
           onChangeText={text => setIdeaText(text)}
           multiline
@@ -81,7 +87,7 @@ const AddIdea = () => {
             color="primary"
             onPress={handleSubmit}
           >
-            Submit
+            Save
           </Button>
         }
       />

@@ -21,7 +21,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Brainstorm',
+          title: 'Ideate',
           tabBarIcon: ({ focused }) => (
             <TabBarIcon
               isFocused={focused}
@@ -33,7 +33,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="history"
         options={{
-          title: 'History',
+          title: 'Reflect',
           tabBarIcon: ({ focused }) => (
             <TabBarIcon
               isFocused={focused}

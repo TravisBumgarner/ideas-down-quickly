@@ -20,7 +20,7 @@ const labels = async () => {
   return await db.select().from(LabelsTable)
 }
 
-const ideasGroupedByLabel = async () => {
+const ideasGroupedByLabel = async (filterToLabelIds?: string[]) => {
   const result = await db
     .select()
     .from(IdeasTable)
@@ -30,6 +30,10 @@ const ideasGroupedByLabel = async () => {
   const output: IdeasByDateAndLabel = {}
 
   result.forEach(({ idea, label }) => {
+    if (filterToLabelIds && !filterToLabelIds.includes(label.id)) {
+      return
+    }
+
     const dateKey = idea.createdAt.split('T')[0]
     if (output[dateKey] === undefined) {
       output[dateKey] = {}

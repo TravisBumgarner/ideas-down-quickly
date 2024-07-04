@@ -7,11 +7,17 @@ export type URLParams = {
   'edit-label': { labelId: string }
 }
 
+export type Idea = {
+  id: string
+  text: string
+  createdAt: string
+}
+
 export type IdeasByLabel = {
   color: string
   icon: string
   labelText: string
-  ideas: { id: string; text: string; createdAt: string }[]
+  ideas: Idea[]
   labelId: string
 }
 

@@ -1,7 +1,7 @@
 import queries from '@/db/queries'
 import Button from '@/shared/components/Button'
 import Dropdown from '@/shared/components/Dropdown'
-import Idea from '@/shared/components/Idea'
+import IdeasByLabel from '@/shared/components/IdeasByLabel'
 import PageWrapper from '@/shared/components/PageWrapper'
 import Typography from '@/shared/components/Typography'
 import { COLORS, SPACING } from '@/shared/theme'
@@ -64,7 +64,9 @@ const History = () => {
       const ideasByLabel = ideasByDateAndLabel[date]
 
       Object.values(ideasByLabel).forEach(item =>
-        output.push(<Idea ideasByLabel={item} onDeleteCallback={fetchFromDB} />)
+        output.push(
+          <IdeasByLabel ideasByLabel={item} onDeleteCallback={fetchFromDB} />
+        )
       )
     })
 
@@ -102,15 +104,7 @@ const History = () => {
   return (
     <PageWrapper>
       {rows.length > 0 ? (
-        <ScrollView
-          contentContainerStyle={{
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-          style={{
-            flex: 1,
-          }}
-        >
+        <ScrollView>
           {rows}
           {rows.length < 5 && (
             <Typography variant="caption" style={{ textAlign: 'center' }}>

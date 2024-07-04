@@ -26,7 +26,6 @@ const History = () => {
   }, [])
 
   const fetchFromDB = useCallback(async () => {
-    console.log(await queries.select.ideasGroupedByLabel())
     const result = await queries.select.ideasGroupedByLabel()
     setIdeasByDateAndLabel(result)
 

@@ -6,3 +6,21 @@ export type URLParams = {
   'edit-idea': { ideaId: string }
   'edit-label': { labelId: string }
 }
+
+export type Idea = {
+  id: string
+  text: string
+  createdAt: string
+}
+
+export type IdeasByLabel = {
+  color: string
+  icon: string
+  labelText: string
+  ideas: Idea[]
+  labelId: string
+}
+
+export type IdeasByDateAndLabel = {
+  [date: string]: { [labelId: string]: IdeasByLabel }
+}

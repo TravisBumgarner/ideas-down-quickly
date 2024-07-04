@@ -5,62 +5,50 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Swipeable } from 'react-native-gesture-handler'
 import { Icon } from 'react-native-paper'
 
+import { Idea as IdeaType } from '../types'
 import { navigateWithParams } from '../utilities'
 import Typography from './Typography'
 
-type Props = {
+const Idea = ({
+  idea,
+  color,
+  onDeleteCallback,
+}: {
+  idea: IdeaType
   color: string
-  icon: string
-  text: string
-  id: string
-  label: string
   onDeleteCallback: () => void
-}
-
-const Idea = ({ color, icon, text, id, label, onDeleteCallback }: Props) => {
+}) => {
   const swipeableRef = useRef<Swipeable>(null)
 
   const handleDelete = useCallback(async () => {
-    await queries.delete.idea(id)
+    await queries.delete.idea(idea.id)
     onDeleteCallback()
-  }, [id, onDeleteCallback])
+  }, [idea.id, onDeleteCallback])
 
   const handleEdit = useCallback(() => {
-    navigateWithParams('edit-idea', { ideaId: id })
+    navigateWithParams('edit-idea', { ideaId: idea.id })
     swipeableRef.current?.close()
-  }, [id])
+  }, [idea.id])
 
   const renderLeftActions = useCallback(
     () => (
       <TouchableOpacity
         onPress={handleDelete}
-        style={{
-          backgroundColor: COLORS.NEUTRAL[900],
-          justifyContent: 'center',
-          alignItems: 'center',
-          padding: SPACING.MEDIUM,
-          borderRadius: BORDER_RADIUS.NONE,
-          marginRight: SPACING.MEDIUM,
-        }}
+        style={StyleSheet.flatten([styles.swipeableBase, styles.swipeableLeft])}
       >
         <Icon source="delete" size={24} color={COLORS.WARNING[300]} />
       </TouchableOpacity>
     ),
     [handleDelete]
   )
-
   const renderRightActions = useCallback(
     () => (
       <TouchableOpacity
         onPress={handleEdit}
-        style={{
-          backgroundColor: COLORS.NEUTRAL[900],
-          justifyContent: 'center',
-          alignItems: 'center',
-          padding: SPACING.MEDIUM,
-          borderRadius: BORDER_RADIUS.NONE,
-          marginLeft: SPACING.MEDIUM,
-        }}
+        style={StyleSheet.flatten([
+          styles.swipeableBase,
+          styles.swipeableRight,
+        ])}
       >
         <Icon source="pencil" size={24} color={COLORS.PRIMARY[300]} />
       </TouchableOpacity>
@@ -70,49 +58,52 @@ const Idea = ({ color, icon, text, id, label, onDeleteCallback }: Props) => {
 
   return (
     <Swipeable
-      ref={swipeableRef}
       renderLeftActions={renderLeftActions}
       renderRightActions={renderRightActions}
+      ref={swipeableRef}
+      containerStyle={{ width: '100%' }}
     >
-      <View
-        style={StyleSheet.flatten([
-          styles.container,
-          {
-            borderRightColor: color,
-          },
-        ])}
-      >
+      <View style={styles.separator}>
         <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            width: '100%',
-          }}
+          style={StyleSheet.flatten([
+            styles.textContainer,
+            { borderRightColor: color },
+          ])}
         >
-          <Icon source={icon} size={24} color={color} />
-          <View style={styles.textContainer}>
-            <Typography variant="h2">{label}</Typography>
-          </View>
+          <Typography variant="body1">{idea.text}</Typography>
         </View>
-        <Typography variant="body1" style={{ marginTop: SPACING.SMALL }}>
-          {text}
-        </Typography>
       </View>
     </Swipeable>
   )
 }
 
+const SHARED_SPACING = BORDER_WIDTH.ML
+
 const styles = StyleSheet.create({
-  container: {
+  separator: {
+    borderTopColor: COLORS.NEUTRAL[800],
+    borderTopWidth: SHARED_SPACING,
+  },
+  swipeableBase: {
+    alignItems: 'center',
     backgroundColor: COLORS.NEUTRAL[900],
     borderRadius: BORDER_RADIUS.NONE,
-    borderRightWidth: BORDER_WIDTH.LARGE,
-    padding: SPACING.MEDIUM,
+    borderTopColor: COLORS.NEUTRAL[800],
+    borderTopWidth: SHARED_SPACING,
+    justifyContent: 'center',
+    padding: SPACING.XXSMALL,
+  },
+  swipeableLeft: {
+    marginRight: SHARED_SPACING,
+  },
+  swipeableRight: {
+    marginLeft: SHARED_SPACING,
   },
   textContainer: {
-    flexDirection: 'column',
-    marginLeft: SPACING.MEDIUM,
+    backgroundColor: COLORS.NEUTRAL[900],
+    borderRightWidth: BORDER_WIDTH.LARGE,
+    paddingHorizontal: SPACING.MEDIUM,
+    paddingVertical: SPACING.SMALL,
   },
 })
-
 export default Idea

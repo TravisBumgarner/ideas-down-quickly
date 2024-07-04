@@ -57,7 +57,7 @@ const LabelSelect = () => {
   }
 
   return (
-    <PageWrapper title="Continue Ideating">
+    <PageWrapper>
       <View
         style={{
           flex: 1,

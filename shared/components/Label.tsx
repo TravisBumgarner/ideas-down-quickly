@@ -43,15 +43,10 @@ const Label = ({
     () => (
       <TouchableOpacity
         onPress={handleEdit}
-        style={{
-          backgroundColor: COLORS.NEUTRAL[900],
-          justifyContent: 'center',
-          alignItems: 'center',
-          padding: SPACING.MEDIUM,
-          borderRadius: BORDER_RADIUS.NONE,
-          marginLeft: SPACING.MEDIUM,
-          flexGrow: 1,
-        }}
+        style={StyleSheet.flatten([
+          styles.swipeableBase,
+          styles.swipeableRight,
+        ])}
       >
         <Icon source="pencil" size={24} color={COLORS.PRIMARY[300]} />
       </TouchableOpacity>
@@ -101,6 +96,17 @@ const styles = StyleSheet.create({
   dateText: {
     color: COLORS.NEUTRAL[200],
     fontSize: 13,
+  },
+  swipeableBase: {
+    alignItems: 'center',
+    backgroundColor: COLORS.NEUTRAL[900],
+    borderRadius: BORDER_RADIUS.NONE,
+    flexGrow: 1,
+    justifyContent: 'center',
+    padding: SPACING.MEDIUM,
+  },
+  swipeableRight: {
+    marginLeft: SPACING.MEDIUM,
   },
   textContainer: {
     flexDirection: 'column',

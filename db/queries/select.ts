@@ -1,4 +1,5 @@
 import { db } from '@/db/client'
+import { IdeasByDateAndLabel } from '@/shared/types'
 import { desc, eq } from 'drizzle-orm'
 
 import { IdeasTable, LabelsTable } from '../schema'
@@ -19,17 +20,44 @@ const labels = async () => {
   return await db.select().from(LabelsTable)
 }
 
-const ideasWithLabel = async () => {
-  return db
+const ideasGroupedByLabel = async () => {
+  const result = await db
     .select()
     .from(IdeasTable)
-    .leftJoin(LabelsTable, eq(IdeasTable.labelId, LabelsTable.id))
+    .innerJoin(LabelsTable, eq(IdeasTable.labelId, LabelsTable.id))
     .orderBy(desc(IdeasTable.createdAt))
+
+  const output: IdeasByDateAndLabel = {}
+
+  result.forEach(({ idea, label }) => {
+    const dateKey = idea.createdAt.split('T')[0]
+    if (output[dateKey] === undefined) {
+      output[dateKey] = {}
+    }
+
+    if (output[dateKey][label.id] === undefined) {
+      output[dateKey][label.id] = {
+        color: label.color,
+        icon: label.icon,
+        ideas: [],
+        labelText: label.text,
+        labelId: label.id,
+      }
+    }
+
+    output[dateKey][label.id].ideas.push({
+      id: idea.id,
+      text: idea.text,
+      createdAt: idea.createdAt,
+    })
+  })
+
+  return output
 }
 
 export default {
   ideaById,
   labelById,
   labels,
-  ideasWithLabel,
+  ideasGroupedByLabel,
 }

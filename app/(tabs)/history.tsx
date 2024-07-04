@@ -1,12 +1,11 @@
 import queries from '@/db/queries'
-import { SelectIdea, SelectLabel } from '@/db/schema'
 import Button from '@/shared/components/Button'
 import Dropdown from '@/shared/components/Dropdown'
 import Idea from '@/shared/components/Idea'
 import PageWrapper from '@/shared/components/PageWrapper'
 import Typography from '@/shared/components/Typography'
 import { COLORS, SPACING } from '@/shared/theme'
-import { areSameDay, formatDisplayDate } from '@/shared/utilities'
+import { IdeasByDateAndLabel } from '@/shared/types'
 import { useFocusEffect } from '@react-navigation/native'
 import { router } from 'expo-router'
 import { useCallback, useMemo, useState } from 'react'
@@ -14,9 +13,8 @@ import { SafeAreaView, ScrollView, View } from 'react-native'
 import { ActivityIndicator } from 'react-native-paper'
 
 const History = () => {
-  const [ideasWithLabel, setIdeasWithLabel] = useState<
-    { idea: SelectIdea | null; label: SelectLabel | null }[] | null
-  >(null)
+  const [ideasByDateAndLabel, setIdeasByDateAndLabel] =
+    useState<IdeasByDateAndLabel | null>(null)
 
   const [selectedFilterLabelId, setSelectedFilterLabelId] = useState('')
   const [filterLabelList, setFilterLabelList] = useState<
@@ -28,8 +26,9 @@ const History = () => {
   }, [])
 
   const fetchFromDB = useCallback(async () => {
-    const ideasWithLabel = await queries.select.ideasWithLabel()
-    setIdeasWithLabel(ideasWithLabel)
+    console.log(await queries.select.ideasGroupedByLabel())
+    const result = await queries.select.ideasGroupedByLabel()
+    setIdeasByDateAndLabel(result)
 
     const labels = await queries.select.labels()
     setFilterLabelList([
@@ -49,70 +48,30 @@ const History = () => {
   )
 
   const rows = useMemo(() => {
-    if (ideasWithLabel === null) {
+    if (ideasByDateAndLabel === null) {
       return []
     }
 
     const output: JSX.Element[] = []
-    let currentDate: Date | null = null
 
-    ideasWithLabel.forEach(item => {
-      if (
-        item.idea?.labelId !== selectedFilterLabelId &&
-        selectedFilterLabelId !== ''
-      ) {
-        return
-      }
+    Object.keys(ideasByDateAndLabel).forEach(date => {
+      output.push(
+        <Typography variant="h1" style={{ width: '100%' }} key={date}>
+          {date}
+        </Typography>
+      )
 
-      if (item.label === null || item.idea === null) {
-        output.push(
-          <Typography variant="body1" key={item.label?.id || item.idea?.id}>
-            Something went wrong
-          </Typography>
-        )
-      } else {
-        const parsedCreatedAt = new Date(item.idea.createdAt)
-        if (!areSameDay(currentDate, parsedCreatedAt)) {
-          // There might be a better way to attach dates but for now this works.
-          output.push(
-            <Typography
-              variant="h1"
-              style={{ width: '100%' }}
-              key={item.idea.createdAt}
-            >
-              {formatDisplayDate(parsedCreatedAt)}
-            </Typography>
-          )
-          currentDate = parsedCreatedAt
-        }
+      const ideasByLabel = ideasByDateAndLabel[date]
 
-        output.push(
-          <View
-            key={item.idea.id}
-            style={{
-              borderRadius: SPACING.MEDIUM,
-              width: '100%',
-              marginBottom: SPACING.MEDIUM,
-              flex: 1,
-            }}
-          >
-            <Idea
-              color={item.label.color}
-              icon={item.label.icon}
-              text={item.idea.text}
-              id={item.idea.id}
-              label={item.label.text}
-              onDeleteCallback={fetchFromDB}
-            />
-          </View>
-        )
-      }
+      Object.values(ideasByLabel).forEach(item =>
+        output.push(<Idea ideasByLabel={item} onDeleteCallback={fetchFromDB} />)
+      )
     })
 
     return output
-  }, [ideasWithLabel, fetchFromDB, selectedFilterLabelId])
+  }, [ideasByDateAndLabel, fetchFromDB])
 
-  if (ideasWithLabel === null) {
+  if (ideasByDateAndLabel === null) {
     return (
       <SafeAreaView style={{ backgroundColor: COLORS.NEUTRAL[700], flex: 1 }}>
         <ActivityIndicator animating size="large" />
@@ -120,7 +79,7 @@ const History = () => {
     )
   }
 
-  if (ideasWithLabel.length === 0) {
+  if (Object.keys(ideasByDateAndLabel).length === 0) {
     return (
       <PageWrapper>
         <View

@@ -4,7 +4,7 @@ import Dropdown from '@/shared/components/Dropdown'
 import Idea from '@/shared/components/Idea'
 import PageWrapper from '@/shared/components/PageWrapper'
 import Typography from '@/shared/components/Typography'
-import { SPACING } from '@/shared/theme'
+import { COLORS, SPACING } from '@/shared/theme'
 import { areSameDay, formatDisplayDate } from '@/shared/utilities'
 import { useFocusEffect } from '@react-navigation/native'
 import { desc, eq } from 'drizzle-orm'
@@ -75,8 +75,8 @@ const History = () => {
           // There might be a better way to attach dates but for now this works.
           output.push(
             <Typography
-              variant="h2"
-              style={{ flex: 1 }}
+              variant="h1"
+              style={{ width: '100%' }}
               key={item.idea.createdAt}
             >
               {formatDisplayDate(parsedCreatedAt)}
@@ -89,9 +89,9 @@ const History = () => {
           <View
             key={item.idea.id}
             style={{
-              borderRadius: SPACING.md,
+              borderRadius: SPACING.MEDIUM,
               width: '100%',
-              marginBottom: SPACING.md,
+              marginBottom: SPACING.MEDIUM,
               flex: 1,
             }}
           >
@@ -99,7 +99,6 @@ const History = () => {
               color={item.label.color}
               icon={item.label.icon}
               text={item.idea.text}
-              label={item.label.text}
               id={item.idea.id}
               onDeleteCallback={fetchFromDB}
             />
@@ -113,9 +112,7 @@ const History = () => {
 
   if (ideasWithLabel === null) {
     return (
-      <SafeAreaView
-        style={{ backgroundColor: theme.colors.background, flex: 1 }}
-      >
+      <SafeAreaView style={{ backgroundColor: COLORS.NEUTRAL[700], flex: 1 }}>
         <ActivityIndicator animating size="large" />
       </SafeAreaView>
     )
@@ -127,13 +124,13 @@ const History = () => {
         style={{
           justifyContent: 'center',
           alignContent: 'center',
-          paddingTop: SPACING.md,
-          paddingBottom: SPACING.md,
+          paddingTop: SPACING.MEDIUM,
+          paddingBottom: SPACING.MEDIUM,
         }}
       >
         <Link href="/">
-          <Typography variant="body1" style={{ textAlign: 'center' }}>
-            Go to Brainstorm Tab to create your first Idea.
+          <Typography variant="caption" style={{ textAlign: 'center' }}>
+            Get ideating on the brainstorm tab.
           </Typography>
         </Link>
       </PageWrapper>
@@ -141,15 +138,7 @@ const History = () => {
   }
 
   return (
-    <PageWrapper title="History">
-      <Dropdown
-        value={selectedFilterLabelId}
-        setValue={setSelectedFilterLabelId}
-        list={filterLabelList}
-        isVisible={isFilterMenuVisible}
-        setIsVisible={setIsFilterMenuVisible}
-        label="Filter by Label"
-      ></Dropdown>
+    <PageWrapper>
       <ScrollView
         contentContainerStyle={{
           alignItems: 'center',
@@ -162,11 +151,21 @@ const History = () => {
         {rows}
         {!rows ||
           (rows.length < 5 && (
-            <Typography variant="body1" style={{ textAlign: 'center' }}>
-              Swipe right on Idea to delete or left to edit.
+            <Typography variant="caption" style={{ textAlign: 'center' }}>
+              Swipe right to delete or left to edit.
             </Typography>
           ))}
       </ScrollView>
+      <View style={{ marginVertical: SPACING.MEDIUM }}>
+        <Dropdown
+          value={selectedFilterLabelId}
+          setValue={setSelectedFilterLabelId}
+          list={filterLabelList}
+          isVisible={isFilterMenuVisible}
+          setIsVisible={setIsFilterMenuVisible}
+          label="Filter by Label"
+        />
+      </View>
     </PageWrapper>
   )
 }

@@ -5,6 +5,7 @@ import Label from '@/shared/components/Label'
 import PageWrapper from '@/shared/components/PageWrapper'
 import Typography from '@/shared/components/Typography'
 import { SPACING } from '@/shared/theme'
+import { useFocusEffect } from 'expo-router'
 import * as React from 'react'
 import { SafeAreaView, ScrollView, View } from 'react-native'
 import { ActivityIndicator } from 'react-native-paper'
@@ -18,9 +19,11 @@ const LabelInput = ({
 }) => {
   const [labels, setLabels] = React.useState<SelectLabel[] | null>(null)
 
-  React.useEffect(() => {
-    db.select().from(LabelsTable).then(setLabels)
-  }, [])
+  useFocusEffect(
+    React.useCallback(() => {
+      db.select().from(LabelsTable).then(setLabels)
+    }, [])
+  )
 
   const handleSubmit = React.useCallback(
     (button: string) => {
@@ -39,28 +42,30 @@ const LabelInput = ({
 
   if (labels.length === 0) {
     return (
-      <PageWrapper
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignContent: 'center',
-        }}
-      >
-        <Button variant="primary" onPress={newLabelCallback}>
-          Add Your First Label
-        </Button>
-        <Typography
-          variant="body1"
-          style={{ textAlign: 'center', marginTop: SPACING.md }}
+      <PageWrapper title="What's on your mind?">
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignContent: 'center',
+          }}
         >
-          Labels are used to group ideas.
-        </Typography>
+          <Button color="primary" variant="filled" onPress={newLabelCallback}>
+            Add Your First Label
+          </Button>
+          <Typography
+            variant="caption"
+            style={{ textAlign: 'center', marginTop: SPACING.MEDIUM }}
+          >
+            Ideas are grouped by label
+          </Typography>
+        </View>
       </PageWrapper>
     )
   }
 
   return (
-    <PageWrapper title="Select a Label">
+    <PageWrapper title="What's on your mind?">
       <View
         style={{
           flex: 1,
@@ -74,34 +79,39 @@ const LabelInput = ({
             flex: 1,
           }}
         >
-          {labels.map(({ color, id, icon, text }, index) => (
+          {labels.map(({ color, id, icon, text, lastUsedAt }, index) => (
             <View
               key={index}
               style={{
-                width: '100%',
-                paddingBottom: SPACING.sm,
-                paddingTop: SPACING.sm,
+                marginBottom: SPACING.SMALL,
               }}
             >
               <Label
+                lastUsedAt={lastUsedAt}
                 color={color}
                 icon={icon}
                 text={text}
                 readonly={false}
+                id={id}
                 handlePress={() => handleSubmit(id)}
               />
             </View>
           ))}
+          {labels.length < 3 && (
+            <Typography style={{ textAlign: 'center' }} variant="caption">
+              Swipe right to delete or left to edit.
+            </Typography>
+          )}
         </ScrollView>
       </View>
       <View
         style={{
           flexDirection: 'row',
-          marginBottom: SPACING.md,
+          marginBottom: SPACING.MEDIUM,
         }}
       >
-        <Button variant="primary" onPress={newLabelCallback}>
-          Add New Label
+        <Button variant="filled" color="primary" onPress={newLabelCallback}>
+          Something Different
         </Button>
       </View>
     </PageWrapper>

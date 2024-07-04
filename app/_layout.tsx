@@ -6,6 +6,7 @@ import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator'
 import { useFonts } from 'expo-font'
 import { Stack, router } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
+import { StatusBar } from 'expo-status-bar'
 import { useContext, useEffect, useState } from 'react'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { MD3DarkTheme, MD3LightTheme, PaperProvider } from 'react-native-paper'
@@ -72,6 +73,7 @@ function App() {
           <Stack.Screen name="+not-found" options={{ headerShown: false }} />
           <Stack.Screen name="error" options={{ headerShown: false }} />
           <Stack.Screen name="edit-idea" options={{ headerShown: false }} />
+          <Stack.Screen name="edit-label" options={{ headerShown: false }} />
         </Stack>
       </GestureHandlerRootView>
     </PaperProvider>
@@ -81,6 +83,7 @@ function App() {
 const AppWrapper = () => {
   return (
     <Context>
+      <StatusBar style="auto" />
       <App />
       <Toast />
     </Context>

@@ -2,7 +2,7 @@
 const { getDefaultConfig } = require('expo/metro-config'); //eslint-disable-line
 
 /** @type {import('expo/metro-config').MetroConfig} */
-const config = getDefaultConfig(__dirname);
-config.resolver.sourceExts.push('sql'); // <--- add this
+const config = getDefaultConfig(__dirname)
+config.resolver.sourceExts.push('sql')
 
-module.exports = config;
+module.exports = config

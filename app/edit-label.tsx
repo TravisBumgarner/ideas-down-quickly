@@ -1,52 +1,53 @@
-import { db } from '@/db/client'
 import queries from '@/db/queries'
-import { IdeasTable, NewIdea, SelectLabel } from '@/db/schema'
+import { SelectLabel } from '@/db/schema'
 import Button from '@/shared/components/Button'
 import ButtonWrapper from '@/shared/components/ButtonWrapper'
 import PageWrapper from '@/shared/components/PageWrapper'
 import TextInput from '@/shared/components/TextInput'
+import { URLParams } from '@/shared/types'
+import { router, useLocalSearchParams } from 'expo-router'
 import * as React from 'react'
 import { SafeAreaView, View } from 'react-native'
 import 'react-native-get-random-values'
 import { ActivityIndicator } from 'react-native-paper'
-import { v4 as uuidv4 } from 'uuid'
+import { useAsyncEffect } from 'use-async-effect'
 
-const IdeaInput = ({
-  submitCallback,
-  cancelCallback,
+const IdeaEdit = ({
   labelId,
 }: {
-  submitCallback: (ideaText: string) => void
+  submitCallback: (labelText: string) => void
   cancelCallback: () => void
   labelId: string
 }) => {
-  const [ideaText, setIdeaText] = React.useState('')
+  const [labelText, setLabelText] = React.useState('')
   const [label, setLabel] = React.useState<SelectLabel | null>(null)
+  const params = useLocalSearchParams<URLParams['edit-label']>()
 
-  React.useEffect(() => {
-    queries.select.labelById(labelId).then(setLabel)
-  }, [labelId])
+  useAsyncEffect(async () => {
+    if (!params.labelId) {
+      router.navigate('/')
+      return
+    }
+
+    const label = await queries.select.labelById(params.labelId)
+    setLabelText(label.text)
+    setLabel(label)
+  }, [labelId, params.labelId])
 
   const handleCancel = React.useCallback(() => {
-    setIdeaText('')
-    cancelCallback()
-  }, [cancelCallback])
+    router.navigate('/')
+  }, [])
 
   const handleSubmit = React.useCallback(async () => {
-    const idea: NewIdea = {
-      id: uuidv4(),
-      text: ideaText,
-      labelId: labelId,
-      createdAt: new Date().toISOString(),
+    if (!params.labelId) {
+      return
     }
-    const result = await db
-      .insert(IdeasTable)
-      .values(idea)
-      .returning({ uuid: IdeasTable.id })
 
-    setIdeaText('')
-    submitCallback(result[0].uuid)
-  }, [submitCallback, ideaText, labelId])
+    await queries.update.label(params.labelId, {
+      text: labelText,
+    })
+    router.navigate('/')
+  }, [params.labelId, labelText])
 
   if (label === null) {
     return (
@@ -60,21 +61,22 @@ const IdeaInput = ({
     <PageWrapper>
       <View style={{ flex: 1, justifyContent: 'center' }}>
         <TextInput
-          label="What's on your mind?"
-          value={ideaText}
-          onChangeText={text => setIdeaText(text)}
+          label=""
+          value={labelText}
+          onChangeText={text => setLabelText(text)}
           multiline
-          color={'red'}
+          color={label.color}
         />
       </View>
+
       <ButtonWrapper
         left={
-          <Button variant="link" color="warning" onPress={handleCancel}>
+          <Button color="warning" variant="link" onPress={handleCancel}>
             Cancel
           </Button>
         }
         right={
-          <Button variant="filled" color="primary" onPress={handleSubmit}>
+          <Button color="primary" variant="filled" onPress={handleSubmit}>
             Submit
           </Button>
         }
@@ -83,4 +85,4 @@ const IdeaInput = ({
   )
 }
 
-export default IdeaInput
+export default IdeaEdit

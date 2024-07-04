@@ -32,9 +32,9 @@ const PageWrapper: React.FC<{
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: COLORS.dark.opaque,
+    backgroundColor: COLORS.NEUTRAL[800],
     flex: 1,
-    padding: SPACING.md,
+    paddingHorizontal: SPACING.MEDIUM,
   },
 })
 

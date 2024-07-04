@@ -6,9 +6,14 @@ import { SPACING } from '../theme'
 type ButtonWrapperProps = {
   left?: React.ReactElement
   right?: React.ReactElement
+  full?: React.ReactElement
 }
 
-const ButtonWrapper: React.FC<ButtonWrapperProps> = ({ left, right }) => {
+const ButtonWrapper: React.FC<ButtonWrapperProps> = ({ left, right, full }) => {
+  if (full) {
+    return <View style={styles.full}>{full}</View>
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.buttonLeft}>{left}</View>
@@ -20,17 +25,20 @@ const ButtonWrapper: React.FC<ButtonWrapperProps> = ({ left, right }) => {
 const styles = StyleSheet.create({
   buttonLeft: {
     flex: 1,
-    marginRight: SPACING.sm,
+    marginRight: SPACING.SMALL,
   },
   buttonRight: {
     flex: 1,
-    marginLeft: SPACING.sm,
+    marginLeft: SPACING.SMALL,
   },
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: SPACING.md,
-    marginTop: SPACING.md,
+    marginBottom: SPACING.MEDIUM,
+    marginTop: SPACING.MEDIUM,
+  },
+  full: {
+    margin: SPACING.MEDIUM,
   },
 })
 

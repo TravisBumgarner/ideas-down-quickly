@@ -5,6 +5,7 @@ import Label from '@/shared/components/Label'
 import PageWrapper from '@/shared/components/PageWrapper'
 import Typography from '@/shared/components/Typography'
 import { SPACING, SPACING2 } from '@/shared/theme'
+import { useFocusEffect } from 'expo-router'
 import * as React from 'react'
 import { SafeAreaView, ScrollView, View } from 'react-native'
 import { ActivityIndicator } from 'react-native-paper'
@@ -18,9 +19,11 @@ const LabelInput = ({
 }) => {
   const [labels, setLabels] = React.useState<SelectLabel[] | null>(null)
 
-  React.useEffect(() => {
-    db.select().from(LabelsTable).then(setLabels)
-  }, [])
+  useFocusEffect(
+    React.useCallback(() => {
+      db.select().from(LabelsTable).then(setLabels)
+    }, [])
+  )
 
   const handleSubmit = React.useCallback(
     (button: string) => {

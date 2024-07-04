@@ -56,4 +56,4 @@ Add new devices
 cd /Users/travisbumgarner/Library/Developer/CoreSimulator/Devices
 find . -name brainstorm.db
 open [pathname]
-Should open in SQLite Browser
+Should open in SQLite Browser/

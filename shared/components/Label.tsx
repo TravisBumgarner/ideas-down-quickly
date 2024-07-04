@@ -9,12 +9,12 @@ import Typography from './Typography'
 
 type ReadonlyCondition =
   | {
-      readonly: false
-      handlePress: () => void
-    }
+    readonly: false
+    handlePress: () => void
+  }
   | {
-      readonly: true
-    }
+    readonly: true
+  }
 
 type Props = {
   color: string
@@ -39,8 +39,8 @@ const Label = ({
   }, [])
 
   const handleEdit = useCallback(() => {
-    navigateWithParams('edit-label', { labelId: id })
     swipeableRef.current?.close()
+    navigateWithParams('edit-label', { labelId: id })
   }, [id])
 
   const renderLeftActions = useCallback(
@@ -117,13 +117,12 @@ const Label = ({
 
 const styles = StyleSheet.create({
   container: {
-    alignContent: 'center',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     backgroundColor: COLORS.NEUTRAL[900],
     borderRadius: BORDER_RADIUS.NONE,
     borderRightWidth: BORDER_WIDTH.LARGE,
     flexDirection: 'row',
-    paddingHorizontal: SPACING.LARGE,
+    paddingHorizontal: SPACING.MEDIUM,
     paddingVertical: SPACING.SMALL,
     width: '100%',
   },
@@ -133,6 +132,7 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     flexDirection: 'column',
+    marginLeft: SPACING.MEDIUM,
   },
 })
 

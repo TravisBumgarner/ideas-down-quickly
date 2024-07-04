@@ -25,7 +25,7 @@ const AddIdea = () => {
     }
 
     queries.select.labelById(params.labelId).then(setLabel)
-  }, [params.labelId, params])
+  }, [params.labelId])
 
   const handleCancel = React.useCallback(() => {
     setIdeaText('')
@@ -75,7 +75,12 @@ const AddIdea = () => {
           </Button>
         }
         right={
-          <Button variant="filled" color="primary" onPress={handleSubmit}>
+          <Button
+            disabled={ideaText.length === 0}
+            variant="filled"
+            color="primary"
+            onPress={handleSubmit}
+          >
             Submit
           </Button>
         }

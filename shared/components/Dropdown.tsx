@@ -2,7 +2,7 @@ import React, { ReactNode, useCallback, useEffect, useState } from 'react'
 import { LayoutChangeEvent, ScrollView, StyleSheet, View } from 'react-native'
 import { Menu, TextInput, TouchableRipple } from 'react-native-paper'
 
-import { BORDER_RADIUS, COLORS } from '../theme'
+import { BORDER_RADIUS, BORDER_WIDTH, COLORS } from '../theme'
 
 export interface DropDownPropsInterface<T extends string | number> {
   isVisible: boolean
@@ -86,7 +86,7 @@ const DropDown = (props: DropDownPropsInterface<string>) => {
                   borderTopEndRadius: 0,
                   borderTopLeftRadius: 0,
                   backgroundColor: COLORS.NEUTRAL[900],
-                  borderWidth: 1,
+                  borderWidth: BORDER_WIDTH.XSMALL,
                   borderColor: COLORS.PRIMARY[400],
                   fontSize: 16,
                 }}
@@ -102,9 +102,9 @@ const DropDown = (props: DropDownPropsInterface<string>) => {
           width: inputLayout?.width,
           marginTop: inputLayout?.height,
           borderColor: COLORS.PRIMARY[400],
-          borderLeftWidth: 1,
-          borderRightWidth: 1,
-          borderBottomWidth: 1,
+          borderLeftWidth: BORDER_WIDTH.XSMALL,
+          borderRightWidth: BORDER_WIDTH.XSMALL,
+          borderBottomWidth: BORDER_WIDTH.XSMALL,
         }}
       >
         <ScrollView
@@ -120,7 +120,10 @@ const DropDown = (props: DropDownPropsInterface<string>) => {
                 flexDirection: 'row',
                 alignItems: 'center',
                 borderBottomColor: COLORS.NEUTRAL[700],
-                borderBottomWidth: _index === list.length - 1 ? 0 : 1,
+                borderBottomWidth:
+                  _index === list.length - 1
+                    ? BORDER_WIDTH.NONE
+                    : BORDER_WIDTH.XSMALL,
               }}
               onPress={() => {
                 setActive(_item.value)

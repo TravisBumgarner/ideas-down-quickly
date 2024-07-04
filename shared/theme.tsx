@@ -90,6 +90,8 @@ export const SPACING = {
 
 export const BORDER_WIDTH = {
   NONE: 0,
+  XSMALL: 1,
   SMALL: 2,
+  MEDIUM: 4,
   LARGE: 8,
 } as const

@@ -1,31 +1,46 @@
+import { ICONS } from '@/assets/iconlist'
 import queries from '@/db/queries'
-import { SelectLabel } from '@/db/schema'
 import Button from '@/shared/components/Button'
 import ButtonWrapper from '@/shared/components/ButtonWrapper'
+import Label from '@/shared/components/Label'
 import PageWrapper from '@/shared/components/PageWrapper'
 import TextInput from '@/shared/components/TextInput'
+import { BORDER_WIDTH, COLORS, SPACING } from '@/shared/theme'
 import { URLParams } from '@/shared/types'
 import { router, useLocalSearchParams } from 'expo-router'
 import * as React from 'react'
-import { SafeAreaView, View } from 'react-native'
+import {
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import 'react-native-get-random-values'
-import { ActivityIndicator } from 'react-native-paper'
+import { ActivityIndicator, Icon } from 'react-native-paper'
 import { useAsyncEffect } from 'use-async-effect'
 
 const IdeaEdit = () => {
   const [labelText, setLabelText] = React.useState('')
-  const [label, setLabel] = React.useState<SelectLabel | null>(null)
+  const [color, setColor] = React.useState<string>(COLORS.NEUTRAL[700])
+  const [icon, setIcon] = React.useState<string>(ICONS[0])
+  const [isLoading, setIsLoading] = React.useState(true)
+  const [lastUsedAt, setLastUsedAt] = React.useState<string | null>(null)
   const params = useLocalSearchParams<URLParams['edit-label']>()
 
   useAsyncEffect(async () => {
     if (!params.labelId) {
+      setIsLoading(false)
       router.navigate('/')
       return
     }
 
     const label = await queries.select.labelById(params.labelId)
     setLabelText(label.text)
-    setLabel(label)
+    setColor(label.color)
+    setIcon(label.icon)
+    setLastUsedAt(label.lastUsedAt)
+    setIsLoading(false)
   }, [params.labelId])
 
   const handleCancel = React.useCallback(() => {
@@ -39,11 +54,13 @@ const IdeaEdit = () => {
 
     await queries.update.label(params.labelId, {
       text: labelText,
+      color,
+      icon,
     })
     router.navigate('/')
-  }, [params.labelId, labelText])
+  }, [params.labelId, labelText, color, icon])
 
-  if (label === null) {
+  if (isLoading) {
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <ActivityIndicator animating size="large" />
@@ -53,16 +70,78 @@ const IdeaEdit = () => {
 
   return (
     <PageWrapper>
-      <View style={{ flex: 1, justifyContent: 'center' }}>
+      <View style={styles.container}>
+        <Label
+          id={''}
+          color={color}
+          icon={icon}
+          text={labelText}
+          readonly={true}
+          lastUsedAt={lastUsedAt}
+        />
         <TextInput
-          label=""
+          color={COLORS.NEUTRAL[700]}
           value={labelText}
           onChangeText={text => setLabelText(text)}
-          multiline
-          color={label.color}
         />
+        <View
+          style={{
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            justifyContent: 'space-around',
+          }}
+        >
+          {Object.values(COLORS.LABELS).map(color => (
+            <TouchableOpacity
+              key={color}
+              style={{
+                margin: SPACING.XXSMALL,
+                backgroundColor: color,
+                width: 35,
+                height: 35,
+              }}
+              onPress={() => setColor(color)}
+            ></TouchableOpacity>
+          ))}
+        </View>
+        <View
+          style={{
+            borderTopColor: COLORS.NEUTRAL[700],
+            borderTopWidth: BORDER_WIDTH.XSMALL,
+            paddingTop: SPACING.SMALL,
+            marginTop: SPACING.SMALL,
+            borderBottomColor: COLORS.NEUTRAL[700],
+            borderBottomWidth: BORDER_WIDTH.XSMALL,
+            paddingBottom: SPACING.SMALL,
+            marginBottom: SPACING.SMALL,
+            flex: 1,
+          }}
+        >
+          <ScrollView
+            contentContainerStyle={{
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              justifyContent: 'space-around',
+            }}
+          >
+            {ICONS.map(icon => (
+              <TouchableOpacity
+                onPress={() => setIcon(icon)}
+                key={icon}
+                style={{
+                  width: 35,
+                  height: 35,
+                  margin: SPACING.XXSMALL,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <Icon size={30} source={icon} color={color} />
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </View>
       </View>
-
       <ButtonWrapper
         left={
           <Button color="warning" variant="link" onPress={handleCancel}>
@@ -70,7 +149,12 @@ const IdeaEdit = () => {
           </Button>
         }
         right={
-          <Button color="primary" variant="filled" onPress={handleSubmit}>
+          <Button
+            disabled={labelText.length === 0}
+            color="primary"
+            variant="filled"
+            onPress={handleSubmit}
+          >
             Submit
           </Button>
         }
@@ -78,5 +162,11 @@ const IdeaEdit = () => {
     </PageWrapper>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+})
 
 export default IdeaEdit

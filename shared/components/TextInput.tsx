@@ -9,6 +9,7 @@ type Props = {
   onChangeText: (text: string) => void
   multiline?: boolean
   color: string
+  borderWidth?: number
 }
 
 const TextInput: React.FC<Props> = ({
@@ -17,6 +18,7 @@ const TextInput: React.FC<Props> = ({
   value,
   onChangeText,
   color,
+  borderWidth,
 }) => {
   return (
     <View style={styles.container}>
@@ -25,6 +27,7 @@ const TextInput: React.FC<Props> = ({
         onChangeText={onChangeText}
         value={value}
         mode="flat"
+        selectTextOnFocus
         multiline={multiline}
         style={StyleSheet.flatten([
           styles.textInput,
@@ -32,7 +35,7 @@ const TextInput: React.FC<Props> = ({
         ])}
         underlineStyle={{
           borderColor: color,
-          borderWidth: 1,
+          borderWidth: borderWidth || 1,
         }}
       />
     </View>

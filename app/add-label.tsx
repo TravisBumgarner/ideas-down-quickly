@@ -7,6 +7,7 @@ import Label from '@/shared/components/Label'
 import PageWrapper from '@/shared/components/PageWrapper'
 import TextInput from '@/shared/components/TextInput'
 import { BORDER_WIDTH, COLORS, SPACING } from '@/shared/theme'
+import { navigateWithParams } from '@/shared/utilities'
 import { router } from 'expo-router'
 import * as React from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
@@ -37,7 +38,7 @@ const AddLabel = () => {
     await db.insert(LabelsTable).values(newLabel).returning({
       id: LabelsTable.id,
     })
-    router.push('/')
+    navigateWithParams('add-idea', { labelId: newLabel.id })
   }, [labelText, color, icon])
 
   return (

@@ -5,6 +5,7 @@ import ButtonWrapper from '@/shared/components/ButtonWrapper'
 import Dropdown from '@/shared/components/Dropdown'
 import PageWrapper from '@/shared/components/PageWrapper'
 import TextInput from '@/shared/components/TextInput'
+import { context } from '@/shared/context'
 import { URLParams } from '@/shared/types'
 import { router, useLocalSearchParams } from 'expo-router'
 import * as React from 'react'
@@ -22,9 +23,8 @@ const IdeaEdit = ({
 }) => {
   const [ideaText, setIdeaText] = React.useState('')
   const [label, setLabel] = React.useState<SelectLabel | null>(null)
-
+  const { dispatch } = React.useContext(context)
   const params = useLocalSearchParams<URLParams['edit-idea']>()
-  const [isVisible, setIsVisible] = React.useState(false)
   const [selectedLabelId, setSelectedLabelId] = React.useState('')
   const [labelList, setLabelList] = React.useState<
     { label: string; value: string }[]
@@ -32,7 +32,11 @@ const IdeaEdit = ({
 
   useAsyncEffect(async () => {
     if (!params.ideaId) {
-      router.back()
+      dispatch({
+        type: 'TOAST',
+        payload: { message: 'Something went wrong', variant: 'ERROR' },
+      })
+      router.navigate('/')
       return
     }
 
@@ -51,6 +55,10 @@ const IdeaEdit = ({
 
   const handleSubmit = React.useCallback(async () => {
     if (!params.ideaId) {
+      dispatch({
+        type: 'TOAST',
+        payload: { message: 'Something went wrong', variant: 'ERROR' },
+      })
       return
     }
 
@@ -59,7 +67,7 @@ const IdeaEdit = ({
       labelId: selectedLabelId,
     })
     router.back()
-  }, [params.ideaId, ideaText, selectedLabelId])
+  }, [params.ideaId, ideaText, selectedLabelId, dispatch])
 
   if (label === null) {
     return (

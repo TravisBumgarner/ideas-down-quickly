@@ -5,6 +5,7 @@ import ButtonWrapper from '@/shared/components/ButtonWrapper'
 import Label from '@/shared/components/Label'
 import PageWrapper from '@/shared/components/PageWrapper'
 import TextInput from '@/shared/components/TextInput'
+import { context } from '@/shared/context'
 import { BORDER_WIDTH, COLORS, SPACING } from '@/shared/theme'
 import { URLParams } from '@/shared/types'
 import { router, useLocalSearchParams } from 'expo-router'
@@ -22,6 +23,7 @@ import { useAsyncEffect } from 'use-async-effect'
 
 const IdeaEdit = () => {
   const [labelText, setLabelText] = React.useState('')
+  const { dispatch } = React.useContext(context)
   const [color, setColor] = React.useState<string>(COLORS.NEUTRAL[700])
   const [icon, setIcon] = React.useState<string>(ICONS[0])
   const [isLoading, setIsLoading] = React.useState(true)
@@ -31,6 +33,10 @@ const IdeaEdit = () => {
   useAsyncEffect(async () => {
     if (!params.labelId) {
       setIsLoading(false)
+      dispatch({
+        type: 'TOAST',
+        payload: { message: 'Something went wrong', variant: 'ERROR' },
+      })
       router.navigate('/')
       return
     }
@@ -49,6 +55,10 @@ const IdeaEdit = () => {
 
   const handleSubmit = React.useCallback(async () => {
     if (!params.labelId) {
+      dispatch({
+        type: 'TOAST',
+        payload: { message: 'Something went wrong', variant: 'ERROR' },
+      })
       return
     }
 
@@ -58,7 +68,7 @@ const IdeaEdit = () => {
       icon,
     })
     router.navigate('/')
-  }, [params.labelId, labelText, color, icon])
+  }, [params.labelId, labelText, color, icon, dispatch])
 
   if (isLoading) {
     return (

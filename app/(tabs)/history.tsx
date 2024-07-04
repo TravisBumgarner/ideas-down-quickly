@@ -154,7 +154,7 @@ const History = () => {
         {rows}
         {!rows ||
           (rows.length < 5 && (
-            <Typography variant="body1" style={{ textAlign: 'center' }}>
+            <Typography variant="caption" style={{ textAlign: 'center' }}>
               Swipe right on Idea to delete or left to edit.
             </Typography>
           ))}

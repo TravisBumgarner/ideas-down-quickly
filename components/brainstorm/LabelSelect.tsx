@@ -39,23 +39,24 @@ const LabelInput = ({
 
   if (labels.length === 0) {
     return (
-      <PageWrapper
-        title="What's on your mind?"
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignContent: 'center',
-        }}
-      >
-        <Button color="primary" variant="filled" onPress={newLabelCallback}>
-          Add Your First Label
-        </Button>
-        <Typography
-          variant="caption"
-          style={{ textAlign: 'center', marginTop: SPACING.md }}
+      <PageWrapper title="What's on your mind?">
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignContent: 'center',
+          }}
         >
-          Ideas are grouped by label
-        </Typography>
+          <Button color="primary" variant="filled" onPress={newLabelCallback}>
+            Add Your First Label
+          </Button>
+          <Typography
+            variant="caption"
+            style={{ textAlign: 'center', marginTop: SPACING.md }}
+          >
+            Ideas are grouped by label
+          </Typography>
+        </View>
       </PageWrapper>
     )
   }
@@ -88,6 +89,7 @@ const LabelInput = ({
                 icon={icon}
                 text={text}
                 readonly={false}
+                id={id}
                 handlePress={() => handleSubmit(id)}
               />
             </View>

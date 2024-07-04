@@ -3,4 +3,5 @@ export type PartialWithRequiredKeys<T, K extends keyof T> = Partial<T> &
 
 export type URLParams = {
   'edit-idea': { ideaId: string }
+  'edit-label': { labelId: string }
 }

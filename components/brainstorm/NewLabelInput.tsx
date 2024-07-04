@@ -74,7 +74,7 @@ const IdeaInput = ({
       content = (
         <>
           <Label
-            fullWidth
+            id={''}
             color={color}
             icon={icon}
             text={labelText}
@@ -99,7 +99,7 @@ const IdeaInput = ({
       content = (
         <>
           <Label
-            fullWidth
+            id={''}
             color={color}
             icon={icon}
             text={labelText}
@@ -137,7 +137,7 @@ const IdeaInput = ({
       content = (
         <>
           <Label
-            fullWidth
+            id={''}
             color={color}
             icon={icon}
             text={labelText}

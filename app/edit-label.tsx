@@ -10,7 +10,7 @@ import { router, useLocalSearchParams } from 'expo-router'
 import * as React from 'react'
 import { SafeAreaView, View } from 'react-native'
 import 'react-native-get-random-values'
-import { ActivityIndicator } from 'react-native-paper'
+import { ActivityIndicator, useTheme } from 'react-native-paper'
 import { useAsyncEffect } from 'use-async-effect'
 
 const IdeaEdit = ({
@@ -22,7 +22,7 @@ const IdeaEdit = ({
 }) => {
   const [ideaText, setIdeaText] = React.useState('')
   const [label, setLabel] = React.useState<SelectLabel | null>(null)
-
+  const theme = useTheme()
   const params = useLocalSearchParams<URLParams['edit-idea']>()
   const [isVisible, setIsVisible] = React.useState(false)
   const [selectedLabelId, setSelectedLabelId] = React.useState('')

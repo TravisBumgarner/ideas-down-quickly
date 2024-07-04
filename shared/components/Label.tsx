@@ -1,9 +1,16 @@
-import { BORDER_RADIUS, BORDER_WIDTH, COLORS2, SPACING2 } from '@/shared/theme'
-import { useCallback } from 'react'
+import {
+  BORDER_RADIUS,
+  BORDER_WIDTH,
+  COLORS2,
+  SPACING,
+  SPACING2,
+} from '@/shared/theme'
+import { useCallback, useRef } from 'react'
 import { StyleSheet, View } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { Swipeable, TouchableOpacity } from 'react-native-gesture-handler'
 import { Icon, Text } from 'react-native-paper'
 
+import { navigateWithParams } from '../utilities'
 import Typography from './Typography'
 
 type ReadonlyCondition =
@@ -20,37 +27,96 @@ type Props = {
   icon: string
   text: string
   lastUsedAt: string | null
+  id: string
 }
 
-const Label2 = ({
+const Label = ({
   color,
   icon,
   text,
   lastUsedAt,
+  id,
   ...rest
 }: Props & ReadonlyCondition) => {
+  const swipeableRef = useRef<Swipeable>(null)
+
+  const handleDelete = useCallback(async () => {
+    console.log('unsorted')
+  }, [])
+
+  const handleEdit = useCallback(() => {
+    navigateWithParams('edit-label', { labelId: id })
+    swipeableRef.current?.close()
+  }, [id])
+
+  const renderLeftActions = useCallback(
+    () => (
+      <TouchableOpacity
+        onPress={handleDelete}
+        style={{
+          backgroundColor: COLORS2.NEUTRAL[900],
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: SPACING.md,
+          borderRadius: BORDER_RADIUS.NONE,
+          marginRight: SPACING.md,
+          flexGrow: 1,
+        }}
+      >
+        <Icon source="delete" size={24} color={COLORS2.WARNING[300]} />
+      </TouchableOpacity>
+    ),
+    [handleDelete]
+  )
+
+  const renderRightActions = useCallback(
+    () => (
+      <TouchableOpacity
+        onPress={handleEdit}
+        style={{
+          backgroundColor: COLORS2.NEUTRAL[900],
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: SPACING.md,
+          borderRadius: BORDER_RADIUS.NONE,
+          marginLeft: SPACING.md,
+          flexGrow: 1,
+        }}
+      >
+        <Icon source="pencil" size={24} color={COLORS2.PRIMARY[300]} />
+      </TouchableOpacity>
+    ),
+    [handleEdit]
+  )
+
   const handlePress = useCallback(() => {
     rest.readonly ? null : rest.handlePress()
   }, [rest])
 
   return (
-    <TouchableOpacity
-      style={StyleSheet.flatten([
-        styles.container,
-        {
-          borderRightColor: color,
-        },
-      ])}
-      onPress={handlePress}
+    <Swipeable
+      ref={swipeableRef}
+      renderLeftActions={renderLeftActions}
+      renderRightActions={renderRightActions}
     >
-      <Icon source={icon} size={24} color={color} />
-      <View style={styles.textContainer}>
-        <Typography variant="h2">{text}</Typography>
-        {lastUsedAt && (
-          <Text style={styles.text}>Last ideated on {lastUsedAt}</Text>
-        )}
-      </View>
-    </TouchableOpacity>
+      <TouchableOpacity
+        style={StyleSheet.flatten([
+          styles.container,
+          {
+            borderRightColor: color,
+          },
+        ])}
+        onPress={handlePress}
+      >
+        <Icon source={icon} size={24} color={color} />
+        <View style={styles.textContainer}>
+          <Typography variant="h2">{text}</Typography>
+          <Text style={styles.text}>
+            {lastUsedAt ? `Last ideated on ${lastUsedAt}` : 'No ideation yet'}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    </Swipeable>
   )
 }
 
@@ -76,4 +142,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Label2
+export default Label

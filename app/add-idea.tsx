@@ -71,6 +71,7 @@ const AddIdea = () => {
           onChangeText={text => setIdeaText(text)}
           multiline
           color={label.color}
+          autoFocus={true} //eslint-disable-line
         />
       </View>
       <ButtonWrapper

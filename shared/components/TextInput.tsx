@@ -9,6 +9,7 @@ type Props = {
   onChangeText: (text: string) => void
   multiline?: boolean
   color: string
+  autoFocus?: boolean
 }
 
 const TextInput: React.FC<Props> = ({
@@ -17,6 +18,7 @@ const TextInput: React.FC<Props> = ({
   value,
   onChangeText,
   color,
+  autoFocus,
 }) => {
   return (
     <View style={styles.container}>
@@ -31,6 +33,7 @@ const TextInput: React.FC<Props> = ({
           styles.textInput,
           { backgroundColor: COLORS.MISC.TRANSPARENT },
         ])}
+        autoFocus={autoFocus} //eslint-disable-line
         underlineStyle={{
           borderColor: color,
           borderWidth: BORDER_WIDTH.XSMALL,

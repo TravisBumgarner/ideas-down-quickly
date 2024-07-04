@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.NEUTRAL[800],
     color: COLORS.NEUTRAL[400],
     fontSize: 24,
-    marginVertical: SPACING.SMALL,
+    marginBottom: SPACING.MEDIUM,
     textAlign: 'center',
   },
   h2: {

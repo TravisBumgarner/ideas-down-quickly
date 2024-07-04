@@ -13,10 +13,11 @@ type Props = {
   icon: string
   text: string
   id: string
+  label: string
   onDeleteCallback: () => void
 }
 
-const Idea = ({ color, icon, text, id, onDeleteCallback }: Props) => {
+const Idea = ({ color, icon, text, id, label, onDeleteCallback }: Props) => {
   const swipeableRef = useRef<Swipeable>(null)
 
   const handleDelete = useCallback(async () => {
@@ -90,7 +91,7 @@ const Idea = ({ color, icon, text, id, onDeleteCallback }: Props) => {
         >
           <Icon source={icon} size={24} color={color} />
           <View style={styles.textContainer}>
-            <Typography variant="h2">{text}</Typography>
+            <Typography variant="h2">{label}</Typography>
           </View>
         </View>
         <Typography variant="body1" style={{ marginTop: SPACING.SMALL }}>

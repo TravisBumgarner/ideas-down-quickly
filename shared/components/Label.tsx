@@ -34,34 +34,10 @@ const Label = ({
 }: Props & ReadonlyCondition) => {
   const swipeableRef = useRef<Swipeable>(null)
 
-  const handleDelete = useCallback(async () => {
-    console.log('unsorted')
-  }, [])
-
   const handleEdit = useCallback(() => {
     swipeableRef.current?.close()
     navigateWithParams('edit-label', { labelId: id })
   }, [id])
-
-  const renderLeftActions = useCallback(
-    () => (
-      <TouchableOpacity
-        onPress={handleDelete}
-        style={{
-          backgroundColor: COLORS.NEUTRAL[900],
-          justifyContent: 'center',
-          alignItems: 'center',
-          padding: SPACING.MEDIUM,
-          borderRadius: BORDER_RADIUS.NONE,
-          marginRight: SPACING.MEDIUM,
-          flexGrow: 1,
-        }}
-      >
-        <Icon source="delete" size={24} color={COLORS.WARNING[300]} />
-      </TouchableOpacity>
-    ),
-    [handleDelete]
-  )
 
   const renderRightActions = useCallback(
     () => (
@@ -88,11 +64,7 @@ const Label = ({
   }, [rest])
 
   return (
-    <Swipeable
-      ref={swipeableRef}
-      renderLeftActions={renderLeftActions}
-      renderRightActions={renderRightActions}
-    >
+    <Swipeable ref={swipeableRef} renderRightActions={renderRightActions}>
       <TouchableOpacity
         style={StyleSheet.flatten([
           styles.container,

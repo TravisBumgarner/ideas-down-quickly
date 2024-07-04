@@ -80,12 +80,10 @@ const IdeaEdit = ({
           color={label.color}
         />
         <Dropdown
-          label="Label"
-          setIsVisible={setIsVisible}
-          isVisible={isVisible}
           value={selectedLabelId}
-          setValue={setSelectedLabelId}
-          list={labelList}
+          onChangeCallback={setSelectedLabelId}
+          data={labelList}
+          dropdownPosition="bottom"
         />
       </View>
 

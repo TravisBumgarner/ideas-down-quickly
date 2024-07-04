@@ -62,15 +62,23 @@ const History = () => {
 
       const ideasByLabel = ideasByDateAndLabel[date]
 
-      Object.values(ideasByLabel).forEach(item =>
+      const keys =
+        selectedFilterLabelId.length > 0
+          ? [selectedFilterLabelId]
+          : Object.keys(ideasByLabel)
+
+      keys.forEach(key =>
         output.push(
-          <IdeasByLabel ideasByLabel={item} onDeleteCallback={fetchFromDB} />
+          <IdeasByLabel
+            ideasByLabel={ideasByLabel[key]}
+            onDeleteCallback={fetchFromDB}
+          />
         )
       )
     })
 
     return output
-  }, [ideasByDateAndLabel, fetchFromDB])
+  }, [ideasByDateAndLabel, fetchFromDB, selectedFilterLabelId])
 
   if (ideasByDateAndLabel === null) {
     return (

@@ -34,7 +34,7 @@ const LabelSelect = () => {
 
   if (labels.length === 0) {
     return (
-      <PageWrapper title="What's on your mind?">
+      <PageWrapper>
         <View
           style={{
             flex: 1,
@@ -43,13 +43,13 @@ const LabelSelect = () => {
           }}
         >
           <Button color="primary" variant="filled" onPress={addNewLabel}>
-            Add Your First Label
+            Categorize Your Idea
           </Button>
           <Typography
             variant="caption"
             style={{ textAlign: 'center', marginTop: SPACING.MEDIUM }}
           >
-            Ideas are grouped by label
+            Ideas are grouped by Category
           </Typography>
         </View>
       </PageWrapper>
@@ -57,7 +57,7 @@ const LabelSelect = () => {
   }
 
   return (
-    <PageWrapper title="What's on your mind?">
+    <PageWrapper title="Continue Ideating">
       <View
         style={{
           flex: 1,
@@ -93,7 +93,7 @@ const LabelSelect = () => {
           ))}
           {labels.length < 3 && (
             <Typography style={{ textAlign: 'center' }} variant="caption">
-              Swipe left to edit.
+              Swipe left to edit
             </Typography>
           )}
         </ScrollView>
@@ -105,7 +105,7 @@ const LabelSelect = () => {
         }}
       >
         <Button variant="filled" color="primary" onPress={addNewLabel}>
-          Something Different
+          Add a new Category
         </Button>
       </View>
     </PageWrapper>

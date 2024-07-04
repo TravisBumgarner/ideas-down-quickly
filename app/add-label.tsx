@@ -128,7 +128,7 @@ const AddLabel = () => {
             variant="filled"
             onPress={handleSubmit}
           >
-            Submit
+            Create Category
           </Button>
         }
       />

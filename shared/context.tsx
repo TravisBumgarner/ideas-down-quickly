@@ -18,7 +18,7 @@ export interface State {
   }
   toast: {
     message: string
-    variant: 'success' | 'error' | 'warning'
+    variant: 'SUCCESS' | 'ERROR' | 'WARNING'
   } | null
 }
 
@@ -94,7 +94,7 @@ const reducer = (state: State, action: Action): State => {
 
 const context = createContext({
   state: EMPTY_STATE,
-  dispatch: () => {},
+  dispatch: () => { },
 } as {
   state: State
   dispatch: Dispatch<Action>

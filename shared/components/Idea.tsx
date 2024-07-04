@@ -12,12 +12,11 @@ type Props = {
   color: string
   icon: string
   text: string
-  label: string
   id: string
   onDeleteCallback: () => void
 }
 
-const Idea = ({ color, icon, text, label, id, onDeleteCallback }: Props) => {
+const Idea = ({ color, icon, text, id, onDeleteCallback }: Props) => {
   const swipeableRef = useRef<Swipeable>(null)
 
   const handleDelete = useCallback(async () => {

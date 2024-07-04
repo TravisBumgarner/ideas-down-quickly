@@ -99,7 +99,7 @@ const LabelInput = ({
           ))}
           {labels.length < 3 && (
             <Typography style={{ textAlign: 'center' }} variant="caption">
-              Swipe left on label to edit
+              Swipe right to delete or left to edit.
             </Typography>
           )}
         </ScrollView>

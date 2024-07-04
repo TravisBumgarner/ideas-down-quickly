@@ -99,7 +99,6 @@ const History = () => {
               color={item.label.color}
               icon={item.label.icon}
               text={item.idea.text}
-              label={item.label.text}
               id={item.idea.id}
               onDeleteCallback={fetchFromDB}
             />
@@ -155,7 +154,7 @@ const History = () => {
         {!rows ||
           (rows.length < 5 && (
             <Typography variant="caption" style={{ textAlign: 'center' }}>
-              Swipe right on Idea to delete or left to edit.
+              Swipe right to delete or left to edit.
             </Typography>
           ))}
       </ScrollView>

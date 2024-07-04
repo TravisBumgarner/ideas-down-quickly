@@ -41,11 +41,11 @@ const Brainstorm = () => {
 
   const ideaInputSubmitCallback = React.useCallback(() => {
     setCurrentPage(CurrentPage.LabelSelect)
-    dispatch({
-      type: 'TOAST',
-      payload: { message: 'Idea added!', variant: 'success' },
-    })
-  }, [dispatch])
+    // dispatch({
+    //   type: 'TOAST',
+    //   payload: { message: 'Idea added!', variant: 'success' },
+    // })
+  }, [])
 
   const ideaInputCancelCallback = React.useCallback(() => {
     setCurrentPage(CurrentPage.LabelSelect)

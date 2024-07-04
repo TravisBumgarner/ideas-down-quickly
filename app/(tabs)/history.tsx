@@ -1,5 +1,6 @@
 import { db } from '@/db/client'
 import { IdeasTable, LabelsTable, SelectIdea, SelectLabel } from '@/db/schema'
+import Button from '@/shared/components/Button'
 import Dropdown from '@/shared/components/Dropdown'
 import Idea from '@/shared/components/Idea'
 import PageWrapper from '@/shared/components/PageWrapper'
@@ -8,7 +9,7 @@ import { COLORS, SPACING } from '@/shared/theme'
 import { areSameDay, formatDisplayDate } from '@/shared/utilities'
 import { useFocusEffect } from '@react-navigation/native'
 import { desc, eq } from 'drizzle-orm'
-import { Link } from 'expo-router'
+import { router } from 'expo-router'
 import { useCallback, useMemo, useState } from 'react'
 import { SafeAreaView, ScrollView, View } from 'react-native'
 import { ActivityIndicator } from 'react-native-paper'
@@ -18,11 +19,14 @@ const History = () => {
     { idea: SelectIdea | null; label: SelectLabel | null }[] | null
   >(null)
 
-  const [isFilterMenuVisible, setIsFilterMenuVisible] = useState(false)
   const [selectedFilterLabelId, setSelectedFilterLabelId] = useState('')
   const [filterLabelList, setFilterLabelList] = useState<
     { label: string; value: string }[]
   >([])
+
+  const clearFilter = useCallback(() => {
+    setSelectedFilterLabelId('')
+  }, [])
 
   const fetchFromDB = useCallback(() => {
     db.select()
@@ -41,6 +45,10 @@ const History = () => {
       })
   }, [])
 
+  const navigateHome = useCallback(() => {
+    router.navigate('/')
+  }, [])
+
   useFocusEffect(
     useCallback(() => {
       fetchFromDB()
@@ -49,7 +57,7 @@ const History = () => {
 
   const rows = useMemo(() => {
     if (ideasWithLabel === null) {
-      return null
+      return []
     }
 
     const output: JSX.Element[] = []
@@ -121,50 +129,71 @@ const History = () => {
 
   if (ideasWithLabel.length === 0) {
     return (
-      <PageWrapper
-        style={{
-          justifyContent: 'center',
-          alignContent: 'center',
-          paddingTop: SPACING.MEDIUM,
-          paddingBottom: SPACING.MEDIUM,
-        }}
-      >
-        <Link href="/">
-          <Typography variant="caption" style={{ textAlign: 'center' }}>
+      <PageWrapper>
+        <View
+          style={{
+            justifyContent: 'center',
+            alignContent: 'center',
+            paddingTop: SPACING.MEDIUM,
+            paddingBottom: SPACING.MEDIUM,
+            flex: 1,
+          }}
+        >
+          <Button onPress={navigateHome} variant="filled" color="primary">
             Get ideating on the brainstorm tab.
-          </Typography>
-        </Link>
+          </Button>
+        </View>
       </PageWrapper>
     )
   }
 
   return (
     <PageWrapper>
-      <ScrollView
-        contentContainerStyle={{
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-        style={{
-          flex: 1,
-        }}
-      >
-        {rows}
-        {!rows ||
-          (rows.length < 5 && (
+      {rows.length > 0 ? (
+        <ScrollView
+          contentContainerStyle={{
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          style={{
+            flex: 1,
+          }}
+        >
+          {rows}
+          {rows.length < 5 && (
             <Typography variant="caption" style={{ textAlign: 'center' }}>
               Swipe right to delete or left to edit.
             </Typography>
-          ))}
-      </ScrollView>
+          )}
+        </ScrollView>
+      ) : (
+        <View
+          style={{
+            justifyContent: 'center',
+            alignContent: 'center',
+            paddingTop: SPACING.MEDIUM,
+            paddingBottom: SPACING.MEDIUM,
+            flex: 1,
+          }}
+        >
+          <Typography
+            variant="caption"
+            style={{ textAlign: 'center', marginBottom: SPACING.MEDIUM }}
+          >
+            No ideas exist yet.
+          </Typography>
+          <Button onPress={clearFilter} variant="filled" color="primary">
+            Clear Filters
+          </Button>
+        </View>
+      )}
+
       <View style={{ marginVertical: SPACING.MEDIUM }}>
         <Dropdown
           value={selectedFilterLabelId}
-          setValue={setSelectedFilterLabelId}
-          list={filterLabelList}
-          isVisible={isFilterMenuVisible}
-          setIsVisible={setIsFilterMenuVisible}
-          label="Filter by Label"
+          onChangeCallback={setSelectedFilterLabelId}
+          data={filterLabelList}
+          dropdownPosition="top"
         />
       </View>
     </PageWrapper>

@@ -1,7 +1,7 @@
 import { StyleSheet, View } from 'react-native'
 import { Text, TextInput as TextInputRNP } from 'react-native-paper'
 
-import { COLORS2, SPACING2 } from '../theme'
+import { COLORS2, SPACING } from '../theme'
 
 type Props = {
   label?: string
@@ -42,11 +42,11 @@ const TextInput: React.FC<Props> = ({
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
-    paddingVertical: SPACING2.MEDIUM,
+    paddingVertical: SPACING.MEDIUM,
   },
   label: {
     color: COLORS2.NEUTRAL[400],
-    paddingBottom: SPACING2.MEDIUM,
+    paddingBottom: SPACING.MEDIUM,
   },
   textInput: {
     borderRadius: 10,

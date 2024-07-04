@@ -4,7 +4,7 @@ import Dropdown from '@/shared/components/Dropdown'
 import Idea from '@/shared/components/Idea'
 import PageWrapper from '@/shared/components/PageWrapper'
 import Typography from '@/shared/components/Typography'
-import { SPACING, SPACING2 } from '@/shared/theme'
+import { COLORS2, SPACING } from '@/shared/theme'
 import { areSameDay, formatDisplayDate } from '@/shared/utilities'
 import { useFocusEffect } from '@react-navigation/native'
 import { desc, eq } from 'drizzle-orm'
@@ -89,9 +89,9 @@ const History = () => {
           <View
             key={item.idea.id}
             style={{
-              borderRadius: SPACING.md,
+              borderRadius: SPACING.MEDIUM,
               width: '100%',
-              marginBottom: SPACING.md,
+              marginBottom: SPACING.MEDIUM,
               flex: 1,
             }}
           >
@@ -112,9 +112,7 @@ const History = () => {
 
   if (ideasWithLabel === null) {
     return (
-      <SafeAreaView
-        style={{ backgroundColor: theme.colors.background, flex: 1 }}
-      >
+      <SafeAreaView style={{ backgroundColor: COLORS2.NEUTRAL[700], flex: 1 }}>
         <ActivityIndicator animating size="large" />
       </SafeAreaView>
     )
@@ -126,8 +124,8 @@ const History = () => {
         style={{
           justifyContent: 'center',
           alignContent: 'center',
-          paddingTop: SPACING.md,
-          paddingBottom: SPACING.md,
+          paddingTop: SPACING.MEDIUM,
+          paddingBottom: SPACING.MEDIUM,
         }}
       >
         <Link href="/">
@@ -158,7 +156,7 @@ const History = () => {
             </Typography>
           ))}
       </ScrollView>
-      <View style={{ marginVertical: SPACING2.MEDIUM }}>
+      <View style={{ marginVertical: SPACING.MEDIUM }}>
         <Dropdown
           value={selectedFilterLabelId}
           setValue={setSelectedFilterLabelId}

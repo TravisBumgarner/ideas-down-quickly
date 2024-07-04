@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import { SPACING2 } from '../theme'
+import { SPACING } from '../theme'
 
 type ButtonWrapperProps = {
   left?: React.ReactElement
@@ -25,20 +25,20 @@ const ButtonWrapper: React.FC<ButtonWrapperProps> = ({ left, right, full }) => {
 const styles = StyleSheet.create({
   buttonLeft: {
     flex: 1,
-    marginRight: SPACING2.SMALL,
+    marginRight: SPACING.SMALL,
   },
   buttonRight: {
     flex: 1,
-    marginLeft: SPACING2.SMALL,
+    marginLeft: SPACING.SMALL,
   },
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: SPACING2.MEDIUM,
-    marginTop: SPACING2.MEDIUM,
+    marginBottom: SPACING.MEDIUM,
+    marginTop: SPACING.MEDIUM,
   },
   full: {
-    margin: SPACING2.MEDIUM,
+    margin: SPACING.MEDIUM,
   },
 })
 

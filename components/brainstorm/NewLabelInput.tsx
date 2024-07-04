@@ -5,7 +5,7 @@ import Button from '@/shared/components/Button'
 import ButtonWrapper from '@/shared/components/ButtonWrapper'
 import Label from '@/shared/components/Label'
 import PageWrapper from '@/shared/components/PageWrapper'
-import { COLORS2, SPACING2 } from '@/shared/theme'
+import { COLORS2, SPACING } from '@/shared/theme'
 import * as React from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -117,9 +117,9 @@ const IdeaInput = ({
               <TouchableOpacity
                 key={color}
                 style={{
-                  marginVertical: SPACING2.SMALL,
+                  marginVertical: SPACING.SMALL,
                   marginLeft: 0,
-                  marginRight: SPACING2.SMALL,
+                  marginRight: SPACING.SMALL,
                   backgroundColor: color,
                   width: 50,
                   height: 50,
@@ -241,7 +241,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     justifyContent: 'center',
-    marginHorizontal: SPACING2.MEDIUM,
+    marginHorizontal: SPACING.MEDIUM,
   },
 })
 

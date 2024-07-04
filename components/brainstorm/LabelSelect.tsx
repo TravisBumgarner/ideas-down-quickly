@@ -4,7 +4,7 @@ import Button from '@/shared/components/Button'
 import Label from '@/shared/components/Label'
 import PageWrapper from '@/shared/components/PageWrapper'
 import Typography from '@/shared/components/Typography'
-import { SPACING, SPACING2 } from '@/shared/theme'
+import { SPACING } from '@/shared/theme'
 import { useFocusEffect } from 'expo-router'
 import * as React from 'react'
 import { SafeAreaView, ScrollView, View } from 'react-native'
@@ -55,7 +55,7 @@ const LabelInput = ({
           </Button>
           <Typography
             variant="caption"
-            style={{ textAlign: 'center', marginTop: SPACING.md }}
+            style={{ textAlign: 'center', marginTop: SPACING.MEDIUM }}
           >
             Ideas are grouped by label
           </Typography>
@@ -83,7 +83,7 @@ const LabelInput = ({
             <View
               key={index}
               style={{
-                marginBottom: SPACING2.SMALL,
+                marginBottom: SPACING.SMALL,
               }}
             >
               <Label
@@ -107,7 +107,7 @@ const LabelInput = ({
       <View
         style={{
           flexDirection: 'row',
-          marginBottom: SPACING.md,
+          marginBottom: SPACING.MEDIUM,
         }}
       >
         <Button variant="filled" color="primary" onPress={newLabelCallback}>

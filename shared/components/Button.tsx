@@ -3,10 +3,10 @@ import { StyleSheet, Text } from 'react-native'
 import { Button as ButtonRNP } from 'react-native-paper'
 import { IconSource } from 'react-native-paper/lib/typescript/components/Icon'
 
-import { BORDER_RADIUS, COLORS, COLORS2 } from '../theme'
+import { BORDER_RADIUS, COLORS2 } from '../theme'
 
 const SHARED = {
-  textColor: COLORS.light.opaque,
+  textColor: COLORS2.NEUTRAL[100],
 } as const
 
 const Button = ({

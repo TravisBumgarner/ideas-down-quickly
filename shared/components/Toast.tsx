@@ -29,7 +29,7 @@ const Toast = () => {
         borderRadius: BORDER_RADIUS.MEDIUM,
         justifyContent: 'center',
         alignItems: 'center',
-        margin: SPACING.md,
+        margin: SPACING.MEDIUM,
       }}
     >
       <Typography variant="body1" style={{ textAlign: 'center' }}>

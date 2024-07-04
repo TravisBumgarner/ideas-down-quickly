@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS2.NEUTRAL[800],
     flex: 1,
-    paddingHorizontal: SPACING.md,
+    paddingHorizontal: SPACING.MEDIUM,
   },
 })
 

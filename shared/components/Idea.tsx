@@ -1,5 +1,5 @@
 import queries from '@/db/queries'
-import { BORDER_RADIUS, COLORS2, SPACING, SPACING2 } from '@/shared/theme'
+import { BORDER_RADIUS, COLORS2, SPACING } from '@/shared/theme'
 import { useCallback, useRef } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Swipeable } from 'react-native-gesture-handler'
@@ -37,9 +37,9 @@ const Idea = ({ color, icon, text, id, onDeleteCallback }: Props) => {
           backgroundColor: COLORS2.NEUTRAL[900],
           justifyContent: 'center',
           alignItems: 'center',
-          padding: SPACING.md,
+          padding: SPACING.MEDIUM,
           borderRadius: BORDER_RADIUS.NONE,
-          marginRight: SPACING.md,
+          marginRight: SPACING.MEDIUM,
         }}
       >
         <Icon source="delete" size={24} color={COLORS2.WARNING[300]} />
@@ -56,9 +56,9 @@ const Idea = ({ color, icon, text, id, onDeleteCallback }: Props) => {
           backgroundColor: COLORS2.NEUTRAL[900],
           justifyContent: 'center',
           alignItems: 'center',
-          padding: SPACING.md,
+          padding: SPACING.MEDIUM,
           borderRadius: BORDER_RADIUS.NONE,
-          marginLeft: SPACING.md,
+          marginLeft: SPACING.MEDIUM,
         }}
       >
         <Icon source="pencil" size={24} color={COLORS2.PRIMARY[300]} />
@@ -93,7 +93,7 @@ const Idea = ({ color, icon, text, id, onDeleteCallback }: Props) => {
             <Typography variant="h2">{text}</Typography>
           </View>
         </View>
-        <Typography variant="body1" style={{ marginTop: SPACING.sm }}>
+        <Typography variant="body1" style={{ marginTop: SPACING.SMALL }}>
           {text}
         </Typography>
       </View>
@@ -106,11 +106,11 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS2.NEUTRAL[900],
     borderRadius: BORDER_RADIUS.NONE,
     borderRightWidth: 8,
-    padding: SPACING.md,
+    padding: SPACING.MEDIUM,
   },
   textContainer: {
     flexDirection: 'column',
-    marginLeft: SPACING2.MEDIUM,
+    marginLeft: SPACING.MEDIUM,
   },
 })
 

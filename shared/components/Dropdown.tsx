@@ -2,7 +2,7 @@ import React, { ReactNode, useCallback, useEffect, useState } from 'react'
 import { LayoutChangeEvent, ScrollView, StyleSheet, View } from 'react-native'
 import { Menu, TextInput, TouchableRipple } from 'react-native-paper'
 
-import { BORDER_RADIUS, COLORS, COLORS2 } from '../theme'
+import { BORDER_RADIUS, COLORS2 } from '../theme'
 
 export interface DropDownPropsInterface<T extends string | number> {
   isVisible: boolean
@@ -131,8 +131,8 @@ const DropDown = (props: DropDownPropsInterface<string>) => {
                 title={_item.custom || _item.label}
                 titleStyle={{
                   color: isActive(_item.value)
-                    ? COLORS.primary.opaque
-                    : COLORS.light.opaque,
+                    ? COLORS2.PRIMARY[300]
+                    : COLORS2.NEUTRAL[200],
                 }}
               />
             </TouchableRipple>

@@ -1,10 +1,4 @@
-import {
-  BORDER_RADIUS,
-  BORDER_WIDTH,
-  COLORS2,
-  SPACING,
-  SPACING2,
-} from '@/shared/theme'
+import { BORDER_RADIUS, BORDER_WIDTH, COLORS2, SPACING } from '@/shared/theme'
 import { useCallback, useRef } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Swipeable, TouchableOpacity } from 'react-native-gesture-handler'
@@ -57,9 +51,9 @@ const Label = ({
           backgroundColor: COLORS2.NEUTRAL[900],
           justifyContent: 'center',
           alignItems: 'center',
-          padding: SPACING.md,
+          padding: SPACING.MEDIUM,
           borderRadius: BORDER_RADIUS.NONE,
-          marginRight: SPACING.md,
+          marginRight: SPACING.MEDIUM,
           flexGrow: 1,
         }}
       >
@@ -77,9 +71,9 @@ const Label = ({
           backgroundColor: COLORS2.NEUTRAL[900],
           justifyContent: 'center',
           alignItems: 'center',
-          padding: SPACING.md,
+          padding: SPACING.MEDIUM,
           borderRadius: BORDER_RADIUS.NONE,
-          marginLeft: SPACING.md,
+          marginLeft: SPACING.MEDIUM,
           flexGrow: 1,
         }}
       >
@@ -128,8 +122,8 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS.NONE,
     borderRightWidth: BORDER_WIDTH.LARGE,
     flexDirection: 'row',
-    paddingHorizontal: SPACING2.LARGE,
-    paddingVertical: SPACING2.SMALL,
+    paddingHorizontal: SPACING.LARGE,
+    paddingVertical: SPACING.SMALL,
     width: '100%',
   },
   text: {
@@ -138,7 +132,7 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     flexDirection: 'column',
-    marginLeft: SPACING2.MEDIUM,
+    marginLeft: SPACING.MEDIUM,
   },
 })
 

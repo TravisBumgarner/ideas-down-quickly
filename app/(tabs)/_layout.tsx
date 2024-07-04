@@ -15,7 +15,7 @@ export default function TabLayout() {
         tabBarLabelStyle: {
           color: COLORS2.NEUTRAL['300'],
         },
-        tabBarActiveTintColor: COLORS2.PRIMARY['300'], // Add this line
+        tabBarActiveTintColor: COLORS2.PRIMARY['300'],
       }}
     >
       <Tabs.Screen

@@ -61,7 +61,7 @@ const Settings = () => {
         onChangeText={text => setDeleteText(text)}
         color={COLORS2.WARNING[300]}
       />
-      <View style={{ marginTop: SPACING.md }}>
+      <View style={{ marginTop: SPACING.MEDIUM }}>
         <Button
           disabled={deleteText !== 'Delete'}
           onPress={handleWipeDatabase}

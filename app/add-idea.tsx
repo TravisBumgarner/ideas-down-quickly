@@ -18,9 +18,7 @@ const AddIdea = () => {
   const [label, setLabel] = React.useState<SelectLabel | null>(null)
   const params = useLocalSearchParams<URLParams['add-idea']>()
 
-  console.log('params', params)
   React.useEffect(() => {
-    console.log('params', params)
     if (!params.labelId) {
       router.back()
       return

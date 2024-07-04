@@ -1,7 +1,7 @@
 import queries from '@/db/queries'
 import { BORDER_RADIUS, BORDER_WIDTH, COLORS, SPACING } from '@/shared/theme'
 import { useCallback, useRef } from 'react'
-import { TouchableOpacity, View } from 'react-native'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Swipeable } from 'react-native-gesture-handler'
 import { Icon } from 'react-native-paper'
 
@@ -34,14 +34,7 @@ const Idea = ({
     () => (
       <TouchableOpacity
         onPress={handleDelete}
-        style={{
-          backgroundColor: COLORS.NEUTRAL[900],
-          justifyContent: 'center',
-          alignItems: 'center',
-          padding: SPACING.XSMALL,
-          borderRadius: BORDER_RADIUS.NONE,
-          marginRight: SPACING.MEDIUM,
-        }}
+        style={StyleSheet.flatten([styles.swipeableBase, styles.swipeableLeft])}
       >
         <Icon source="delete" size={24} color={COLORS.WARNING[300]} />
       </TouchableOpacity>
@@ -52,14 +45,10 @@ const Idea = ({
     () => (
       <TouchableOpacity
         onPress={handleEdit}
-        style={{
-          backgroundColor: COLORS.NEUTRAL[900],
-          justifyContent: 'center',
-          alignItems: 'center',
-          padding: SPACING.XXSMALL,
-          borderRadius: BORDER_RADIUS.NONE,
-          marginLeft: SPACING.MEDIUM,
-        }}
+        style={StyleSheet.flatten([
+          styles.swipeableBase,
+          styles.swipeableRight,
+        ])}
       >
         <Icon source="pencil" size={24} color={COLORS.PRIMARY[300]} />
       </TouchableOpacity>
@@ -74,21 +63,47 @@ const Idea = ({
       ref={swipeableRef}
       containerStyle={{ width: '100%' }}
     >
-      <View
-        style={{
-          backgroundColor: COLORS.NEUTRAL[900],
-          borderRightWidth: BORDER_WIDTH.LARGE,
-          borderColor: color,
-          paddingVertical: SPACING.SMALL,
-          paddingHorizontal: SPACING.MEDIUM,
-        }}
-      >
-        <Typography variant="body1" style={{ marginTop: SPACING.SMALL }}>
-          {idea.text}
-        </Typography>
+      <View style={styles.separator}>
+        <View
+          style={StyleSheet.flatten([
+            styles.textContainer,
+            { borderRightColor: color },
+          ])}
+        >
+          <Typography variant="body1">{idea.text}</Typography>
+        </View>
       </View>
     </Swipeable>
   )
 }
 
+const SHARED_SPACING = BORDER_WIDTH.ML
+
+const styles = StyleSheet.create({
+  separator: {
+    borderTopColor: COLORS.NEUTRAL[800],
+    borderTopWidth: SHARED_SPACING,
+  },
+  swipeableBase: {
+    alignItems: 'center',
+    backgroundColor: COLORS.NEUTRAL[900],
+    borderRadius: BORDER_RADIUS.NONE,
+    borderTopColor: COLORS.NEUTRAL[800],
+    borderTopWidth: SHARED_SPACING,
+    justifyContent: 'center',
+    padding: SPACING.XXSMALL,
+  },
+  swipeableLeft: {
+    marginRight: SHARED_SPACING,
+  },
+  swipeableRight: {
+    marginLeft: SHARED_SPACING,
+  },
+  textContainer: {
+    backgroundColor: COLORS.NEUTRAL[900],
+    borderRightWidth: BORDER_WIDTH.LARGE,
+    paddingHorizontal: SPACING.MEDIUM,
+    paddingVertical: SPACING.SMALL,
+  },
+})
 export default Idea

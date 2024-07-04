@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     borderRightWidth: BORDER_WIDTH.LARGE,
     flexDirection: 'row',
     paddingLeft: SPACING.MEDIUM,
-    paddingTop: SPACING.MEDIUM,
+    paddingVertical: SPACING.MEDIUM,
     width: '100%',
   },
   labelTextContainer: {

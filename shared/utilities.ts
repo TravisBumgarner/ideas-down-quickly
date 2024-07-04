@@ -44,9 +44,8 @@ export const getValueFromKeyStore = async (key: string) => {
 }
 
 export const navigateWithParams = <T extends keyof URLParams>(
-  route: T,
+  pathname: T,
   params: URLParams[T]
 ) => {
-  router.push(route)
-  router.setParams(params)
+  router.push({ pathname, params })
 }

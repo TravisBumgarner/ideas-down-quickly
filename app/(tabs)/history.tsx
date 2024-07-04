@@ -11,13 +11,13 @@ import { desc, eq } from 'drizzle-orm'
 import { Link } from 'expo-router'
 import { useCallback, useMemo, useState } from 'react'
 import { SafeAreaView, ScrollView, View } from 'react-native'
-import { ActivityIndicator, useTheme } from 'react-native-paper'
+import { ActivityIndicator } from 'react-native-paper'
 
 const History = () => {
   const [ideasWithLabel, setIdeasWithLabel] = useState<
     { idea: SelectIdea | null; label: SelectLabel | null }[] | null
   >(null)
-  const theme = useTheme()
+
   const [isFilterMenuVisible, setIsFilterMenuVisible] = useState(false)
   const [selectedFilterLabelId, setSelectedFilterLabelId] = useState('')
   const [filterLabelList, setFilterLabelList] = useState<
@@ -100,6 +100,7 @@ const History = () => {
               icon={item.label.icon}
               text={item.idea.text}
               id={item.idea.id}
+              label={item.label.text}
               onDeleteCallback={fetchFromDB}
             />
           </View>

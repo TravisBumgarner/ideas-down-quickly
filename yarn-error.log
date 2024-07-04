@@ -1,5 +1,5 @@
 Arguments: 
-  /Users/travisbumgarner/.nvm/versions/node/v20.3.0/bin/node /Users/travisbumgarner/.nvm/versions/node/v20.3.0/bin/yarn start
+  /Users/travisbumgarner/.nvm/versions/node/v20.3.0/bin/node /Users/travisbumgarner/.nvm/versions/node/v20.3.0/bin/yarn run build:ios:internal:local
 
 PATH: 
   /usr/local/opt/gst-plugins-bad/bin:/Library/Frameworks/GStreamer.framework/Commands:/Users/travisbumgarner/.yarn/bin:/Users/travisbumgarner/google-cloud-sdk/bin:/Users/travisbumgarner/.bun/bin:/Users/travisbumgarner/.nvm/versions/node/v20.3.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Library/Apple/usr/bin:/Applications/VMware Fusion.app/Contents/Public:/usr/local/go/bin:/usr/local/opt/gst-plugins-bad/bin:/Library/Frameworks/GStreamer.framework/Commands:/Users/travisbumgarner/.yarn/bin:/Users/travisbumgarner/google-cloud-sdk/bin:/Users/travisbumgarner/.bun/bin:/Users/travisbumgarner/.nvm/versions/node/v20.3.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/travisbumgarner/.local/bin:/Users/travisbumgarner/Programming/monarch/platform-utils/sb:/Users/travisbumgarner/.node/bin:/Users/travisbumgarner/.local/bin:/Users/travisbumgarner/Programming/monarch/platform-utils/sb:/Users/travisbumgarner/.node/bin:/Users/travisbumgarner/.local/bin:/Users/travisbumgarner/Programming/monarch/platform-utils/sb
@@ -14,7 +14,7 @@ Platform:
   darwin arm64
 
 Trace: 
-  SyntaxError: /Users/travisbumgarner/Programming/brainstorm-app/package.json: Expected double-quoted property name in JSON at position 965
+  SyntaxError: /Users/travisbumgarner/Programming/brainstorm-app/package.json: Expected double-quoted property name in JSON at position 783
       at JSON.parse (<anonymous>)
       at /Users/travisbumgarner/.nvm/versions/node/v20.3.0/lib/node_modules/yarn/lib/cli.js:1629:59
       at Generator.next (<anonymous>)
@@ -38,7 +38,8 @@ npm manifest:
       "build:ios:localdev": "eas build --profile development-simulator --platform ios",
       "build:ios:register": "eas device:create",
       "build:ios:development": "eas build --profile development --platform ios",
-      "build:ios:internal": "eas build --profile preview --platform ios"
+      "build:ios:internal:cloud": "eas build --profile preview --platform ios",
+      "build:ios:internal:local": "eas build --platform ios --local --profile preview",
     },
     "jest": {
       "preset": "jest-expo"
@@ -48,7 +49,7 @@ npm manifest:
       "@fontsource/montserrat": "^5.0.18",
       "@react-native-async-storage/async-storage": "^1.23.1",
       "@react-navigation/native": "^6.0.2",
-      "drizzle-orm": "^0.31.0",7  
+      "drizzle-orm": "^0.31.0",
       "expo": "~51.0.9",
       "expo-constants": "~16.0.2",
       "expo-dev-client": "~4.0.18",
@@ -63,14 +64,16 @@ npm manifest:
       "react": "18.2.0",
       "react-dom": "18.2.0",
       "react-native": "0.74.1",
-      "react-native-gesture-handler": "~2.16.1",
+      "react-native-gesture-handler": "^2.17.1",
       "react-native-get-random-values": "^1.11.0",
       "react-native-paper": "^5.12.3",
+      "react-native-paper-dropdown": "^1.0.7",
       "react-native-reanimated": "~3.10.1",
       "react-native-safe-area-context": "4.10.1",
       "react-native-screens": "3.31.1",
       "react-native-vector-icons": "^10.1.0",
       "react-native-web": "~0.19.10",
+      "use-async-effect": "^2.2.7",
       "uuid": "^9.0.1"
     },
     "devDependencies": {
@@ -8087,15 +8090,14 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
     integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
   
-  react-native-gesture-handler@~2.16.1:
-    version "2.16.2"
-    resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-2.16.2.tgz#032bd2a07334292d7f6cff1dc9d1ec928f72e26d"
-    integrity sha512-vGFlrDKlmyI+BT+FemqVxmvO7nqxU33cgXVsn6IKAFishvlG3oV2Ds67D5nPkHMea8T+s1IcuMm0bF8ntZtAyg==
+  react-native-gesture-handler@^2.17.1:
+    version "2.17.1"
+    resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-2.17.1.tgz#f458a6099f09afac144f3e67add96667d859a88d"
+    integrity sha512-pWfniN6NuVKUq40KACuD3NCMe+bWNQCpD3cmxL6aLSCTwPKYmf7l4Lp0/E/almpjvxhybJZtFLU0w4tmxnIKaA==
     dependencies:
       "@egjs/hammerjs" "^2.0.17"
       hoist-non-react-statics "^3.3.0"
       invariant "^2.2.4"
-      lodash "^4.17.21"
       prop-types "^15.7.2"
   
   react-native-get-random-values@^1.11.0:
@@ -8113,6 +8115,11 @@ Lockfile:
       invariant "^2.2.4"
       react-fast-compare "^3.2.2"
       shallowequal "^1.1.0"
+  
+  react-native-paper-dropdown@^1.0.7:
+    version "1.0.7"
+    resolved "https://registry.yarnpkg.com/react-native-paper-dropdown/-/react-native-paper-dropdown-1.0.7.tgz#64fe004b05b73ca5c781873d800ac5062b35bdc9"
+    integrity sha512-St0rZFw5sC7mbXtFCOGsyEa0fIBaG6Cfz78RsjFNzTj+rKd1i9qlDY2O7eOa2zAUEnFlL+C7FXdXUY9RUNELNw==
   
   react-native-paper@^5.12.3:
     version "5.12.3"
@@ -9586,6 +9593,11 @@ Lockfile:
     dependencies:
       querystringify "^2.1.1"
       requires-port "^1.0.0"
+  
+  use-async-effect@^2.2.7:
+    version "2.2.7"
+    resolved "https://registry.yarnpkg.com/use-async-effect/-/use-async-effect-2.2.7.tgz#5812f875a8d7996c396fb49798d0377e90575989"
+    integrity sha512-Vq94tKPyo/9Nok4LOapV0GoGgZPhbeDW/bP6bulLPV4+lIoftaBRBBbGjTbM+j5W1Bm2EkUHJgapeu5YnQvKEA==
   
   use-latest-callback@^0.1.5, use-latest-callback@^0.1.9:
     version "0.1.9"

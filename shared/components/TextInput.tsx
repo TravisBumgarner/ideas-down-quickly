@@ -4,7 +4,7 @@ import { Text, TextInput as TextInputRNP } from 'react-native-paper'
 import { COLORS2, SPACING2 } from '../theme'
 
 type Props = {
-  label: string
+  label?: string
   value: string
   onChangeText: (text: string) => void
   multiline?: boolean
@@ -20,7 +20,7 @@ const TextInput: React.FC<Props> = ({
 }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>{label}</Text>
+      {label && <Text style={styles.label}>{label}</Text>}
       <TextInputRNP
         onChangeText={onChangeText}
         value={value}
@@ -41,7 +41,6 @@ const TextInput: React.FC<Props> = ({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: 'center',
     paddingVertical: SPACING2.MEDIUM,
   },

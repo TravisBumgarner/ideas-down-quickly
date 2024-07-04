@@ -4,7 +4,7 @@ import Dropdown from '@/shared/components/Dropdown'
 import Idea from '@/shared/components/Idea'
 import PageWrapper from '@/shared/components/PageWrapper'
 import Typography from '@/shared/components/Typography'
-import { SPACING } from '@/shared/theme'
+import { SPACING, SPACING2 } from '@/shared/theme'
 import { areSameDay, formatDisplayDate } from '@/shared/utilities'
 import { useFocusEffect } from '@react-navigation/native'
 import { desc, eq } from 'drizzle-orm'
@@ -75,8 +75,8 @@ const History = () => {
           // There might be a better way to attach dates but for now this works.
           output.push(
             <Typography
-              variant="h2"
-              style={{ flex: 1 }}
+              variant="h1"
+              style={{ width: '100%' }}
               key={item.idea.createdAt}
             >
               {formatDisplayDate(parsedCreatedAt)}
@@ -141,15 +141,7 @@ const History = () => {
   }
 
   return (
-    <PageWrapper title="History">
-      <Dropdown
-        value={selectedFilterLabelId}
-        setValue={setSelectedFilterLabelId}
-        list={filterLabelList}
-        isVisible={isFilterMenuVisible}
-        setIsVisible={setIsFilterMenuVisible}
-        label="Filter by Label"
-      ></Dropdown>
+    <PageWrapper>
       <ScrollView
         contentContainerStyle={{
           alignItems: 'center',
@@ -167,6 +159,16 @@ const History = () => {
             </Typography>
           ))}
       </ScrollView>
+      <View style={{ marginVertical: SPACING2.MEDIUM }}>
+        <Dropdown
+          value={selectedFilterLabelId}
+          setValue={setSelectedFilterLabelId}
+          list={filterLabelList}
+          isVisible={isFilterMenuVisible}
+          setIsVisible={setIsFilterMenuVisible}
+          label="Filter by Label"
+        />
+      </View>
     </PageWrapper>
   )
 }

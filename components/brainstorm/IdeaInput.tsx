@@ -58,7 +58,7 @@ const IdeaInput = ({
 
   return (
     <PageWrapper>
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, justifyContent: 'center' }}>
         <TextInput
           label="What's on your mind?"
           value={ideaText}

@@ -1,7 +1,7 @@
 import queries from '@/db/queries'
-import { BORDER_RADIUS, COLORS, SPACING } from '@/shared/theme'
+import { BORDER_RADIUS, COLORS2, SPACING, SPACING2 } from '@/shared/theme'
 import { useCallback, useRef } from 'react'
-import { TouchableOpacity, View } from 'react-native'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Swipeable } from 'react-native-gesture-handler'
 import { Icon } from 'react-native-paper'
 
@@ -35,18 +35,18 @@ const Idea = ({ color, icon, text, label, id, onDeleteCallback }: Props) => {
       <TouchableOpacity
         onPress={handleDelete}
         style={{
-          backgroundColor: color,
+          backgroundColor: COLORS2.NEUTRAL[900],
           justifyContent: 'center',
           alignItems: 'center',
           padding: SPACING.md,
-          borderRadius: BORDER_RADIUS.MEDIUM,
+          borderRadius: BORDER_RADIUS.NONE,
           marginRight: SPACING.md,
         }}
       >
-        <Icon source="delete" size={24} color={COLORS.dark.opaque} />
+        <Icon source="delete" size={24} color={COLORS2.WARNING[300]} />
       </TouchableOpacity>
     ),
-    [color, handleDelete]
+    [handleDelete]
   )
 
   const renderRightActions = useCallback(
@@ -54,18 +54,18 @@ const Idea = ({ color, icon, text, label, id, onDeleteCallback }: Props) => {
       <TouchableOpacity
         onPress={handleEdit}
         style={{
-          backgroundColor: color,
+          backgroundColor: COLORS2.NEUTRAL[900],
           justifyContent: 'center',
           alignItems: 'center',
           padding: SPACING.md,
-          borderRadius: BORDER_RADIUS.MEDIUM,
+          borderRadius: BORDER_RADIUS.NONE,
           marginLeft: SPACING.md,
         }}
       >
-        <Icon source="pencil" size={24} color={COLORS.dark.opaque} />
+        <Icon source="pencil" size={24} color={COLORS2.PRIMARY[300]} />
       </TouchableOpacity>
     ),
-    [color, handleEdit]
+    [handleEdit]
   )
 
   return (
@@ -75,11 +75,12 @@ const Idea = ({ color, icon, text, label, id, onDeleteCallback }: Props) => {
       renderRightActions={renderRightActions}
     >
       <View
-        style={{
-          borderRadius: BORDER_RADIUS.MEDIUM,
-          backgroundColor: color,
-          padding: SPACING.md,
-        }}
+        style={StyleSheet.flatten([
+          styles.container,
+          {
+            borderRightColor: color,
+          },
+        ])}
       >
         <View
           style={{
@@ -88,13 +89,10 @@ const Idea = ({ color, icon, text, label, id, onDeleteCallback }: Props) => {
             width: '100%',
           }}
         >
-          <Icon source={icon} size={24} color={COLORS.light.opaque} />
-          <Typography
-            style={{ lineHeight: 0, marginLeft: SPACING.sm }}
-            variant="h2"
-          >
-            {label}
-          </Typography>
+          <Icon source={icon} size={24} color={color} />
+          <View style={styles.textContainer}>
+            <Typography variant="h2">{text}</Typography>
+          </View>
         </View>
         <Typography variant="body1" style={{ marginTop: SPACING.sm }}>
           {text}
@@ -103,5 +101,18 @@ const Idea = ({ color, icon, text, label, id, onDeleteCallback }: Props) => {
     </Swipeable>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: COLORS2.NEUTRAL[900],
+    borderRadius: BORDER_RADIUS.NONE,
+    borderRightWidth: 8,
+    padding: SPACING.md,
+  },
+  textContainer: {
+    flexDirection: 'column',
+    marginLeft: SPACING2.MEDIUM,
+  },
+})
 
 export default Idea

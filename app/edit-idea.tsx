@@ -3,15 +3,14 @@ import { SelectLabel } from '@/db/schema'
 import Button from '@/shared/components/Button'
 import ButtonWrapper from '@/shared/components/ButtonWrapper'
 import Dropdown from '@/shared/components/Dropdown'
-import Label from '@/shared/components/Label'
 import PageWrapper from '@/shared/components/PageWrapper'
-import { SPACING } from '@/shared/theme'
+import TextInput from '@/shared/components/TextInput'
 import { URLParams } from '@/shared/types'
 import { router, useLocalSearchParams } from 'expo-router'
 import * as React from 'react'
 import { SafeAreaView, View } from 'react-native'
 import 'react-native-get-random-values'
-import { ActivityIndicator, TextInput, useTheme } from 'react-native-paper'
+import { ActivityIndicator, useTheme } from 'react-native-paper'
 import { useAsyncEffect } from 'use-async-effect'
 
 const IdeaEdit = ({
@@ -71,22 +70,17 @@ const IdeaEdit = ({
   }
 
   return (
-    <PageWrapper
-      style={{
-        flex: 1,
-        backgroundColor: theme.colors.background,
-        justifyContent: 'space-between',
-      }}
-    >
-      <View style={{ margin: SPACING.md }}>
-        <Label
+    <PageWrapper>
+      <View style={{ flex: 1, justifyContent: 'center' }}>
+        <TextInput
+          label=""
+          value={ideaText}
+          onChangeText={text => setIdeaText(text)}
+          multiline
           color={label.color}
-          icon={label.icon}
-          text={label.text}
-          readonly
         />
         <Dropdown
-          label="Select a label"
+          label="Label"
           setIsVisible={setIsVisible}
           isVisible={isVisible}
           value={selectedLabelId}
@@ -94,17 +88,7 @@ const IdeaEdit = ({
           list={labelList}
         />
       </View>
-      <View style={{ flex: 1 }}>
-        <TextInput
-          style={{
-            margin: SPACING.md,
-          }}
-          label="Spill it..."
-          value={ideaText}
-          onChangeText={text => setIdeaText(text)}
-          multiline
-        />
-      </View>
+
       <ButtonWrapper
         left={
           <Button color="warning" variant="link" onPress={handleCancel}>

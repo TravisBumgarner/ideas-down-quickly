@@ -1,8 +1,8 @@
 import React, { ReactNode, useCallback, useEffect, useState } from 'react'
-import { LayoutChangeEvent, ScrollView, View } from 'react-native'
+import { LayoutChangeEvent, ScrollView, StyleSheet, View } from 'react-native'
 import { Menu, TextInput, TouchableRipple } from 'react-native-paper'
 
-import { BORDER_RADIUS, COLORS, SPACING } from '../theme'
+import { BORDER_RADIUS, COLORS, COLORS2 } from '../theme'
 
 export interface DropDownPropsInterface<T extends string | number> {
   isVisible: boolean
@@ -64,76 +64,87 @@ const DropDown = (props: DropDownPropsInterface<string>) => {
   )
 
   return (
-    <Menu
-      visible={isVisible}
-      onDismiss={onDismiss}
-      anchor={
-        <TouchableRipple onPress={onOpen} onLayout={onLayout}>
-          <View pointerEvents={'none'}>
-            <TextInput
-              value={displayValue}
-              label={label}
-              placeholder={placeholder}
-              pointerEvents={'none'}
-              right={
-                <TextInput.Icon icon={isVisible ? 'menu-up' : 'menu-down'} />
-              }
-              underlineColor="transparent"
-              style={{
-                borderRadius: BORDER_RADIUS.MEDIUM,
-                // For some reason, something is overriding the border radius so the next two lines are needed.
-                borderTopEndRadius: BORDER_RADIUS.MEDIUM,
-                borderTopLeftRadius: BORDER_RADIUS.MEDIUM,
-                backgroundColor: COLORS.light.transparent,
-                borderWidth: 1,
-                borderColor: COLORS.light.opaque,
-              }}
-            />
-          </View>
-        </TouchableRipple>
-      }
-      contentStyle={{
-        backgroundColor: COLORS.dark.opaque,
-        borderRadius: BORDER_RADIUS.MEDIUM,
-      }}
-      style={{
-        width: inputLayout?.width,
-        paddingTop: SPACING.md,
-        marginTop: inputLayout?.height,
-      }}
-    >
-      <ScrollView
-        bounces={false}
+    <View style={styles.container}>
+      <Menu
+        visible={isVisible}
+        onDismiss={onDismiss}
+        anchor={
+          <TouchableRipple onPress={onOpen} onLayout={onLayout}>
+            <View pointerEvents={'none'}>
+              <TextInput
+                value={displayValue}
+                label={label}
+                placeholder={placeholder}
+                pointerEvents={'none'}
+                right={
+                  <TextInput.Icon icon={isVisible ? 'menu-up' : 'menu-down'} />
+                }
+                underlineColor="transparent"
+                style={{
+                  borderRadius: 0,
+                  // For some reason, something is overriding the border radius so the next two lines are needed.
+                  borderTopEndRadius: 0,
+                  borderTopLeftRadius: 0,
+                  backgroundColor: COLORS2.NEUTRAL[900],
+                  borderWidth: 1,
+                  borderColor: COLORS2.PRIMARY[400],
+                  fontSize: 16,
+                }}
+              />
+            </View>
+          </TouchableRipple>
+        }
+        contentStyle={{
+          backgroundColor: COLORS2.NEUTRAL[900],
+          borderRadius: BORDER_RADIUS.NONE,
+        }}
         style={{
-          maxHeight: 300,
+          width: inputLayout?.width,
+          marginTop: inputLayout?.height,
+          borderColor: COLORS2.PRIMARY[400],
+          borderLeftWidth: 1,
+          borderRightWidth: 1,
+          borderBottomWidth: 1,
         }}
       >
-        {list.map((_item, _index) => (
-          <TouchableRipple
-            key={_item.value}
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}
-            onPress={() => {
-              setActive(_item.value)
-              onDismiss()
-            }}
-          >
-            <Menu.Item
-              title={_item.custom || _item.label}
-              titleStyle={{
-                color: isActive(_item.value)
-                  ? COLORS.primary.opaque
-                  : COLORS.light.opaque,
+        <ScrollView
+          bounces={false}
+          style={{
+            maxHeight: 300,
+          }}
+        >
+          {list.map((_item, _index) => (
+            <TouchableRipple
+              key={_item.value}
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                borderBottomColor: COLORS2.NEUTRAL[700],
+                borderBottomWidth: _index === list.length - 1 ? 0 : 1,
               }}
-            />
-          </TouchableRipple>
-        ))}
-      </ScrollView>
-    </Menu>
+              onPress={() => {
+                setActive(_item.value)
+                onDismiss()
+              }}
+            >
+              <Menu.Item
+                title={_item.custom || _item.label}
+                titleStyle={{
+                  color: isActive(_item.value)
+                    ? COLORS.primary.opaque
+                    : COLORS.light.opaque,
+                }}
+              />
+            </TouchableRipple>
+          ))}
+        </ScrollView>
+      </Menu>
+    </View>
   )
 }
-DropDown.displayName = 'DropDown'
+
+const styles = StyleSheet.create({
+  container: {},
+})
 
 export default DropDown

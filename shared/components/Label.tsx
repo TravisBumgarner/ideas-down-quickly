@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   container: {
     alignContent: 'center',
     alignItems: 'flex-start',
-    backgroundColor: COLORS2.NEUTRAL[800],
+    backgroundColor: COLORS2.NEUTRAL[900],
     borderRadius: BORDER_RADIUS.NONE,
     borderRightWidth: BORDER_WIDTH.LARGE,
     flexDirection: 'row',

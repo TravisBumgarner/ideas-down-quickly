@@ -1,6 +1,5 @@
-import { db } from '@/db/client'
 import queries from '@/db/queries'
-import { IdeasTable, NewIdea, SelectLabel } from '@/db/schema'
+import { NewIdea, SelectLabel } from '@/db/schema'
 import Button from '@/shared/components/Button'
 import ButtonWrapper from '@/shared/components/ButtonWrapper'
 import PageWrapper from '@/shared/components/PageWrapper'
@@ -49,7 +48,7 @@ const AddIdea = () => {
       labelId: params.labelId,
       createdAt: new Date().toISOString(),
     }
-    await db.insert(IdeasTable).values(idea).returning({ uuid: IdeasTable.id })
+    await queries.insert.idea(idea)
 
     setIdeaText('')
     router.navigate('/')

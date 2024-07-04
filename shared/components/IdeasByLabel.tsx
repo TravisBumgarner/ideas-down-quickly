@@ -40,7 +40,7 @@ const IdeasbyLabel = ({ ideasByLabel, onDeleteCallback }: Props) => {
 const styles = StyleSheet.create({
   container: {
     borderRadius: BORDER_RADIUS.NONE,
-    marginVertical: SPACING.SMALL,
+    marginBottom: SPACING.SMALL,
     width: '100%',
   },
   headerContainer: {

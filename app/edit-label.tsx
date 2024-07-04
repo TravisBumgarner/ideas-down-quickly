@@ -93,6 +93,7 @@ const IdeaEdit = () => {
           color={COLORS.NEUTRAL[700]}
           value={labelText}
           onChangeText={text => setLabelText(text)}
+          multiline
         />
         <View
           style={{

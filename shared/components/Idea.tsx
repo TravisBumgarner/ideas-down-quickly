@@ -77,7 +77,7 @@ const Idea = ({
   )
 }
 
-const SHARED_SPACING = BORDER_WIDTH.ML
+const SHARED_SPACING = BORDER_WIDTH.MEDIUM
 
 const styles = StyleSheet.create({
   separator: {

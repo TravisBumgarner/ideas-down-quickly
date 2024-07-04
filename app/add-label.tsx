@@ -1,6 +1,6 @@
 import { ICONS } from '@/assets/iconlist'
-import { db } from '@/db/client'
-import { LabelsTable, NewLabel } from '@/db/schema'
+import queries from '@/db/queries'
+import { NewLabel } from '@/db/schema'
 import Button from '@/shared/components/Button'
 import ButtonWrapper from '@/shared/components/ButtonWrapper'
 import Label from '@/shared/components/Label'
@@ -28,17 +28,15 @@ const AddLabel = () => {
   }, [])
 
   const handleSubmit = React.useCallback(async () => {
-    const newLabel: NewLabel = {
+    const label: NewLabel = {
       id: uuidv4(),
       text: labelText,
       createdAt: new Date().toISOString(),
       color,
       icon,
     }
-    await db.insert(LabelsTable).values(newLabel).returning({
-      id: LabelsTable.id,
-    })
-    navigateWithParams('add-idea', { labelId: newLabel.id })
+    await queries.insert.label(label)
+    navigateWithParams('add-idea', { labelId: label.id })
   }, [labelText, color, icon])
 
   return (
@@ -56,6 +54,7 @@ const AddLabel = () => {
           color={COLORS.NEUTRAL[700]}
           value={labelText}
           onChangeText={text => setLabelText(text)}
+          multiline
         />
         <View
           style={{

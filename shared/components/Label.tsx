@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     flexDirection: 'column',
-    marginLeft: SPACING.MEDIUM,
+    marginHorizontal: SPACING.MEDIUM,
   },
 })
 

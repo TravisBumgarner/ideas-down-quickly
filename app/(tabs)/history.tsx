@@ -4,7 +4,7 @@ import Dropdown from '@/shared/components/Dropdown'
 import Idea from '@/shared/components/Idea'
 import PageWrapper from '@/shared/components/PageWrapper'
 import Typography from '@/shared/components/Typography'
-import { COLORS2, SPACING } from '@/shared/theme'
+import { COLORS, SPACING } from '@/shared/theme'
 import { areSameDay, formatDisplayDate } from '@/shared/utilities'
 import { useFocusEffect } from '@react-navigation/native'
 import { desc, eq } from 'drizzle-orm'
@@ -112,7 +112,7 @@ const History = () => {
 
   if (ideasWithLabel === null) {
     return (
-      <SafeAreaView style={{ backgroundColor: COLORS2.NEUTRAL[700], flex: 1 }}>
+      <SafeAreaView style={{ backgroundColor: COLORS.NEUTRAL[700], flex: 1 }}>
         <ActivityIndicator animating size="large" />
       </SafeAreaView>
     )

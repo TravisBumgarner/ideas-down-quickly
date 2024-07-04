@@ -3,10 +3,10 @@ import { StyleSheet, Text } from 'react-native'
 import { Button as ButtonRNP } from 'react-native-paper'
 import { IconSource } from 'react-native-paper/lib/typescript/components/Icon'
 
-import { BORDER_RADIUS, COLORS2 } from '../theme'
+import { BORDER_RADIUS, COLORS } from '../theme'
 
 const SHARED = {
-  textColor: COLORS2.NEUTRAL[100],
+  textColor: COLORS.NEUTRAL[100],
 } as const
 
 const Button = ({
@@ -78,33 +78,33 @@ const buttonStyles = StyleSheet.create({
     width: '100%',
   },
   primaryFilled: {
-    backgroundColor: COLORS2.PRIMARY[300],
+    backgroundColor: COLORS.PRIMARY[300],
   },
   primaryLink: {
-    backgroundColor: COLORS2.MISC.TRANSPARENT,
+    backgroundColor: COLORS.MISC.TRANSPARENT,
   },
   warningFilled: {
-    backgroundColor: COLORS2.WARNING[300],
+    backgroundColor: COLORS.WARNING[300],
   },
   warningLink: {
-    backgroundColor: COLORS2.MISC.TRANSPARENT,
+    backgroundColor: COLORS.MISC.TRANSPARENT,
   },
 })
 
 const textStyles = StyleSheet.create({
   primaryFilled: {
-    color: COLORS2.NEUTRAL[900],
+    color: COLORS.NEUTRAL[900],
     fontWeight: 'bold',
   },
   primaryLink: {
-    color: COLORS2.PRIMARY[300],
+    color: COLORS.PRIMARY[300],
   },
   warningFilled: {
-    color: COLORS2.NEUTRAL[900],
+    color: COLORS.NEUTRAL[900],
     fontWeight: 'bold',
   },
   warningLink: {
-    color: COLORS2.WARNING[300],
+    color: COLORS.WARNING[300],
   },
 })
 

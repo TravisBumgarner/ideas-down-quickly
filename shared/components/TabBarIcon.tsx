@@ -5,7 +5,7 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 import { type IconProps } from '@expo/vector-icons/build/createIconSet'
 import { type ComponentProps } from 'react'
 
-import { COLORS2 } from '../theme'
+import { COLORS } from '../theme'
 
 export function TabBarIcon({
   style,
@@ -16,7 +16,7 @@ export function TabBarIcon({
 }) {
   return (
     <Ionicons
-      color={isFocused ? COLORS2.PRIMARY[300] : COLORS2.NEUTRAL[300]}
+      color={isFocused ? COLORS.PRIMARY[300] : COLORS.NEUTRAL[300]}
       size={28}
       style={[{ marginBottom: -3 }, style]}
       {...rest}

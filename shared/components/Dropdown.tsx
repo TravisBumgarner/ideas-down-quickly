@@ -2,7 +2,7 @@ import React, { ReactNode, useCallback, useEffect, useState } from 'react'
 import { LayoutChangeEvent, ScrollView, StyleSheet, View } from 'react-native'
 import { Menu, TextInput, TouchableRipple } from 'react-native-paper'
 
-import { BORDER_RADIUS, COLORS2 } from '../theme'
+import { BORDER_RADIUS, COLORS } from '../theme'
 
 export interface DropDownPropsInterface<T extends string | number> {
   isVisible: boolean
@@ -85,9 +85,9 @@ const DropDown = (props: DropDownPropsInterface<string>) => {
                   // For some reason, something is overriding the border radius so the next two lines are needed.
                   borderTopEndRadius: 0,
                   borderTopLeftRadius: 0,
-                  backgroundColor: COLORS2.NEUTRAL[900],
+                  backgroundColor: COLORS.NEUTRAL[900],
                   borderWidth: 1,
-                  borderColor: COLORS2.PRIMARY[400],
+                  borderColor: COLORS.PRIMARY[400],
                   fontSize: 16,
                 }}
               />
@@ -95,13 +95,13 @@ const DropDown = (props: DropDownPropsInterface<string>) => {
           </TouchableRipple>
         }
         contentStyle={{
-          backgroundColor: COLORS2.NEUTRAL[900],
+          backgroundColor: COLORS.NEUTRAL[900],
           borderRadius: BORDER_RADIUS.NONE,
         }}
         style={{
           width: inputLayout?.width,
           marginTop: inputLayout?.height,
-          borderColor: COLORS2.PRIMARY[400],
+          borderColor: COLORS.PRIMARY[400],
           borderLeftWidth: 1,
           borderRightWidth: 1,
           borderBottomWidth: 1,
@@ -119,7 +119,7 @@ const DropDown = (props: DropDownPropsInterface<string>) => {
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-                borderBottomColor: COLORS2.NEUTRAL[700],
+                borderBottomColor: COLORS.NEUTRAL[700],
                 borderBottomWidth: _index === list.length - 1 ? 0 : 1,
               }}
               onPress={() => {
@@ -131,8 +131,8 @@ const DropDown = (props: DropDownPropsInterface<string>) => {
                 title={_item.custom || _item.label}
                 titleStyle={{
                   color: isActive(_item.value)
-                    ? COLORS2.PRIMARY[300]
-                    : COLORS2.NEUTRAL[200],
+                    ? COLORS.PRIMARY[300]
+                    : COLORS.NEUTRAL[200],
                 }}
               />
             </TouchableRipple>

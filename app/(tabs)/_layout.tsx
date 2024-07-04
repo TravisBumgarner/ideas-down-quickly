@@ -1,5 +1,5 @@
 import { TabBarIcon } from '@/shared/components/TabBarIcon'
-import { COLORS2 } from '@/shared/theme'
+import { COLORS } from '@/shared/theme'
 import { Tabs } from 'expo-router'
 import React from 'react'
 
@@ -9,13 +9,13 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: COLORS2.NEUTRAL[800],
+          backgroundColor: COLORS.NEUTRAL[800],
           borderWidth: 0,
         },
         tabBarLabelStyle: {
-          color: COLORS2.NEUTRAL['300'],
+          color: COLORS.NEUTRAL['300'],
         },
-        tabBarActiveTintColor: COLORS2.PRIMARY['300'],
+        tabBarActiveTintColor: COLORS.PRIMARY['300'],
       }}
     >
       <Tabs.Screen

@@ -1,4 +1,4 @@
-export const COLORS2 = {
+export const COLORS = {
   NEUTRAL: {
     '100': '#E3E7E8',
     '200': '#C7CFD1',

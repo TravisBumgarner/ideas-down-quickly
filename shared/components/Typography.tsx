@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleProp, StyleSheet, TextStyle } from 'react-native'
 import { Text } from 'react-native-paper'
 
-import { COLORS2, SPACING } from '../theme'
+import { COLORS, SPACING } from '../theme'
 
 type TypographyProps = {
   children: React.ReactNode
@@ -57,24 +57,24 @@ const Typography: React.FC<TypographyProps> = ({
 
 const styles = StyleSheet.create({
   base: {
-    color: COLORS2.NEUTRAL[100],
+    color: COLORS.NEUTRAL[100],
   },
   body1: {
     fontSize: 16,
   },
   caption: {
-    color: COLORS2.NEUTRAL[500],
+    color: COLORS.NEUTRAL[500],
     fontSize: 13,
   },
   h1: {
-    backgroundColor: COLORS2.NEUTRAL[800],
-    color: COLORS2.NEUTRAL[400],
+    backgroundColor: COLORS.NEUTRAL[800],
+    color: COLORS.NEUTRAL[400],
     fontSize: 24,
     marginVertical: SPACING.SMALL,
     textAlign: 'center',
   },
   h2: {
-    color: COLORS2.NEUTRAL[200],
+    color: COLORS.NEUTRAL[200],
     fontSize: 20,
     fontWeight: 'bold',
     lineHeight: 0, // TODO - ugh.

@@ -1,4 +1,4 @@
-import { BORDER_RADIUS, BORDER_WIDTH, COLORS2, SPACING } from '@/shared/theme'
+import { BORDER_RADIUS, BORDER_WIDTH, COLORS, SPACING } from '@/shared/theme'
 import { useCallback, useRef } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Swipeable, TouchableOpacity } from 'react-native-gesture-handler'
@@ -48,7 +48,7 @@ const Label = ({
       <TouchableOpacity
         onPress={handleDelete}
         style={{
-          backgroundColor: COLORS2.NEUTRAL[900],
+          backgroundColor: COLORS.NEUTRAL[900],
           justifyContent: 'center',
           alignItems: 'center',
           padding: SPACING.MEDIUM,
@@ -57,7 +57,7 @@ const Label = ({
           flexGrow: 1,
         }}
       >
-        <Icon source="delete" size={24} color={COLORS2.WARNING[300]} />
+        <Icon source="delete" size={24} color={COLORS.WARNING[300]} />
       </TouchableOpacity>
     ),
     [handleDelete]
@@ -68,7 +68,7 @@ const Label = ({
       <TouchableOpacity
         onPress={handleEdit}
         style={{
-          backgroundColor: COLORS2.NEUTRAL[900],
+          backgroundColor: COLORS.NEUTRAL[900],
           justifyContent: 'center',
           alignItems: 'center',
           padding: SPACING.MEDIUM,
@@ -77,7 +77,7 @@ const Label = ({
           flexGrow: 1,
         }}
       >
-        <Icon source="pencil" size={24} color={COLORS2.PRIMARY[300]} />
+        <Icon source="pencil" size={24} color={COLORS.PRIMARY[300]} />
       </TouchableOpacity>
     ),
     [handleEdit]
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
   container: {
     alignContent: 'center',
     alignItems: 'flex-start',
-    backgroundColor: COLORS2.NEUTRAL[900],
+    backgroundColor: COLORS.NEUTRAL[900],
     borderRadius: BORDER_RADIUS.NONE,
     borderRightWidth: BORDER_WIDTH.LARGE,
     flexDirection: 'row',
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   text: {
-    color: COLORS2.NEUTRAL[200],
+    color: COLORS.NEUTRAL[200],
     fontSize: 13,
   },
   textContainer: {

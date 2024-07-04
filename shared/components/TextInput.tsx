@@ -1,7 +1,7 @@
 import { StyleSheet, View } from 'react-native'
 import { Text, TextInput as TextInputRNP } from 'react-native-paper'
 
-import { COLORS2, SPACING } from '../theme'
+import { COLORS, SPACING } from '../theme'
 
 type Props = {
   label?: string
@@ -28,7 +28,7 @@ const TextInput: React.FC<Props> = ({
         multiline={multiline}
         style={StyleSheet.flatten([
           styles.textInput,
-          { backgroundColor: COLORS2.MISC.TRANSPARENT },
+          { backgroundColor: COLORS.MISC.TRANSPARENT },
         ])}
         underlineStyle={{
           borderColor: color,
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     paddingVertical: SPACING.MEDIUM,
   },
   label: {
-    color: COLORS2.NEUTRAL[400],
+    color: COLORS.NEUTRAL[400],
     paddingBottom: SPACING.MEDIUM,
   },
   textInput: {

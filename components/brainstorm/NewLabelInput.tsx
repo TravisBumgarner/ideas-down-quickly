@@ -5,7 +5,7 @@ import Button from '@/shared/components/Button'
 import ButtonWrapper from '@/shared/components/ButtonWrapper'
 import Label from '@/shared/components/Label'
 import PageWrapper from '@/shared/components/PageWrapper'
-import { COLORS2, SPACING } from '@/shared/theme'
+import { COLORS, SPACING } from '@/shared/theme'
 import * as React from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -27,7 +27,7 @@ const IdeaInput = ({
   cancelCallback: () => void
 }) => {
   const [labelText, setLabelText] = React.useState('')
-  const [color, setColor] = React.useState<string>(COLORS2.NEUTRAL[900])
+  const [color, setColor] = React.useState<string>(COLORS.NEUTRAL[900])
   const [icon, setIcon] = React.useState<string>(ICONS[0])
   const [lastusedAt, setLastUsedAt] = React.useState<string | null>(null)
   const [currentStep, setCurrentStep] = React.useState<Step>(Step.Text)
@@ -113,7 +113,7 @@ const IdeaInput = ({
               justifyContent: 'space-between',
             }}
           >
-            {Object.values(COLORS2.LABELS).map(color => (
+            {Object.values(COLORS.LABELS).map(color => (
               <TouchableOpacity
                 key={color}
                 style={{

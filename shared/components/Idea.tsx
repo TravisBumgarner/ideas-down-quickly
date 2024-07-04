@@ -1,5 +1,5 @@
 import queries from '@/db/queries'
-import { BORDER_RADIUS, COLORS2, SPACING } from '@/shared/theme'
+import { BORDER_RADIUS, COLORS, SPACING } from '@/shared/theme'
 import { useCallback, useRef } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Swipeable } from 'react-native-gesture-handler'
@@ -34,7 +34,7 @@ const Idea = ({ color, icon, text, id, onDeleteCallback }: Props) => {
       <TouchableOpacity
         onPress={handleDelete}
         style={{
-          backgroundColor: COLORS2.NEUTRAL[900],
+          backgroundColor: COLORS.NEUTRAL[900],
           justifyContent: 'center',
           alignItems: 'center',
           padding: SPACING.MEDIUM,
@@ -42,7 +42,7 @@ const Idea = ({ color, icon, text, id, onDeleteCallback }: Props) => {
           marginRight: SPACING.MEDIUM,
         }}
       >
-        <Icon source="delete" size={24} color={COLORS2.WARNING[300]} />
+        <Icon source="delete" size={24} color={COLORS.WARNING[300]} />
       </TouchableOpacity>
     ),
     [handleDelete]
@@ -53,7 +53,7 @@ const Idea = ({ color, icon, text, id, onDeleteCallback }: Props) => {
       <TouchableOpacity
         onPress={handleEdit}
         style={{
-          backgroundColor: COLORS2.NEUTRAL[900],
+          backgroundColor: COLORS.NEUTRAL[900],
           justifyContent: 'center',
           alignItems: 'center',
           padding: SPACING.MEDIUM,
@@ -61,7 +61,7 @@ const Idea = ({ color, icon, text, id, onDeleteCallback }: Props) => {
           marginLeft: SPACING.MEDIUM,
         }}
       >
-        <Icon source="pencil" size={24} color={COLORS2.PRIMARY[300]} />
+        <Icon source="pencil" size={24} color={COLORS.PRIMARY[300]} />
       </TouchableOpacity>
     ),
     [handleEdit]
@@ -103,7 +103,7 @@ const Idea = ({ color, icon, text, id, onDeleteCallback }: Props) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: COLORS2.NEUTRAL[900],
+    backgroundColor: COLORS.NEUTRAL[900],
     borderRadius: BORDER_RADIUS.NONE,
     borderRightWidth: 8,
     padding: SPACING.MEDIUM,

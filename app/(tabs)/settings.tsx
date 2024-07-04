@@ -5,7 +5,7 @@ import PageWrapper from '@/shared/components/PageWrapper'
 import TextInput from '@/shared/components/TextInput'
 import Typography from '@/shared/components/Typography'
 import { context } from '@/shared/context'
-import { COLORS2, SPACING } from '@/shared/theme'
+import { COLORS, SPACING } from '@/shared/theme'
 import { useCallback, useContext, useState } from 'react'
 import { View } from 'react-native'
 import { ToggleButton } from 'react-native-paper'
@@ -59,7 +59,7 @@ const Settings = () => {
         label="Type 'Delete' to wipe database"
         value={deleteText}
         onChangeText={text => setDeleteText(text)}
-        color={COLORS2.WARNING[300]}
+        color={COLORS.WARNING[300]}
       />
       <View style={{ marginTop: SPACING.MEDIUM }}>
         <Button

@@ -61,7 +61,7 @@ const AddIdea = () => {
     <PageWrapper>
       <View style={{ flex: 1, justifyContent: 'center' }}>
         <TextInput
-          label="What's on your mind??"
+          label="What's on your mind?"
           value={ideaText}
           onChangeText={text => setIdeaText(text)}
           multiline
@@ -71,7 +71,7 @@ const AddIdea = () => {
       <ButtonWrapper
         left={
           <Button variant="link" color="warning" onPress={handleCancel}>
-            Cancel!
+            Cancel
           </Button>
         }
         right={

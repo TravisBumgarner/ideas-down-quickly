@@ -5,19 +5,14 @@ import Button from '@/shared/components/Button'
 import ButtonWrapper from '@/shared/components/ButtonWrapper'
 import Label from '@/shared/components/Label'
 import PageWrapper from '@/shared/components/PageWrapper'
+import TextInput from '@/shared/components/TextInput'
 import { COLORS, SPACING } from '@/shared/theme'
 import * as React from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import 'react-native-get-random-values'
-import { Icon, TextInput } from 'react-native-paper'
+import { Icon } from 'react-native-paper'
 import { v4 as uuidv4 } from 'uuid'
-
-enum Step {
-  Text = 0,
-  Color = 1,
-  Icon = 2,
-}
 
 const IdeaInput = ({
   submitCallback,
@@ -26,27 +21,9 @@ const IdeaInput = ({
   submitCallback: (args: { labelId: string }) => void
   cancelCallback: () => void
 }) => {
-  const [labelText, setLabelText] = React.useState('')
-  const [color, setColor] = React.useState<string>(COLORS.NEUTRAL[900])
+  const [labelText, setLabelText] = React.useState('Category')
+  const [color, setColor] = React.useState<string>(COLORS.NEUTRAL[700])
   const [icon, setIcon] = React.useState<string>(ICONS[0])
-  const [lastusedAt, setLastUsedAt] = React.useState<string | null>(null)
-  const [currentStep, setCurrentStep] = React.useState<Step>(Step.Text)
-  //For whatever reason, myself and Co-Pilot are horribly confused about the type for the next line.
-  const textInputRef = React.useRef<any>(null)
-
-  const incrementStep = React.useCallback(() => {
-    setCurrentStep(prev => prev + 1)
-  }, [])
-
-  React.useEffect(() => {
-    if (currentStep === Step.Color) {
-      setLastUsedAt(new Date().toISOString())
-    }
-  }, [currentStep])
-
-  const decrementStep = React.useCallback(() => {
-    setCurrentStep(prev => prev - 1)
-  }, [])
 
   const handleCancel = React.useCallback(() => {
     setLabelText('')
@@ -68,87 +45,61 @@ const IdeaInput = ({
     submitCallback({ labelId: result[0].id })
   }, [labelText, color, icon, submitCallback])
 
-  let content: React.ReactNode
-  switch (currentStep) {
-    case Step.Text: {
-      content = (
-        <>
-          <Label
-            id={''}
-            color={color}
-            icon={icon}
-            text={labelText}
-            readonly={false}
-            lastUsedAt={lastusedAt}
-            handlePress={() => textInputRef.current?.focus()}
-          />
-          <TextInput
-            ref={textInputRef}
-            style={{ display: 'none' }}
-            label="Label Text"
-            value={labelText}
-            onChangeText={text => setLabelText(text)}
-            selectTextOnFocus
-            returnKeyType="done"
-          />
-        </>
-      )
-      break
-    }
-    case Step.Color: {
-      content = (
-        <>
-          <Label
-            id={''}
-            color={color}
-            icon={icon}
-            text={labelText}
-            readonly={true}
-            lastUsedAt={lastusedAt}
-          />
-          <View
-            style={{
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              justifyContent: 'space-between',
-            }}
-          >
-            {Object.values(COLORS.LABELS).map(color => (
-              <TouchableOpacity
-                key={color}
-                style={{
-                  marginVertical: SPACING.SMALL,
-                  marginLeft: 0,
-                  marginRight: SPACING.SMALL,
-                  backgroundColor: color,
-                  width: 50,
-                  height: 50,
-                }}
-                onPress={() => setColor(color)}
-              ></TouchableOpacity>
-            ))}
-          </View>
-        </>
-      )
-      break
-    }
-
-    case Step.Icon: {
-      content = (
-        <>
-          <Label
-            id={''}
-            color={color}
-            icon={icon}
-            text={labelText}
-            readonly={true}
-            lastUsedAt={lastusedAt}
-          />
+  return (
+    <PageWrapper>
+      <View style={styles.container}>
+        <Label
+          id={''}
+          color={color}
+          icon={icon}
+          text={labelText}
+          readonly={true}
+          lastUsedAt={new Date().toISOString()}
+        />
+        <TextInput
+          color={COLORS.NEUTRAL[700]}
+          value={labelText}
+          onChangeText={text => setLabelText(text)}
+          borderWidth={1}
+        />
+        <View
+          style={{
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            justifyContent: 'space-around',
+          }}
+        >
+          {Object.values(COLORS.LABELS).map(color => (
+            <TouchableOpacity
+              key={color}
+              style={{
+                margin: SPACING.XXSMALL,
+                backgroundColor: color,
+                width: 35,
+                height: 35,
+              }}
+              onPress={() => setColor(color)}
+            ></TouchableOpacity>
+          ))}
+        </View>
+        <View
+          style={{
+            borderTopColor: COLORS.NEUTRAL[700],
+            borderTopWidth: 1,
+            paddingTop: SPACING.SMALL,
+            marginTop: SPACING.SMALL,
+            borderBottomColor: COLORS.NEUTRAL[700],
+            borderBottomWidth: 1,
+            paddingBottom: SPACING.SMALL,
+            marginBottom: SPACING.SMALL,
+            flex: 1,
+          }}
+        >
           <ScrollView
             contentContainerStyle={{
               flexDirection: 'row',
               flexWrap: 'wrap',
-              justifyContent: 'space-between',
+              justifyContent: 'space-around',
             }}
           >
             {ICONS.map(icon => (
@@ -156,8 +107,9 @@ const IdeaInput = ({
                 onPress={() => setIcon(icon)}
                 key={icon}
                 style={{
-                  width: 50,
-                  height: 50,
+                  width: 35,
+                  height: 35,
+                  margin: SPACING.XXSMALL,
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}
@@ -166,82 +118,27 @@ const IdeaInput = ({
               </TouchableOpacity>
             ))}
           </ScrollView>
-        </>
-      )
-      break
-    }
-  }
-
-  let buttons: React.ReactNode
-  switch (currentStep) {
-    case Step.Text: {
-      buttons = (
-        <ButtonWrapper
-          left={
-            <Button color="warning" variant="link" onPress={handleCancel}>
-              Cancel
-            </Button>
-          }
-          right={
-            <Button color="primary" variant="filled" onPress={incrementStep}>
-              Add color
-            </Button>
-          }
-        />
-      )
-      break
-    }
-    case Step.Color: {
-      buttons = (
-        <ButtonWrapper
-          left={
-            <Button color="warning" variant="link" onPress={decrementStep}>
-              Back
-            </Button>
-          }
-          right={
-            <Button color="primary" variant="filled" onPress={incrementStep}>
-              Add Icon
-            </Button>
-          }
-        />
-      )
-      break
-    }
-
-    case Step.Icon: {
-      buttons = (
-        <ButtonWrapper
-          left={
-            <Button color="warning" variant="link" onPress={decrementStep}>
-              Back
-            </Button>
-          }
-          right={
-            <Button color="primary" variant="filled" onPress={handleSubmit}>
-              Submit
-            </Button>
-          }
-        />
-      )
-      break
-    }
-  }
-
-  return (
-    <PageWrapper>
-      <View style={styles.container}>{content}</View>
-      {buttons}
+        </View>
+      </View>
+      <ButtonWrapper
+        left={
+          <Button color="warning" variant="link" onPress={() => ({})}>
+            Back
+          </Button>
+        }
+        right={
+          <Button color="primary" variant="filled" onPress={handleSubmit}>
+            Submit
+          </Button>
+        }
+      />
     </PageWrapper>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
     flex: 1,
-    justifyContent: 'center',
-    marginHorizontal: SPACING.MEDIUM,
   },
 })
 

@@ -9,12 +9,12 @@ import Typography from './Typography'
 
 type ReadonlyCondition =
   | {
-    readonly: false
-    handlePress: () => void
-  }
+      readonly: false
+      handlePress: () => void
+    }
   | {
-    readonly: true
-  }
+      readonly: true
+    }
 
 type Props = {
   color: string
@@ -104,8 +104,9 @@ const Label = ({
       >
         <Icon source={icon} size={24} color={color} />
         <View style={styles.textContainer}>
-          <Typography variant="h2">{text}</Typography>
-          <Text style={styles.text}>
+          {/* For some reason no text adjusts the height of the Typography element */}
+          <Typography variant="h2">{text.length > 0 ? text : ' '}</Typography>
+          <Text style={styles.dateText}>
             {lastUsedAt ? `Last ideated on ${lastUsedAt}` : 'No ideation yet'}
           </Text>
         </View>
@@ -126,13 +127,12 @@ const styles = StyleSheet.create({
     paddingVertical: SPACING.SMALL,
     width: '100%',
   },
-  text: {
+  dateText: {
     color: COLORS.NEUTRAL[200],
     fontSize: 13,
   },
   textContainer: {
     flexDirection: 'column',
-    marginLeft: SPACING.MEDIUM,
   },
 })
 

@@ -67,6 +67,7 @@ export const COLORS = {
     '13': '#FF2567',
     '14': '#FFFFFF',
     '15': '#A3A3A3',
+    '16': '#000000',
   },
 } as const
 

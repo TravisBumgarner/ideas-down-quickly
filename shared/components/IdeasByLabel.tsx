@@ -25,10 +25,10 @@ const IdeasbyLabel = ({ ideasByLabel, onDeleteCallback }: Props) => {
           <Typography variant="h2">{ideasByLabel.labelText}</Typography>
         </View>
       </View>
-      {ideasByLabel.ideas.map((idea, index) => (
+      {ideasByLabel.ideas.map(idea => (
         <Idea
           color={ideasByLabel.color}
-          key={index}
+          key={idea.id}
           idea={idea}
           onDeleteCallback={onDeleteCallback}
         />

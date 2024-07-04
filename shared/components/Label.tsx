@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native'
 import { Swipeable, TouchableOpacity } from 'react-native-gesture-handler'
 import { Icon, Text } from 'react-native-paper'
 
-import { navigateWithParams } from '../utilities'
+import { navigateWithParams, timeAgo } from '../utilities'
 import Typography from './Typography'
 
 type ReadonlyCondition =
@@ -74,7 +74,9 @@ const Label = ({
           {/* For some reason no text adjusts the height of the Typography element */}
           <Typography variant="h2">{text.length > 0 ? text : ' '}</Typography>
           <Text style={styles.dateText}>
-            {lastUsedAt ? `Last ideated on ${lastUsedAt}` : 'No ideation yet'}
+            {lastUsedAt
+              ? `Last ideated ${timeAgo(lastUsedAt)}`
+              : 'No ideation yet'}
           </Text>
         </View>
       </TouchableOpacity>

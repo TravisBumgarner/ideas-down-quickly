@@ -42,6 +42,7 @@ const AddLabel = () => {
       id: uuidv4(),
       text: labelText,
       createdAt: new Date().toISOString(),
+      lastUsedAt: new Date().toDateString(),
       color,
       icon,
     }

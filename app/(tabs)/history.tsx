@@ -104,9 +104,9 @@ const History = () => {
             flex: 1,
           }}
         >
-          <Button onPress={navigateHome} variant="filled" color="primary">
-            Ideation First
-          </Button>
+          <Typography variant="caption" style={{ textAlign: 'center' }}>
+            Start on the Ideate tab.
+          </Typography>
         </View>
       </PageWrapper>
     )

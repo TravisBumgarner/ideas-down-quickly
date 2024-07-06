@@ -32,6 +32,7 @@ const TextInput: React.FC<Props> = ({
           styles.textInput,
           { backgroundColor: COLORS.MISC.TRANSPARENT },
         ])}
+        textColor={COLORS.NEUTRAL[200]}
         autoFocus={autoFocus} //eslint-disable-line
         underlineStyle={{
           borderColor: color,

@@ -21,7 +21,7 @@ The installed VS Code extensions are
 
 [Tutorial](https://docs.expo.dev/develop/development-builds/create-a-build/)
 
-1. `yarn run build:ios:localdev`
+1. `yarn run build:ios:cloud:simulator`
 
 
 # Development Build for iOS
@@ -30,11 +30,11 @@ The installed VS Code extensions are
 
 This still requires a connection to the macbook and local dev running in VS COde
 
-1. `yarn run build:ios:register`
+1. `yarn run register:ios
   1. Select Website
   2. Scan QR Code on phone and goto Settings -> General ->VPN & Device Management -> Register for Development
   3. Install
-2. `yarn run build:ios:development`
+2. `yarn run build:ios:cloud:development`
 
 # Distribution for Review
 
@@ -44,17 +44,24 @@ This still requires a connection to the macbook and local dev running in VS COde
 - Internal distribution - EAS feature that allows developers to share a URL to install app
 
 Add new devices
-1. `yarn run build:ios:register`
+1. `yarn run register:ios`
   1. Select Website
   2. Scan QR Code on phone and goto Settings -> General ->VPN & Device Management -> Register for Development
   3. Install
 
 Build on Server
-1. `yarn run build:ios:internal:cloud`
+1. `yarn run build:ios:cloud:internal`
 
 Build Locally
-1. `yarn run build:ios:internal:local`
+1. `yarn run build:ios:local:internal`
 2. Open XCode -> Window -> Devices & Simulators -> Select phone -> Drag IPA onto phone. 
+
+# Deploy to iOS Store
+
+https://docs.expo.dev/submit/ios/
+
+1. `yarn build:ios:cloud:production`
+2. 
 
 # SQLite
 

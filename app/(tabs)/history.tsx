@@ -7,7 +7,6 @@ import Typography from '@/shared/components/Typography'
 import { COLORS, SPACING } from '@/shared/theme'
 import { IdeasByDateAndLabel } from '@/shared/types'
 import { useFocusEffect } from '@react-navigation/native'
-import { router } from 'expo-router'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { SafeAreaView, ScrollView, View } from 'react-native'
 import { ActivityIndicator } from 'react-native-paper'
@@ -43,10 +42,6 @@ const History = () => {
       fetchFromDB()
     }
   }, [fetchFromDB, selectedFilterLabelId])
-
-  const navigateHome = useCallback(() => {
-    router.navigate('/')
-  }, [])
 
   useFocusEffect(
     useCallback(() => {
@@ -104,9 +99,9 @@ const History = () => {
             flex: 1,
           }}
         >
-          <Button onPress={navigateHome} variant="filled" color="primary">
-            Ideation First
-          </Button>
+          <Typography variant="caption" style={{ textAlign: 'center' }}>
+            Start on the Ideate tab.
+          </Typography>
         </View>
       </PageWrapper>
     )

@@ -42,6 +42,7 @@ const AddLabel = () => {
       id: uuidv4(),
       text: labelText,
       createdAt: new Date().toISOString(),
+      lastUsedAt: new Date().toDateString(),
       color,
       icon,
     }
@@ -69,30 +70,34 @@ const AddLabel = () => {
         />
         <View
           style={{
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            justifyContent: 'space-around',
+            borderBottomColor: COLORS.NEUTRAL[700],
+            borderBottomWidth: BORDER_WIDTH.XSMALL,
+            paddingBottom: SPACING.SMALL,
           }}
         >
-          {Object.values(COLORS.LABELS).map(color => (
-            <TouchableOpacity
-              key={color}
-              style={{
-                margin: SPACING.XXSMALL,
-                backgroundColor: color,
-                width: 35,
-                height: 35,
-              }}
-              onPress={() => handleColorPress(color)}
-            ></TouchableOpacity>
-          ))}
+          <ScrollView
+            horizontal
+            style={{
+              flexDirection: 'row',
+            }}
+          >
+            {Object.values(COLORS.LABELS).map(color => (
+              <TouchableOpacity
+                key={color}
+                style={{
+                  margin: SPACING.XXSMALL,
+                  backgroundColor: color,
+                  width: 35,
+                  height: 35,
+                }}
+                onPress={() => handleColorPress(color)}
+              />
+            ))}
+          </ScrollView>
         </View>
         <View
           style={{
-            borderTopColor: COLORS.NEUTRAL[700],
-            borderTopWidth: BORDER_WIDTH.XSMALL,
             paddingTop: SPACING.SMALL,
-            marginTop: SPACING.SMALL,
             borderBottomColor: COLORS.NEUTRAL[700],
             borderBottomWidth: BORDER_WIDTH.XSMALL,
             paddingBottom: SPACING.SMALL,
@@ -104,7 +109,6 @@ const AddLabel = () => {
             contentContainerStyle={{
               flexDirection: 'row',
               flexWrap: 'wrap',
-              justifyContent: 'space-around',
             }}
           >
             {ICONS.map(icon => (

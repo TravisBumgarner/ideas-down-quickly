@@ -42,18 +42,6 @@ export default function TabLayout() {
           ),
         }}
       />
-      <Tabs.Screen
-        name="settings"
-        options={{
-          title: 'Debug',
-          tabBarIcon: ({ focused }) => (
-            <TabBarIcon
-              isFocused={focused}
-              name={focused ? 'bug' : 'bug-outline'}
-            />
-          ),
-        }}
-      />
     </Tabs>
   )
 }

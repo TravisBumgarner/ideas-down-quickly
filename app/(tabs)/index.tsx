@@ -1,5 +1,5 @@
-import { db } from '@/db/client'
-import { LabelsTable, SelectLabel } from '@/db/schema'
+import queries from '@/db/queries'
+import { SelectLabel } from '@/db/schema'
 import Button from '@/shared/components/Button'
 import Label from '@/shared/components/Label'
 import PageWrapper from '@/shared/components/PageWrapper'
@@ -16,7 +16,7 @@ const LabelSelect = () => {
 
   useFocusEffect(
     React.useCallback(() => {
-      db.select().from(LabelsTable).then(setLabels)
+      queries.select.labels().then(setLabels)
     }, [])
   )
 
@@ -83,7 +83,6 @@ const LabelSelect = () => {
                 color={color}
                 icon={icon}
                 text={text}
-                readonly={false}
                 id={id}
                 handlePress={() =>
                   navigateWithParams('add-idea', { labelId: id })

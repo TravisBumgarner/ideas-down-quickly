@@ -7,31 +7,16 @@ import { Icon, Text } from 'react-native-paper'
 import { navigateWithParams, timeAgo } from '../utilities'
 import Typography from './Typography'
 
-type ReadonlyCondition =
-  | {
-    readonly: false
-    handlePress: () => void
-  }
-  | {
-    readonly: true
-  }
-
 type Props = {
   color: string
   icon: string
   text: string
   lastUsedAt: string | null
   id: string
+  handlePress?: () => void
 }
 
-const Label = ({
-  color,
-  icon,
-  text,
-  lastUsedAt,
-  id,
-  ...rest
-}: Props & ReadonlyCondition) => {
+const Label = ({ color, icon, text, lastUsedAt, id, handlePress }: Props) => {
   const swipeableRef = useRef<Swipeable>(null)
 
   const handleEdit = useCallback(() => {
@@ -53,10 +38,6 @@ const Label = ({
     ),
     [handleEdit]
   )
-
-  const handlePress = useCallback(() => {
-    rest.readonly ? null : rest.handlePress()
-  }, [rest])
 
   return (
     <Swipeable ref={swipeableRef} renderRightActions={renderRightActions}>

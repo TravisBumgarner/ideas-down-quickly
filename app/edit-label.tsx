@@ -86,7 +86,6 @@ const IdeaEdit = () => {
           color={color}
           icon={icon}
           text={labelText}
-          readonly={true}
           lastUsedAt={lastUsedAt}
         />
         <TextInput
@@ -97,30 +96,34 @@ const IdeaEdit = () => {
         />
         <View
           style={{
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            justifyContent: 'space-around',
+            borderBottomColor: COLORS.NEUTRAL[700],
+            borderBottomWidth: BORDER_WIDTH.XSMALL,
+            paddingBottom: SPACING.SMALL,
           }}
         >
-          {Object.values(COLORS.LABELS).map(color => (
-            <TouchableOpacity
-              key={color}
-              style={{
-                margin: SPACING.XXSMALL,
-                backgroundColor: color,
-                width: 35,
-                height: 35,
-              }}
-              onPress={() => setColor(color)}
-            ></TouchableOpacity>
-          ))}
+          <ScrollView
+            horizontal
+            style={{
+              flexDirection: 'row',
+            }}
+          >
+            {Object.values(COLORS.LABELS).map(color => (
+              <TouchableOpacity
+                key={color}
+                style={{
+                  margin: SPACING.XXSMALL,
+                  backgroundColor: color,
+                  width: 35,
+                  height: 35,
+                }}
+                onPress={() => setColor(color)}
+              />
+            ))}
+          </ScrollView>
         </View>
         <View
           style={{
-            borderTopColor: COLORS.NEUTRAL[700],
-            borderTopWidth: BORDER_WIDTH.XSMALL,
             paddingTop: SPACING.SMALL,
-            marginTop: SPACING.SMALL,
             borderBottomColor: COLORS.NEUTRAL[700],
             borderBottomWidth: BORDER_WIDTH.XSMALL,
             paddingBottom: SPACING.SMALL,
@@ -132,7 +135,6 @@ const IdeaEdit = () => {
             contentContainerStyle={{
               flexDirection: 'row',
               flexWrap: 'wrap',
-              justifyContent: 'space-around',
             }}
           >
             {ICONS.map(icon => (

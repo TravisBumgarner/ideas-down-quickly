@@ -17,7 +17,10 @@ const labelById = async (id: string) => {
 }
 
 const labels = async () => {
-  return await db.select().from(LabelsTable)
+  return await db
+    .select()
+    .from(LabelsTable)
+    .orderBy(desc(LabelsTable.lastUsedAt))
 }
 
 const ideasGroupedByLabel = async (filterToLabelIds?: string[]) => {

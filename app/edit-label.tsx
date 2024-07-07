@@ -86,7 +86,6 @@ const IdeaEdit = () => {
           color={color}
           icon={icon}
           text={labelText}
-          readonly={true}
           lastUsedAt={lastUsedAt}
         />
         <TextInput

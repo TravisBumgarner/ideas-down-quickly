@@ -34,7 +34,7 @@ const AddIdea = () => {
 
   const handleCancel = React.useCallback(() => {
     setIdeaText('')
-    router.navigate('/')
+    router.back()
   }, [])
 
   const handleSubmit = React.useCallback(async () => {

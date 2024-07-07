@@ -83,7 +83,6 @@ const LabelSelect = () => {
                 color={color}
                 icon={icon}
                 text={text}
-                readonly={false}
                 id={id}
                 handlePress={() =>
                   navigateWithParams('add-idea', { labelId: id })

@@ -1,8 +1,10 @@
 import { BORDER_RADIUS, BORDER_WIDTH, COLORS, SPACING } from '@/shared/theme'
-import { StyleSheet, View } from 'react-native'
+import { useCallback } from 'react'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Icon } from 'react-native-paper'
 
 import { IdeasByLabel } from '../types'
+import { navigateWithParams } from '../utilities'
 import Idea from './Idea'
 import Typography from './Typography'
 
@@ -12,19 +14,29 @@ type Props = {
 }
 
 const IdeasbyLabel = ({ ideasByLabel, onDeleteCallback }: Props) => {
+  const handleLabelPress = useCallback(() => {
+    navigateWithParams('add-idea', { labelId: ideasByLabel.labelId })
+  }, [ideasByLabel])
+
   return (
     <View style={StyleSheet.flatten([styles.container])}>
-      <View
-        style={StyleSheet.flatten([
-          styles.headerContainer,
-          { borderRightColor: ideasByLabel.color },
-        ])}
-      >
-        <Icon source={ideasByLabel.icon} size={24} color={ideasByLabel.color} />
-        <View style={styles.labelTextContainer}>
-          <Typography variant="h2">{ideasByLabel.labelText}</Typography>
+      <TouchableOpacity onPress={handleLabelPress}>
+        <View
+          style={StyleSheet.flatten([
+            styles.headerContainer,
+            { borderRightColor: ideasByLabel.color },
+          ])}
+        >
+          <Icon
+            source={ideasByLabel.icon}
+            size={24}
+            color={ideasByLabel.color}
+          />
+          <View style={styles.labelTextContainer}>
+            <Typography variant="h2">{ideasByLabel.labelText}</Typography>
+          </View>
         </View>
-      </View>
+      </TouchableOpacity>
       {ideasByLabel.ideas.map(idea => (
         <Idea
           color={ideasByLabel.color}

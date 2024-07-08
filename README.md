@@ -36,7 +36,7 @@ This still requires a connection to the macbook and local dev running in VS COde
   3. Install
 2. `yarn run build:ios:cloud:development`
 
-# Distribution for Review
+# Distribution for Internal Use
 
 [Tutorial](https://docs.expo.dev/build/internal-distribution/)
 

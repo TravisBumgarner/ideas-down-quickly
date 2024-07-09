@@ -27,7 +27,7 @@ This still requires a connection to the macbook and local dev running in VS COde
   1. Select Website
   2. Scan QR Code on phone and goto Settings -> General ->VPN & Device Management -> Register for Development
   3. Install
-2. `yarn run build:ios:cloud:development`
+2. `yarn run build:ios:local:development`
 
 # Distribution for Internal Use
 

@@ -12,27 +12,28 @@ import {
 
 const paletteBase: Partial<PaletteOptions> = {
   primary: {
-    main: 'rgb(76, 125, 165)'
+    main: '#00C1FF'
   },
   secondary: {
-    main: 'rgb(73, 190, 170)'
+    main: '#8F0DF2'
   },
   text: {
-    primary: 'rgb(92, 94, 95)'
+    primary: '#C7CFD1',
+    secondary: '#C7CFD1',
   },
   action: {
-    disabled: 'rgb(97, 96, 96)'
+    disabled: '#8F9EA3'
   },
   background: {
-    default: 'rgb(215, 227, 232)',
-    paper: 'rgb(184, 203, 210)'
+    default: '#3A4D53',
+    paper: '#2C3B40'
   },
   warning: {
-    main: 'rgb(238, 184, 104)'
+    main: '#FFB800'
   },
   error: {
-    main: 'rgb(239, 118, 122)'
-  }
+    main: '#FF0099'
+  },
 }
 
 const LinkBehavior = forwardRef<

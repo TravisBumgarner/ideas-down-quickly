@@ -7,7 +7,7 @@ import {
   Typography
 } from '@mui/material'
 import React, { useState } from 'react'
-import { pageWrapperCSS } from 'theme'
+import { pageWrapperCSS, theme } from 'theme'
 import { submitContactForm } from '../firebase'
 
 const ContactForm: React.FC = () => {

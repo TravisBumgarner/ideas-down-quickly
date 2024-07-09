@@ -13,10 +13,12 @@ import { submitContactForm } from '../firebase'
 const ContactForm: React.FC = () => {
   const [success, setSuccess] = React.useState(false)
   const [failure, setFailure] = React.useState(false)
+  const [isSubmitting, setIsSubmitting] = React.useState(false)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    message: ''
+    message: '',
+    website: 'brainstorm'
   })
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,18 +29,22 @@ const ContactForm: React.FC = () => {
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
+    setIsSubmitting(true)
     e.preventDefault()
     const response = (await submitContactForm(formData)) as any
     if (response.data) {
       setSuccess(true)
-      setFormData({
-        name: '',
-        email: '',
-        message: ''
-      })
+      setFormData(prev => ({
+        ...prev, ...{
+          name: '',
+          email: '',
+          message: ''
+        }
+      }))
     } else {
       setFailure(true)
     }
+    setIsSubmitting(false)
   }
 
   const handleClose = () => {
@@ -60,7 +66,7 @@ const ContactForm: React.FC = () => {
           margin="normal"
         />
         <TextField
-          label="Email"
+          label="Email (Optional)"
           name="email"
           value={formData.email}
           onChange={handleChange}
@@ -77,7 +83,7 @@ const ContactForm: React.FC = () => {
           rows={4}
           margin="normal"
         />
-        <Button type="submit" variant="contained" color="primary" fullWidth>
+        <Button disabled={isSubmitting} type="submit" variant="contained" color="primary" fullWidth>
           Submit
         </Button>
       </form>

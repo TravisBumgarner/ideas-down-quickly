@@ -4,11 +4,11 @@ import { type Theme } from '@mui/material/styles'
 const Logo = () => {
   return (
     <Box sx={titleSx}>
-      <Typography variant="h1">Todo Today</Typography>
-      <Typography variant="h1">Todo Today</Typography>
-      <Typography variant="h1">Todo Today</Typography>
-      <Typography variant="h1">Todo Today</Typography>
-      <Typography variant="h1">Todo Today</Typography>
+      <Typography variant="h1">Brainstorm</Typography>
+      <Typography variant="h1">Brainstorm</Typography>
+      <Typography variant="h1">Brainstorm</Typography>
+      <Typography variant="h1">Brainstorm</Typography>
+      <Typography variant="h1">Brainstorm</Typography>
     </Box>
   )
 }

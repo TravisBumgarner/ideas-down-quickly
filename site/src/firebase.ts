@@ -15,5 +15,5 @@ initializeApp(firebaseConfig)
 const functions = getFunctions()
 export const submitContactForm = httpsCallable(
   functions,
-  'brainstormAppWebsiteContactForm'
+  'contactForm'
 )

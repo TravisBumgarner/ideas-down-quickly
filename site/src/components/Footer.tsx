@@ -1,3 +1,4 @@
+import { useTheme } from '@mui/material/styles';
 import ChangeCircle from '@mui/icons-material/ChangeCircle';
 import GetAppIcon from '@mui/icons-material/GetApp'; // Import icon for download links
 import GitHubIcon from '@mui/icons-material/GitHub'; // Import GitHub icon
@@ -9,12 +10,15 @@ import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 
 const Footer = () => {
+  const theme = useTheme();
+
+
   return (
     <Box
       sx={{
         width: '100%',
-        backgroundColor: '#f0f0f0',
-        borderTop: '1px solid #e0e0e0',
+        backgroundColor: theme.palette.background.paper,
+        borderTop: `1px solid ${theme.palette.divider}`,
         padding: '20px 0',
         marginTop: '60px'
       }}
@@ -24,7 +28,7 @@ const Footer = () => {
           <Link href="https://github.com/TravisBumgarner/Todo-Today-Releases/releases/download/v1.2.11/Todo-Today_1.2.11.exe" download color="inherit" underline="hover">
             <GetAppIcon sx={{ verticalAlign: 'middle', mr: 1 }} />
             <Typography variant="body1" component="span">
-              Windows
+              App Store
             </Typography>
           </Link>
         </Grid>
@@ -32,7 +36,7 @@ const Footer = () => {
           <Link href="https://github.com/TravisBumgarner/Todo-Today-Releases/releases/download/v1.2.11/Todo-Today_1.2.11.dmg" download color="inherit" underline="hover">
             <GetAppIcon sx={{ verticalAlign: 'middle', mr: 1 }} />
             <Typography variant="body1" component="span">
-              Mac
+              Play Store
             </Typography>
           </Link>
         </Grid>
@@ -53,7 +57,7 @@ const Footer = () => {
           </Link>
         </Grid>
         <Grid item>
-          <Link target='_blank' href="https://github.com/TravisBumgarner/todo-today" color="inherit" underline="hover" sx={{ display: 'flex', alignItems: 'center', marginLeft: '16px' }}>
+          <Link target='_blank' href="https://github.com/travisBumgarner/brainstorm-app" color="inherit" underline="hover" sx={{ display: 'flex', alignItems: 'center', marginLeft: '16px' }}>
             <GitHubIcon sx={{ verticalAlign: 'middle', mr: 1 }} />
             <Typography variant="body1" component="span">
               GitHub

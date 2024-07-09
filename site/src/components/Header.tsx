@@ -12,14 +12,14 @@ const Header = () => {
       <div>
         <Link
           css={{ marginRight: '16px' }}
-          href='https://github.com/TravisBumgarner/Todo-Today-Releases/releases/download/v1.2.11/Todo-Today_1.2.11.exe'
+          href=''
           download
         >
-          Windows Download
+          App Store
         </Link>
-        <Link href='https://github.com/TravisBumgarner/Todo-Today-Releases/releases/download/v1.2.11/Todo-Today_1.2.11.dmg'
+        <Link href=''
           download>
-          Mac Download
+          Play Store
         </Link>
       </div>
     </div >

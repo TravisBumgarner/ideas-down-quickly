@@ -1,4 +1,5 @@
 import { sqliteTable, text } from 'drizzle-orm/sqlite-core'
+import { Record, String } from 'runtypes'
 
 export const IdeasTable = sqliteTable('idea', {
   id: text('id').primaryKey().unique().notNull(),
@@ -24,4 +25,21 @@ export const LabelsTable = sqliteTable('label', {
 })
 
 export type SelectLabel = typeof LabelsTable.$inferSelect
+export const LabelRunType = Record({
+  id: String,
+  text: String,
+  createdAt: String,
+  updatedAt: String,
+  lastUsedAt: String,
+  icon: String,
+  color: String,
+})
+
 export type NewLabel = typeof LabelsTable.$inferInsert
+export const IdeaRunType = Record({
+  id: String,
+  createdAt: String,
+  updatedAt: String,
+  text: String,
+  labelId: String,
+})

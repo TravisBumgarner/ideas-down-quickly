@@ -98,7 +98,6 @@ const Settings = () => {
 
         await queries.insert.everything({ labels, ideas })
       } catch (error) {
-        console.log(error)
         dispatch({
           type: 'TOAST',
           payload: { message: 'Restore failed', variant: 'ERROR' },

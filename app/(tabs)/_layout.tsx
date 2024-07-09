@@ -42,6 +42,18 @@ export default function TabLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: 'Settings',
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon
+              isFocused={focused}
+              name={focused ? 'settings-sharp' : 'settings-outline'}
+            />
+          ),
+        }}
+      />
     </Tabs>
   )
 }

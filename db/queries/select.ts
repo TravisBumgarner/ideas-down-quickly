@@ -62,9 +62,14 @@ const ideasGroupedByLabel = async (filterToLabelIds?: string[]) => {
   return output
 }
 
+const ideas = async () => {
+  return await db.select().from(IdeasTable).orderBy(desc(IdeasTable.createdAt))
+}
+
 export default {
   ideaById,
   labelById,
   labels,
+  ideas,
   ideasGroupedByLabel,
 }

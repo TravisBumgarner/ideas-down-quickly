@@ -5,20 +5,22 @@
   "build": {
     "development": {
       "developmentClient": true,
-      "distribution": "internal"
-    },
-    "development-simulator": {
-      "developmentClient": true,
       "distribution": "internal",
-      "ios": {
-        "simulator": true
+      "env": {
+        "BUNDLE_IDENTIFIER": "com.tbumgarner.brainstormappdevelopment"
       }
     },
-    "preview": {
-      "distribution": "internal"
+    "internal": {
+      "distribution": "internal",
+      "env": {
+        "BUNDLE_IDENTIFIER": "com.tbumgarner.brainstormappinternal"
+      }
     },
     "production": {
-      "distribution": "store"
+      "distribution": "store",
+      "env": {
+        "BUNDLE_IDENTIFIER": "com.tbumgarner.brainstormapp"
+      }
     }
   },
   "submit": {

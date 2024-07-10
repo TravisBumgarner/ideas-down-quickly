@@ -2,8 +2,8 @@ import 'dotenv/config'
 
 const config = () => ({
   expo: {
-    name: 'Thoughts Down Quickly',
-    slug: 'thoughts-down-quickly',
+    name: 'Ideas Down Quickly',
+    slug: 'ideas-down-quickly',
     version: '1.0.0',
     orientation: 'portrait',
     icon: './assets/images/icon.png',

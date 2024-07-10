@@ -1,10 +1,9 @@
 {
-  "name": "thoughts-down-quickly",
+  "name": "ideas-down-quickly",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
-    "set-env": "BUNDLE_IDENTIFIER=com.tbumgarner.thoughtsdownquicklylocal",
-    "start": "yarn run set-env && expo start",
+    "start": "expo start",
     "start:android": "expo start --android",
     "start:ios": "expo start --ios",
     "start:web": "expo start --web",

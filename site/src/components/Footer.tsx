@@ -57,7 +57,7 @@ const Footer = () => {
           </Link>
         </Grid>
         <Grid item>
-          <Link target='_blank' href="https://github.com/TravisBumgarner/thoughts-down-quickly" color="inherit" underline="hover" sx={{ display: 'flex', alignItems: 'center', marginLeft: '16px' }}>
+          <Link target='_blank' href="https://github.com/TravisBumgarner/ideas-down-quickly" color="inherit" underline="hover" sx={{ display: 'flex', alignItems: 'center', marginLeft: '16px' }}>
             <GitHubIcon sx={{ verticalAlign: 'middle', mr: 1 }} />
             <Typography variant="body1" component="span">
               GitHub

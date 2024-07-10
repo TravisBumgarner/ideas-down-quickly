@@ -18,7 +18,7 @@ const ContactForm: React.FC = () => {
     name: '',
     email: '',
     message: '',
-    website: 'thoughts-down-quickly'
+    website: 'ideas-down-quickly'
   })
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

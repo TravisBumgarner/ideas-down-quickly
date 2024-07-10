@@ -3,6 +3,7 @@ import GetAppIcon from '@mui/icons-material/GetApp'; // Import icon for download
 import GitHubIcon from '@mui/icons-material/GitHub'; // Import GitHub icon
 import LightbulbIcon from '@mui/icons-material/Lightbulb';
 import Mail from '@mui/icons-material/Mail';
+import PrivacyTip from '@mui/icons-material/PrivacyTip';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
@@ -65,8 +66,16 @@ const Footer = () => {
           </Link>
         </Grid>
         <Grid item>
-          <Link href="https://sillysideprojects.com" target="_blank" color="inherit" underline="hover">
+          <Link href="/privacypolicy" color="inherit" underline="hover">
             <LightbulbIcon sx={{ verticalAlign: 'middle', mr: 1 }} />
+            <Typography variant="body1" component="span">
+              Privacy Policy
+            </Typography>
+          </Link>
+        </Grid>
+        <Grid item>
+          <Link href="https://sillysideprojects.com" target="_blank" color="inherit" underline="hover">
+            <PrivacyTip sx={{ verticalAlign: 'middle', mr: 1 }} />
             <Typography variant="body1" component="span">
               More from the Creator
             </Typography>

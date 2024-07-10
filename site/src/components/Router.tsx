@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router'
 
-import { Changelog, Contact, Error, LandingPage, NotFound } from '../pages'
+import { Changelog, Contact, Error, LandingPage, NotFound, PrivacyPolicy } from '../pages'
 
 const Router = () => {
   return (
@@ -9,6 +9,7 @@ const Router = () => {
       <Route path="/error" element={<Error />} />
       <Route path="/changelog" element={<Changelog />} />
       <Route path="/contact" element={<Contact />} />
+      <Route path="/privacypolicy" element={<PrivacyPolicy />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   )

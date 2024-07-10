@@ -17,6 +17,7 @@
     "build:ios:cloud:internal": "eas build --profile internal --platform ios",
     "build:ios:local:internal": "eas build --platform ios --local --profile internal && yarn move-to-ios-build-dir",
     "build:ios:cloud:production": "eas build --profile production --platform ios",
+    "build:ios:local:production": "eas build --platform ios --local --profile production && yarn move-to-ios-build-dir",
     "submit:ios": "eas submit --platform ios"
   },
   "jest": {

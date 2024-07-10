@@ -2,7 +2,7 @@ import 'dotenv/config'
 
 const config = () => ({
   expo: {
-    name: 'Ideas Down Quickly',
+    name: process.env.APP_NAME,
     slug: 'ideas-down-quickly',
     version: '1.0.0',
     orientation: 'portrait',
@@ -38,7 +38,7 @@ const config = () => ({
         origin: false,
       },
       eas: {
-        projectId: '9cda37b6-928c-4684-aecc-636ea8f8a69f',
+        projectId: '9e15961d-db12-438f-b60a-0e9fdaaa279d',
       },
     },
   },

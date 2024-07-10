@@ -1,15 +1,12 @@
-import { Box, Button, Container, Typography } from '@mui/material'
+import { Box, Container, Typography } from '@mui/material'
 import React from 'react'
 import { pageWrapperCSS } from 'theme'
-import focus_mode from '../static/focus_mode.png'
-import queue_mode from '../static/queue_mode.png'
-import settings from '../static/settings.png'
+import { Title } from '../components'
 import successes from '../static/successes.png'
 import theme_1 from '../static/theme_1.png'
 import theme_2 from '../static/theme_2.png'
 import theme_3 from '../static/theme_3.png'
 import theme_4 from '../static/theme_4.png'
-import { Title } from '../components'
 
 import { styled } from '@mui/material/styles'
 
@@ -27,13 +24,13 @@ const Section = styled(Box)(({ theme }) => ({
   justifyContent: 'space-between',
   alignItems: 'flex-start',
   marginBottom: theme.spacing(4),
-  [theme.breakpoints.down('md')]: {
+  [theme.breakpoints.down('sm')]: {
     flexDirection: 'column',
     textAlign: 'center'
   },
   '&:nth-of-type(odd)': {
     flexDirection: 'row-reverse',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('sm')]: {
       flexDirection: 'column'
     }
   }
@@ -43,7 +40,7 @@ const ThemeSection = styled(Section)(({ theme }) => ({
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  [theme.breakpoints.down('md')]: {
+  [theme.breakpoints.down('sm')]: {
     flexDirection: 'column',
     textAlign: 'center'
   }
@@ -61,7 +58,7 @@ const Image = styled('img')(({ theme }) => ({
   flex: 1,
   maxWidth: '80%',
   height: 'auto',
-  [theme.breakpoints.down('md')]: {
+  [theme.breakpoints.down('sm')]: {
     maxWidth: '100%'
   }
 }))
@@ -82,51 +79,45 @@ const LandingPage = () => {
     <Container css={pageWrapperCSS}>
       <TitleSection>
         <Title />
-        <Typography variant="h2" css={{ textAlign: 'center' }}>The todo List for the easily distracted</Typography>
+        <Typography variant="h2" css={{ textAlign: 'center' }}>Capture Ideas Quickly & Easily</Typography>
       </TitleSection>
-      {/* Queue Mode Section */}
+
       <Section>
         <Text>
-          <Typography variant="h5">Plan Your Day</Typography>
-          <Typography>Select tasks, order them, and add notes.</Typography>
-        </Text>
-        <div><Image src={queue_mode} alt="Queue Mode" /></div>
-      </Section>
-      {/* Focus Mode Section */}
-      <Section>
-        <Text>
-          <Typography variant="h5">Stay Focused</Typography>
-          <Typography>Set a timer, focus on the current task, and get working.</Typography>
-        </Text>
-        <div><Image src={focus_mode} alt="Focus Mode" /></div>
-      </Section>
-      {/* Successes Section */}
-      <Section>
-        <Text>
-          <Typography variant="h5">Track the small wins</Typography>
-          <Typography>For those that are easily distracted, it can feel like nothing is achieved in a day.</Typography>
+          <Typography variant="h5">Simple and Efficient</Typography>
+          <ul css={listStyleCSS}>
+            <li>Minimal Workflow: Create a new category or choose from an existing one, and start recording right away.</li>
+            <li>Easy Organization: Quickly categorize and organize your ideas with intuitive ease.</li>
+            <li>Browse Effortlessly: Easily browse through your thoughts.</li>
+          </ul>
         </Text>
         <div><Image src={successes} alt="Successes" /></div>
       </Section>
-      <ThemeSection>
-        <div css={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }} >
-          <Typography variant="h5">Do it in Style</Typography>
-          <div css={{ flexDirection: 'row', display: 'flex' }}>
-            <Button onClick={handlePrev}>&lt; Prev</Button>
-            <Button onClick={handleNext}>Next &gt;</Button>
-          </div>
-        </div>
-        <div><Image src={themes[currentTheme]} alt={`Theme ${currentTheme + 1}`} /></div>
-      </ThemeSection>
+
       <Section>
         <Text>
-          <Typography variant="h5">Settings</Typography>
-          <Typography>Modify how many items can be worked on in focus mode, change the theme, create and schedule backups, restore your backup.</Typography>
+          <Typography variant="h5">    Privacy & Security First</Typography>
+          <ul css={listStyleCSS}>
+            <li>Offline Functionality: No internet connection required to use. </li>
+            <li>Secure Storage: Your ideas are safe and private, stored securely on your device. They are not sent anywhere for any reason.</li>
+            <li>Data Management: Perform backups and restores of your data from within the app.</li>
+            <li>Open Source: The entire project is fully open source, allowing you to see exactly what's going on.</li>
+          </ul>
         </Text>
-        <div><Image src={settings} alt="Settings" /></div>
+        <div><Image src={successes} alt="Successes" /></div>
       </Section>
+
     </Container >
   )
+}
+
+const listStyleCSS = {
+  marginLeft: 0,
+  listStyleType: 'square',
+  "> li": {
+    listStyleType: 'square',
+    padding: '16px 0 0 0',
+  },
 }
 
 export default LandingPage

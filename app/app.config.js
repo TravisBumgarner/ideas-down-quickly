@@ -2,7 +2,7 @@ import 'dotenv/config'
 
 const config = () => ({
   expo: {
-    name: process.env.APP_NAME,
+    name: process.env.APP_NAME || 'Ideas',
     slug: 'ideas-down-quickly',
     version: '1.0.0',
     orientation: 'portrait',
@@ -15,7 +15,9 @@ const config = () => ({
       backgroundColor: '#ffffff',
     },
     ios: {
-      bundleIdentifier: process.env.EXPO_BUNDLE_IDENTIFIER,
+      bundleIdentifier:
+        process.env.EXPO_BUNDLE_IDENTIFIER ||
+        'com.sillysideprojects.ideas.prod',
       supportsTablet: true,
     },
     android: {

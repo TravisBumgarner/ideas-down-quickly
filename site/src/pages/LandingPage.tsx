@@ -23,7 +23,7 @@ const Section = styled(Box)(({ theme }) => ({
   flexDirection: 'row',
   justifyContent: 'space-between',
   alignItems: 'flex-start',
-  marginBottom: theme.spacing(4),
+  marginBottom: theme.spacing(16),
   [theme.breakpoints.down('sm')]: {
     flexDirection: 'column',
     textAlign: 'center'
@@ -66,7 +66,7 @@ const LandingPage = () => {
 
       <Section>
         <Text>
-          <Typography variant="h5" css={titleCSS}>Simple and Efficient</Typography>
+          <Typography variant="h5" css={titleCSS}>Ideate</Typography>
           <Typography>Minimal Workflow: Create a new category or choose from an existing one, and start recording right away.</Typography>
         </Text>
         <div><Image src={Ideate} alt="Ideate" /></div>
@@ -74,7 +74,7 @@ const LandingPage = () => {
 
       <Section>
         <Text>
-          <Typography variant="h5" css={titleCSS}>Simple and Efficient</Typography>
+          <Typography variant="h5" css={titleCSS}>Reflect</Typography>
           <Typography>Browse Effortlessly: Easily browse through your thoughts.</Typography>
         </Text>
         <div><Image src={Reflect} alt="Reflect" /></div>

@@ -18,9 +18,9 @@ const changelogData: Array<{
 }> = [
     {
       version: '1.0.0',
-      date: 'July 8th, 2024',
-      notes: ['Things'],
-      title: 'Things'
+      date: 'July 9th, 2024',
+      notes: ['Create a Category', 'Create an Idea', 'Reflect on recorded Ideas', "Backup & Restore"],
+      title: 'Initial Release'
     },
   ]
 

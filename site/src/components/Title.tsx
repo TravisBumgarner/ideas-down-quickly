@@ -30,29 +30,29 @@ const titleSx = {
   },
   '& h1:nth-of-type(1)': {
     position: 'absolute',
-    left: '-2px',
-    top: '-2px',
+    left: '-1px',
+    top: '-1px',
     opacity: 0.8,
     color: (theme: Theme) => theme.palette.warning.main
   },
   '& h1:nth-of-type(2)': {
     position: 'absolute',
-    left: '2px',
-    top: '2px',
+    left: '1px',
+    top: '1px',
     opacity: 0.8,
     color: (theme: Theme) => theme.palette.secondary.main
   },
   '& h1:nth-of-type(3)': {
     position: 'absolute',
-    left: '-2px',
-    top: '2px',
+    left: '-1px',
+    top: '1px',
     opacity: 0.8,
     color: (theme: Theme) => theme.palette.primary.main
   },
   '& h1:nth-of-type(4)': {
     position: 'absolute',
-    left: '2px',
-    top: '-2px',
+    left: '1px',
+    top: '-1px',
     opacity: 0.8,
     color: (theme: Theme) => theme.palette.error.main
   },

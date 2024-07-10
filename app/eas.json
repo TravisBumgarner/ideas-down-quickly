@@ -7,19 +7,22 @@
       "developmentClient": true,
       "distribution": "internal",
       "env": {
-        "BUNDLE_IDENTIFIER": "com.tbumgarner.brainstormappdevelopment"
+        "EXPO_BUNDLE_IDENTIFIER": "com.sillysideprojects.ideas.dev",
+        "APP_NAME": "Ideas Dev"
       }
     },
     "internal": {
       "distribution": "internal",
       "env": {
-        "BUNDLE_IDENTIFIER": "com.tbumgarner.brainstormappinternal"
+        "EXPO_BUNDLE_IDENTIFIER": "com.sillysideprojects.ideas.internal",
+        "APP_NAME": "Ideas Internal"
       }
     },
     "production": {
       "distribution": "store",
       "env": {
-        "BUNDLE_IDENTIFIER": "com.tbumgarner.brainstormapp"
+        "EXPO_BUNDLE_IDENTIFIER": "com.sillysideprojects.ideas.prod",
+        "APP_NAME": "Ideas"
       }
     }
   },

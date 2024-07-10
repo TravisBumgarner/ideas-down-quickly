@@ -1,15 +1,11 @@
-import { Box, Button, Container, Typography } from '@mui/material'
-import React from 'react'
+import { Box, Container, Typography } from '@mui/material'
 import { pageWrapperCSS } from 'theme'
-import focus_mode from '../static/focus_mode.png'
-import queue_mode from '../static/queue_mode.png'
-import settings from '../static/settings.png'
-import successes from '../static/successes.png'
-import theme_1 from '../static/theme_1.png'
-import theme_2 from '../static/theme_2.png'
-import theme_3 from '../static/theme_3.png'
-import theme_4 from '../static/theme_4.png'
 import { Title } from '../components'
+// import AddCategory from '../static/add-category.png'
+// import AddIdea from '../static/add-idea.png'
+import Ideate from '../static/ideate.png'
+import Reflect from '../static/reflect.png'
+import Settings from '../static/settings.png'
 
 import { styled } from '@mui/material/styles'
 
@@ -23,110 +19,96 @@ const TitleSection = styled(Box)(({ theme }) => ({
 
 const Section = styled(Box)(({ theme }) => ({
   display: 'flex',
+
   flexDirection: 'row',
   justifyContent: 'space-between',
   alignItems: 'flex-start',
-  marginBottom: theme.spacing(4),
-  [theme.breakpoints.down('md')]: {
+  marginBottom: theme.spacing(16),
+  [theme.breakpoints.down('sm')]: {
     flexDirection: 'column',
     textAlign: 'center'
   },
   '&:nth-of-type(odd)': {
     flexDirection: 'row-reverse',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('sm')]: {
       flexDirection: 'column'
     }
   }
 }))
 
-const ThemeSection = styled(Section)(({ theme }) => ({
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  [theme.breakpoints.down('md')]: {
-    flexDirection: 'column',
-    textAlign: 'center'
-  }
-}))
 
 const Text = styled(Box)(({ theme }) => ({
   flex: 1,
   minWidth: '200px',
   width: '100%',
-  paddingTop: '80px'
-
+  paddingTop: '80px',
+  margin: '24px',
 }))
 
 const Image = styled('img')(({ theme }) => ({
   flex: 1,
-  maxWidth: '80%',
+  maxHeight: '80vh',
   height: 'auto',
-  [theme.breakpoints.down('md')]: {
+  [theme.breakpoints.down('sm')]: {
     maxWidth: '100%'
-  }
+  },
+  borderRadius: '24px',
+  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.5), 0 6px 20px rgba(0, 0, 0, 0.2)'
 }))
 
 const LandingPage = () => {
-  const [currentTheme, setCurrentTheme] = React.useState(0)
-  const themes = [theme_1, theme_2, theme_3, theme_4]
-
-  const handleNext = () => {
-    setCurrentTheme((prev) => (prev + 1) % themes.length)
-  }
-
-  const handlePrev = () => {
-    setCurrentTheme((prev) => (prev - 1 + themes.length) % themes.length)
-  }
-
   return (
     <Container css={pageWrapperCSS}>
       <TitleSection>
         <Title />
-        <Typography variant="h2" css={{ textAlign: 'center' }}>The todo List for the easily distracted</Typography>
+        <Typography variant="h2" css={{ textAlign: 'center' }}>Capture Ideas Quickly & Easily</Typography>
       </TitleSection>
-      {/* Queue Mode Section */}
+
       <Section>
         <Text>
-          <Typography variant="h5">Plan Your Day</Typography>
-          <Typography>Select tasks, order them, and add notes.</Typography>
+          <Typography variant="h5" css={titleCSS}>Ideate</Typography>
+          <Typography>Minimal Workflow: Create a new category or choose from an existing one, and start recording right away.</Typography>
         </Text>
-        <div><Image src={queue_mode} alt="Queue Mode" /></div>
+        <div><Image src={Ideate} alt="Ideate" /></div>
       </Section>
-      {/* Focus Mode Section */}
+
       <Section>
         <Text>
-          <Typography variant="h5">Stay Focused</Typography>
-          <Typography>Set a timer, focus on the current task, and get working.</Typography>
+          <Typography variant="h5" css={titleCSS}>Reflect</Typography>
+          <Typography>Browse Effortlessly: Easily browse through your thoughts.</Typography>
         </Text>
-        <div><Image src={focus_mode} alt="Focus Mode" /></div>
+        <div><Image src={Reflect} alt="Reflect" /></div>
       </Section>
-      {/* Successes Section */}
+
       <Section>
         <Text>
-          <Typography variant="h5">Track the small wins</Typography>
-          <Typography>For those that are easily distracted, it can feel like nothing is achieved in a day.</Typography>
+          <Typography variant="h5" css={titleCSS}>Privacy & Security First</Typography>
+          <ul css={listStyleCSS}>
+            <li>Offline Functionality: No internet connection required to use. </li>
+            <li>Secure Storage: Your ideas are safe and private, stored securely on your device. They are not sent anywhere for any reason.</li>
+            <li>Data Management: Perform backups and restores of your data from within the app.</li>
+            <li>Open Source: The entire project is fully open source, allowing you to see exactly what's going on.</li>
+          </ul>
         </Text>
-        <div><Image src={successes} alt="Successes" /></div>
+        <div><Image src={Settings} alt="Settings" /></div>
       </Section>
-      <ThemeSection>
-        <div css={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }} >
-          <Typography variant="h5">Do it in Style</Typography>
-          <div css={{ flexDirection: 'row', display: 'flex' }}>
-            <Button onClick={handlePrev}>&lt; Prev</Button>
-            <Button onClick={handleNext}>Next &gt;</Button>
-          </div>
-        </div>
-        <div><Image src={themes[currentTheme]} alt={`Theme ${currentTheme + 1}`} /></div>
-      </ThemeSection>
-      <Section>
-        <Text>
-          <Typography variant="h5">Settings</Typography>
-          <Typography>Modify how many items can be worked on in focus mode, change the theme, create and schedule backups, restore your backup.</Typography>
-        </Text>
-        <div><Image src={settings} alt="Settings" /></div>
-      </Section>
+
     </Container >
   )
+}
+
+const listStyleCSS = {
+  marginLeft: 0,
+  listStyleType: 'square',
+  margin: '0 0 0 16px',
+  "> li": {
+    listStyleType: 'square',
+    padding: '0 0 16px 0',
+  },
+}
+
+const titleCSS = {
+  marginBottom: '16px',
 }
 
 export default LandingPage

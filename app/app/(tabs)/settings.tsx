@@ -12,6 +12,7 @@ import * as FileSystem from 'expo-file-system'
 import * as Sharing from 'expo-sharing'
 import * as React from 'react'
 import { View } from 'react-native'
+import * as Sentry from '@sentry/react-native'
 
 const Settings = () => {
   const { dispatch } = React.useContext(context)
@@ -43,6 +44,7 @@ const Settings = () => {
         },
       })
     } catch (error) {
+      Sentry.captureException(error)
       dispatch({
         type: 'TOAST',
         payload: { message: 'Something went wrong', variant: 'ERROR' },
@@ -98,6 +100,7 @@ const Settings = () => {
 
         await queries.insert.everything({ labels, ideas })
       } catch (error) {
+        Sentry.captureException(error)
         dispatch({
           type: 'TOAST',
           payload: { message: 'Restore failed', variant: 'ERROR' },
@@ -110,6 +113,7 @@ const Settings = () => {
         payload: { message: 'Restore successful', variant: 'SUCCESS' },
       })
     } catch (error) {
+      Sentry.captureException(error)
       dispatch({
         type: 'TOAST',
         payload: { message: 'Restore failed', variant: 'ERROR' },

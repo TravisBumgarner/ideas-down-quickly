@@ -1,7 +1,3 @@
-import { db } from '@/db/client'
-import migrations from '@/db/migrations/migrations'
-import Toast from '@/shared/components/Toast'
-import Context, { context } from '@/shared/context'
 import * as Sentry from '@sentry/react-native'
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator'
 import { useFonts } from 'expo-font'
@@ -11,6 +7,11 @@ import { StatusBar } from 'expo-status-bar'
 import { useContext, useEffect, useState } from 'react'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { MD3DarkTheme, MD3LightTheme, PaperProvider } from 'react-native-paper'
+
+import { db } from '@/db/client'
+import migrations from '@/db/migrations/migrations'
+import Toast from '@/shared/components/Toast'
+import Context, { context } from '@/shared/context'
 import 'react-native-reanimated'
 
 Sentry.init({
@@ -48,12 +49,6 @@ function App() {
     hasTimeoutExecuted,
   ].every(i => i)
 
-  console.log('haveMigrationsErrored', haveMigrationsErrored)
-  console.log('haveMigrationsRun', haveMigrationsRun)
-  console.log('haveFontsLoaded', haveFontsLoaded)
-  console.log('hasTimeoutExecuted', hasTimeoutExecuted)
-  console.log('hasLoaded', hasLoaded)
-
   const hasErrored = [haveMigrationsErrored].some(i => i)
   const paperTheme = colorTheme === 'dark' ? MD3DarkTheme : MD3LightTheme
 
@@ -69,7 +64,6 @@ function App() {
 
   useEffect(() => {
     if (hasLoaded || hasErrored) {
-      console.log("I'm hiding the splash screen")
       SplashScreen.hideAsync()
     }
   }, [hasLoaded, hasErrored])

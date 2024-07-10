@@ -25,8 +25,8 @@ const paletteBase: Partial<PaletteOptions> = {
     disabled: '#8F9EA3'
   },
   background: {
-    default: '#3A4D53',
-    paper: '#2C3B40'
+    paper: '#3A4D53',
+    default: '#2C3B40'
   },
   warning: {
     main: '#FFB800'
@@ -77,7 +77,7 @@ export const theme = createTheme({
 export const pageWrapperCSS = css`
   box-sizing: border-box;
   overflow-y: auto;
-  max-width: 1200px !important;
+  max-width: 800px !important;
   display: flex;
   align-items: center;
   flex-direction: column;

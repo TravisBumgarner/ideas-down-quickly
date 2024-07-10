@@ -1,12 +1,13 @@
-import { useTheme } from '@mui/material/styles';
 import ChangeCircle from '@mui/icons-material/ChangeCircle';
 import GetAppIcon from '@mui/icons-material/GetApp'; // Import icon for download links
 import GitHubIcon from '@mui/icons-material/GitHub'; // Import GitHub icon
 import LightbulbIcon from '@mui/icons-material/Lightbulb';
 import Mail from '@mui/icons-material/Mail';
+import PrivacyTip from '@mui/icons-material/PrivacyTip';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
+import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
 const Footer = () => {
@@ -57,7 +58,7 @@ const Footer = () => {
           </Link>
         </Grid>
         <Grid item>
-          <Link target='_blank' href="https://github.com/travisBumgarner/brainstorm-app" color="inherit" underline="hover" sx={{ display: 'flex', alignItems: 'center', marginLeft: '16px' }}>
+          <Link target='_blank' href="https://github.com/TravisBumgarner/ideas-down-quickly" color="inherit" underline="hover" sx={{ display: 'flex', alignItems: 'center', marginLeft: '16px' }}>
             <GitHubIcon sx={{ verticalAlign: 'middle', mr: 1 }} />
             <Typography variant="body1" component="span">
               GitHub
@@ -65,8 +66,16 @@ const Footer = () => {
           </Link>
         </Grid>
         <Grid item>
-          <Link href="https://sillysideprojects.com" target="_blank" color="inherit" underline="hover">
+          <Link href="/privacypolicy" color="inherit" underline="hover">
             <LightbulbIcon sx={{ verticalAlign: 'middle', mr: 1 }} />
+            <Typography variant="body1" component="span">
+              Privacy Policy
+            </Typography>
+          </Link>
+        </Grid>
+        <Grid item>
+          <Link href="https://sillysideprojects.com" target="_blank" color="inherit" underline="hover">
+            <PrivacyTip sx={{ verticalAlign: 'middle', mr: 1 }} />
             <Typography variant="body1" component="span">
               More from the Creator
             </Typography>

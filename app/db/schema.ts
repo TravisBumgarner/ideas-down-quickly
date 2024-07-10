@@ -30,7 +30,7 @@ export const LabelRunType = Record({
   text: String,
   createdAt: String,
   updatedAt: String.Or(Null),
-  lastUsedAt: String,
+  lastUsedAt: String.Or(Null), // This shouldn't be null anymore.
   icon: String,
   color: String,
 })

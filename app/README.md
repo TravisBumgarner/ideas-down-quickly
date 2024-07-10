@@ -1,10 +1,8 @@
-# About
-
-This is a brainstorming iOS and Android App. It's minimalistic, just the way I want it to be. 
-
-I develop on Mac/iPhone so no comments on any other variation of computer/phone os.
-
 # Local Development Notes
+
+## .env
+
+The env is just for EXPO to load in env variables currently.
 
 ## Prettier / eslint
 
@@ -59,6 +57,6 @@ https://docs.expo.dev/submit/ios/
 # SQLite
 
 cd /Users/travisbumgarner/Library/Developer/CoreSimulator/Devices
-find . -name brainstorm.db
+find . -name database.db
 open [pathname]
 Should open in SQLite Browser

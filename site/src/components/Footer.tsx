@@ -1,4 +1,3 @@
-import { useTheme } from '@mui/material/styles';
 import ChangeCircle from '@mui/icons-material/ChangeCircle';
 import GetAppIcon from '@mui/icons-material/GetApp'; // Import icon for download links
 import GitHubIcon from '@mui/icons-material/GitHub'; // Import GitHub icon
@@ -7,6 +6,7 @@ import Mail from '@mui/icons-material/Mail';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
+import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
 const Footer = () => {
@@ -57,7 +57,7 @@ const Footer = () => {
           </Link>
         </Grid>
         <Grid item>
-          <Link target='_blank' href="https://github.com/travisBumgarner/brainstorm-app" color="inherit" underline="hover" sx={{ display: 'flex', alignItems: 'center', marginLeft: '16px' }}>
+          <Link target='_blank' href="https://github.com/TravisBumgarner/thoughts-down-quickly" color="inherit" underline="hover" sx={{ display: 'flex', alignItems: 'center', marginLeft: '16px' }}>
             <GitHubIcon sx={{ verticalAlign: 'middle', mr: 1 }} />
             <Typography variant="body1" component="span">
               GitHub

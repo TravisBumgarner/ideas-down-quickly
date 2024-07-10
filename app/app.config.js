@@ -1,9 +1,9 @@
-import 'dotenv'
+import 'dotenv/config'
 
 const config = () => ({
   expo: {
-    name: 'Brainstorm',
-    slug: 'brainstorm-app',
+    name: 'Thoughts Down Quickly',
+    slug: 'thoughts-down-quickly',
     version: '1.0.0',
     orientation: 'portrait',
     icon: './assets/images/icon.png',
@@ -15,7 +15,7 @@ const config = () => ({
       backgroundColor: '#ffffff',
     },
     ios: {
-      bundleIdentifier: process.env.BUNDLE_IDENTIFIER,
+      bundleIdentifier: process.env.EXPO_BUNDLE_IDENTIFIER,
       supportsTablet: true,
     },
     android: {

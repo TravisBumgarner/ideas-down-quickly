@@ -61,8 +61,10 @@ find . -name database.db
 open [pathname]
 Should open in SQLite Browser
 
-# Backups & Restores of Data
+# iOS Backups & Restores of Data
 
-/Users/travisbumgarner/Library/Developer/CoreSimulator/Devices/DFE1B4C3-9F2D-4065-A6BE-1AB1C05CAA8B/data/Containers/Shared/AppGroup/DB6DA1EA-49D5-49AE-BB6C-73CA7FC86BB6/File Provider Storage
-
-Where the first ID is the device and the second ID is the app. 
+1. Get the device name from XCode -> Windows -> Devices & Simulators (Match Name from Simulator to list)
+2. cd `/Users/travisbumgarner/Library/Developer/CoreSimulator/Devices/DEVICE_NAME_HERE/data/Containers/Shared/AppGroup/`
+3. Create a backup such as `Foo.json`
+4. `find . -name Foo.json` (If the name isn't exact it won't match. Make sure not to save as `Foo.json.json` on accident)
+5. Drag restore file into this folder, open on iOS device.

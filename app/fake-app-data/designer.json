@@ -1,0 +1,109 @@
+{
+  "labels": [
+    {
+      "id": "2eaa69c8-3a1c-414f-8178-812d8ae5134c",
+      "text": "New Category",
+      "createdAt": "2024-07-10T02:19:32.123Z",
+      "updatedAt": null,
+      "lastUsedAt": "Tue Jul 09 2024",
+      "icon": "book",
+      "color": "#2DA7FF"
+    },
+    {
+      "id": "7e2c834a-c2f9-4c2e-8bb5-3c1f4d3c1f23",
+      "text": "Creative Projects",
+      "createdAt": "2024-06-18T08:45:00.000Z",
+      "updatedAt": "2024-07-04T18:20:20.000Z",
+      "lastUsedAt": "2024-07-10T02:15:28.860Z",
+      "icon": "palette",
+      "color": "#FF25CF"
+    },
+    {
+      "id": "3f5f7bb2-9c12-4e6d-a8ab-82d238c7a0b4",
+      "text": "Innovation Hub",
+      "createdAt": "2024-06-15T14:21:13.456Z",
+      "updatedAt": "2024-07-01T12:17:45.789Z",
+      "lastUsedAt": "2024-07-10T02:14:17.814Z",
+      "icon": "lightbulb",
+      "color": "#FFB905"
+    },
+    {
+      "id": "2a5b9c12-d8f9-4c5e-b5e9-3d1b7f4b2d45",
+      "text": "Fitness Goals",
+      "createdAt": "2024-07-01T07:30:00.000Z",
+      "updatedAt": "2024-07-08T14:22:22.000Z",
+      "lastUsedAt": "2024-07-09T10:10:10.000Z",
+      "icon": "dumbbell",
+      "color": "#73FF31"
+    },
+    {
+      "id": "1e8c5d9f-4f4a-4b6a-b4a6-3e2b9f1c1d56",
+      "text": "Travel Plans",
+      "createdAt": "2024-06-25T12:00:00.000Z",
+      "updatedAt": "2024-07-03T17:17:17.000Z",
+      "lastUsedAt": "2024-07-09T09:09:09.000Z",
+      "icon": "airplane",
+      "color": "#2DA7FF"
+    },
+    {
+      "id": "b9d10d3a-87a9-4b75-82aa-bba72a4a3e4b",
+      "text": "Tech Ideas",
+      "createdAt": "2024-06-20T10:00:00.000Z",
+      "updatedAt": "2024-07-05T15:30:30.000Z",
+      "lastUsedAt": "2024-07-08T09:00:00.000Z",
+      "icon": "desktop-mac",
+      "color": "#FF1A1A"
+    }
+  ],
+  "ideas": [
+    {
+      "id": "bc13f0f5-a52b-4baf-b86c-f59e14721934",
+      "createdAt": "2024-07-10T02:15:28.860Z",
+      "updatedAt": "2024-07-10T02:15:39.331Z",
+      "text": "I should open a new store. Maybe Etsy?",
+      "labelId": "7e2c834a-c2f9-4c2e-8bb5-3c1f4d3c1f23"
+    },
+    {
+      "id": "e301e605-7d7c-4015-b17c-19fe2d872ded",
+      "createdAt": "2024-07-10T02:15:11.264Z",
+      "updatedAt": null,
+      "text": "Which styles do I want to work on?",
+      "labelId": "7e2c834a-c2f9-4c2e-8bb5-3c1f4d3c1f23"
+    },
+    {
+      "id": "c03000a1-c22d-4a11-8eb3-94b18145f37e",
+      "createdAt": "2024-07-10T02:14:17.814Z",
+      "updatedAt": null,
+      "text": "Who do I know in my network that could help with this?",
+      "labelId": "3f5f7bb2-9c12-4e6d-a8ab-82d238c7a0b4"
+    },
+    {
+      "id": "b9d1e2a3-567f-4b6e-9c7f-4d2a9c6e3a12",
+      "createdAt": "2024-07-09T12:00:00.000Z",
+      "updatedAt": null,
+      "text": "Develop a platform for remote team collaboration.",
+      "labelId": "3f5f7bb2-9c12-4e6d-a8ab-82d238c7a0b4"
+    },
+    {
+      "id": "d7e3f2c5-789f-4d8e-9d9e-6f4c9d8f5d45",
+      "createdAt": "2024-07-09T11:11:11.000Z",
+      "updatedAt": null,
+      "text": "Design a new series of art prints for sale.",
+      "labelId": "7e2c834a-c2f9-4c2e-8bb5-3c1f4d3c1f23"
+    },
+    {
+      "id": "f5g5h4e7-90b1-4f9f-9fbf-8g6e0f7g7d67",
+      "createdAt": "2024-07-09T09:09:09.000Z",
+      "updatedAt": null,
+      "text": "Organize a trip to Japan with detailed itineraries.",
+      "labelId": "1e8c5d9f-4f4a-4b6a-b4a6-3e2b9f1c1d56"
+    },
+    {
+      "id": "c8d2e1b4-678f-4c7e-8c8e-5e3b9d7e4b34",
+      "createdAt": "2024-07-08T09:00:00.000Z",
+      "updatedAt": null,
+      "text": "Create an AI-powered personal assistant app.",
+      "labelId": "b9d10d3a-87a9-4b75-82aa-bba72a4a3e4b"
+    }
+  ]
+}

@@ -4,12 +4,6 @@
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
-    "start:android": "expo start --android",
-    "start:ios": "expo start --ios",
-    "start:web": "expo start --web",
-    "test": "jest --watchAll",
-    "no-thanks-lint": "expo lint",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "db:generate": "npx drizzle-kit generate",
     "register:ios": "eas device:create",
     "move-to-ios-build-dir": "rm -rf ./builds/ios && mkdir -p ./builds/ios && mv *.ipa ./builds/ios",

@@ -1,3 +1,10 @@
+import * as Sentry from '@sentry/react-native'
+import * as DocumentPicker from 'expo-document-picker'
+import * as FileSystem from 'expo-file-system'
+import * as Sharing from 'expo-sharing'
+import * as React from 'react'
+import { View } from 'react-native'
+
 import queries from '@/db/queries'
 import { IdeaRunType, LabelRunType } from '@/db/schema'
 import Button from '@/shared/components/Button'
@@ -7,12 +14,6 @@ import TextInput from '@/shared/components/TextInput'
 import Typography from '@/shared/components/Typography'
 import { context } from '@/shared/context'
 import { COLORS, SPACING } from '@/shared/theme'
-import * as DocumentPicker from 'expo-document-picker'
-import * as FileSystem from 'expo-file-system'
-import * as Sharing from 'expo-sharing'
-import * as React from 'react'
-import { View } from 'react-native'
-import * as Sentry from '@sentry/react-native'
 
 const Settings = () => {
   const { dispatch } = React.useContext(context)
@@ -144,7 +145,7 @@ const Settings = () => {
                 onPress={handleBackup}
                 disabled={isProcessing}
               >
-                Backup Database
+                Backup Data
               </Button>
             }
             right={
@@ -154,7 +155,7 @@ const Settings = () => {
                 onPress={handleRestore}
                 disabled={isProcessing}
               >
-                Restore Database
+                Restore Data
               </Button>
             }
           />

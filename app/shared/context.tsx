@@ -1,6 +1,10 @@
 import { createContext, useReducer, type Dispatch } from 'react'
 
 // Note - this file is probably currently overkill for dispatching just TOASTS.
+// Of additional note - it might have been the `isLoading` for Context for fetching
+// keys from local storage that caused SplashScreen.hideAsync() not to fire. So,
+// note to future self, if you add keys back in, check with a fresh install of the app.
+// Simulator -> Device -> Erase all content and settings
 
 export interface State {
   toast: {

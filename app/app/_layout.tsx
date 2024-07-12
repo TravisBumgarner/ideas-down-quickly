@@ -1,17 +1,14 @@
 import * as Sentry from '@sentry/react-native'
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator'
 import { useFonts } from 'expo-font'
-import { Stack, router } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
-import { StatusBar } from 'expo-status-bar'
-import { useContext, useEffect, useState } from 'react'
-import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import { MD3DarkTheme, MD3LightTheme, PaperProvider } from 'react-native-paper'
+import { useEffect } from 'react'
+import { View } from 'react-native'
+import { Text } from 'react-native-paper'
 
 import { db } from '@/db/client'
 import migrations from '@/db/migrations/migrations'
-import Toast from '@/shared/components/Toast'
-import Context, { context } from '@/shared/context'
+
 import 'react-native-reanimated'
 
 Sentry.init({
@@ -30,73 +27,31 @@ Sentry.init({
 SplashScreen.preventAutoHideAsync()
 
 function App() {
-  const { success: haveMigrationsRun, error: haveMigrationsErrored } =
-    useMigrations(db, migrations)
-  const {
-    state: {
-      settings: { colorTheme },
-    },
-  } = useContext(context)
-  const [hasTimeoutExecuted, setHasTimeoutExecuted] = useState(false)
-
-  const [haveFontsLoaded] = useFonts({
-    Montserrat: require('../assets/fonts/Montserrat.ttf'),
-  })
-
-  const hasLoaded = [
-    haveFontsLoaded,
-    haveMigrationsRun,
-    hasTimeoutExecuted,
-  ].every(i => i)
-
-  const hasErrored = [haveMigrationsErrored].some(i => i)
-  const paperTheme = colorTheme === 'dark' ? MD3DarkTheme : MD3LightTheme
-
-  useEffect(() => {
-    setTimeout(() => setHasTimeoutExecuted(true), 500)
-  }, [])
-
-  useEffect(() => {
-    if (hasErrored) {
-      router.replace('error')
-    }
-  }, [hasErrored])
-
-  useEffect(() => {
-    if (hasLoaded || hasErrored) {
-      SplashScreen.hideAsync()
-    }
-  }, [hasLoaded, hasErrored])
-
-  if (!hasLoaded && !hasErrored) {
-    return null
-  }
-
   return (
-    <PaperProvider theme={paperTheme}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" options={{ headerShown: false }} />
-          <Stack.Screen name="error" options={{ headerShown: false }} />
-          <Stack.Screen name="add-idea" options={{ headerShown: false }} />
-          <Stack.Screen name="add-label" options={{ headerShown: false }} />
-          <Stack.Screen name="edit-idea" options={{ headerShown: false }} />
-          <Stack.Screen name="edit-label" options={{ headerShown: false }} />
-        </Stack>
-      </GestureHandlerRootView>
-    </PaperProvider>
+    <View>
+      <Text>HEllo World</Text>
+    </View>
   )
 }
 
 const AppWrapper = () => {
-  return (
-    <Context>
-      <StatusBar style="auto" />
-      <App />
-      <Toast />
-    </Context>
-  )
+  const [loaded] = useFonts({
+    Montserrat: require('../assets/fonts/Montserrat.ttf'),
+  })
+  const { success } = useMigrations(db, migrations)
+
+  useEffect(() => {
+    if (loaded && success) {
+      // I have no idea why but if SplashScreen.hideAsync isn't at the top default export it doesn't work?
+      SplashScreen.hideAsync()
+    }
+  }, [loaded, success])
+
+  if (!loaded && !success) {
+    return null
+  }
+
+  return <App />
 }
 
-export default Sentry.wrap(AppWrapper)
+export default AppWrapper

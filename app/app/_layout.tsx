@@ -1,15 +1,16 @@
 import * as Sentry from '@sentry/react-native'
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator'
 import { useFonts } from 'expo-font'
+import { Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { useEffect } from 'react'
-import { View } from 'react-native'
-import { Text } from 'react-native-paper'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { MD3DarkTheme, PaperProvider } from 'react-native-paper'
 
 import { db } from '@/db/client'
 import migrations from '@/db/migrations/migrations'
-
-import 'react-native-reanimated'
+import Toast from '@/shared/components/Toast'
+import Context from '@/shared/context'
 
 Sentry.init({
   dsn: 'https://64ffbe37c5fcfb045fa5ac415b9e5d16@o196886.ingest.us.sentry.io/4507545983385600',
@@ -28,9 +29,22 @@ SplashScreen.preventAutoHideAsync()
 
 function App() {
   return (
-    <View>
-      <Text>HEllo World</Text>
-    </View>
+    <PaperProvider theme={MD3DarkTheme}>
+      <Context>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="+not-found" options={{ headerShown: false }} />
+            <Stack.Screen name="error" options={{ headerShown: false }} />
+            <Stack.Screen name="add-idea" options={{ headerShown: false }} />
+            <Stack.Screen name="add-label" options={{ headerShown: false }} />
+            <Stack.Screen name="edit-idea" options={{ headerShown: false }} />
+            <Stack.Screen name="edit-label" options={{ headerShown: false }} />
+          </Stack>
+        </GestureHandlerRootView>
+        <Toast />
+      </Context>
+    </PaperProvider>
   )
 }
 

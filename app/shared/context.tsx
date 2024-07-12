@@ -1,21 +1,12 @@
-import {
-  createContext,
-  useEffect,
-  useReducer,
-  useState,
-  type Dispatch,
-} from 'react'
-import { Text } from 'react-native-paper'
+import { createContext, useReducer, type Dispatch } from 'react'
 
-import { getValueFromKeyStore, saveValueToKeyStore } from './utilities'
-
-const HAS_DONE_WARM_START = 'HAS_DONE_WARM_START'
-const TRUE = 'true'
+// Note - this file is probably currently overkill for dispatching just TOASTS.
+// Of additional note - it might have been the `isLoading` for Context for fetching
+// keys from local storage that caused SplashScreen.hideAsync() not to fire. So,
+// note to future self, if you add keys back in, check with a fresh install of the app.
+// Simulator -> Device -> Erase all content and settings
 
 export interface State {
-  settings: {
-    colorTheme: 'dark' | 'light'
-  }
   toast: {
     message: string
     variant: 'SUCCESS' | 'ERROR' | 'WARNING'
@@ -23,47 +14,7 @@ export interface State {
 }
 
 const EMPTY_STATE: State = {
-  settings: {
-    colorTheme: 'light',
-  },
   toast: null,
-}
-
-const initialSetup = () => {
-  Object.keys(EMPTY_STATE.settings).forEach(key => {
-    saveValueToKeyStore(
-      key as keyof (typeof EMPTY_STATE)['settings'],
-      EMPTY_STATE.settings[key as keyof (typeof EMPTY_STATE)['settings']]
-    )
-  })
-
-  saveValueToKeyStore(HAS_DONE_WARM_START, TRUE)
-}
-
-type SettingsKey = keyof typeof EMPTY_STATE.settings
-
-const getKeysFromStorage = async () => {
-  const keys = Object.keys(EMPTY_STATE.settings) as SettingsKey[]
-  const result = await keys.reduce(
-    async (prevPromise, key) => {
-      const acc = await prevPromise
-      acc[key] = (await getValueFromKeyStore(key)) || EMPTY_STATE.settings[key]
-      return acc
-    },
-    Promise.resolve({} as Record<SettingsKey, string>)
-  )
-  // I tried. Maybe one day I'll be better with types.
-  return result as unknown as State['settings']
-}
-
-interface HydrateUserSettings {
-  type: 'HYDRATE_USER_SETTINGS'
-  payload: State['settings']
-}
-
-interface EditUserSettings {
-  type: 'EDIT_USER_SETTING'
-  payload: State['settings']
 }
 
 interface Toast {
@@ -71,19 +22,10 @@ interface Toast {
   payload: State['toast']
 }
 
-export type Action = EditUserSettings | HydrateUserSettings | Toast
+export type Action = Toast
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case 'HYDRATE_USER_SETTINGS': {
-      return { ...state, settings: { ...state.settings, ...action.payload } }
-    }
-    case 'EDIT_USER_SETTING': {
-      Object.entries(action.payload).forEach(([key, value]) => {
-        saveValueToKeyStore(key as SettingsKey, value)
-      })
-      return { ...state, settings: { ...state.settings, ...action.payload } }
-    }
     case 'TOAST': {
       return { ...state, toast: action.payload }
     }
@@ -102,26 +44,6 @@ const context = createContext({
 
 const ResultsContext = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, EMPTY_STATE)
-  const [isLoading, setIsLoading] = useState<boolean>(true)
-
-  useEffect(() => {
-    const fetchData = async () => {
-      if ((await getValueFromKeyStore(HAS_DONE_WARM_START)) !== TRUE) {
-        initialSetup()
-      } else {
-        const payload = await getKeysFromStorage()
-        dispatch({ type: 'HYDRATE_USER_SETTINGS', payload })
-        setIsLoading(false)
-      }
-    }
-
-    setIsLoading(true)
-    void fetchData()
-  }, [])
-
-  if (isLoading) {
-    return <Text>Loading...</Text>
-  }
 
   const { Provider } = context
 

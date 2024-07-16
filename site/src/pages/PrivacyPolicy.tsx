@@ -22,14 +22,14 @@ const PrivacyPolicy: FC = () => {
         </Typography>
 
         <Typography variant="body1" paragraph>
-          Welcome to Ideas Down Quickly (“we,” “our,” or “us”). Your privacy is important to us. This Privacy Policy outlines how we handle your information. Importantly, Ideas Down Quickly does not collect, store, or process any personal data from its users.
+          Welcome to Ideas Down (“we,” “our,” or “us”). Your privacy is important to us. This Privacy Policy outlines how we handle your information. Importantly, Ideas Down does not collect, store, or process any personal data from its users.
         </Typography>
 
         <Typography variant="h6" gutterBottom>
           1. Information We Do Not Collect
         </Typography>
         <Typography variant="body1" paragraph>
-          At Ideas Down Quickly, we are committed to maintaining your privacy. We do not collect, store, or process any personal data, including but not limited to:
+          At Ideas Down, we are committed to maintaining your privacy. We do not collect, store, or process any personal data, including but not limited to:
         </Typography>
         <ul>
           <li>Personal Identification Information (such as name, email address, or phone number)</li>
@@ -50,7 +50,7 @@ const PrivacyPolicy: FC = () => {
           3. Third-Party Services
         </Typography>
         <Typography variant="body1" paragraph>
-          Ideas Down Quickly does not integrate with any third-party services that would collect your data. Our app is designed to operate independently without needing to share or transfer any information about you to third parties.
+          Ideas Down does not integrate with any third-party services that would collect your data. Our app is designed to operate independently without needing to share or transfer any information about you to third parties.
         </Typography>
 
         <Typography variant="h6" gutterBottom>
@@ -71,7 +71,7 @@ const PrivacyPolicy: FC = () => {
           6. Children's Privacy
         </Typography>
         <Typography variant="body1" paragraph>
-          Ideas Down Quickly does not knowingly collect or solicit any personal information from anyone under the age of 13. If we become aware that we have collected personal information from a child under 13, we will take steps to delete such information promptly.
+          Ideas Down does not knowingly collect or solicit any personal information from anyone under the age of 13. If we become aware that we have collected personal information from a child under 13, we will take steps to delete such information promptly.
         </Typography>
 
         <Typography variant="h6" gutterBottom>

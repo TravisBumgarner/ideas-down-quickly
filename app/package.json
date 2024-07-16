@@ -1,18 +1,21 @@
 {
   "name": "ideas-down-quickly",
   "main": "expo-router/entry",
-  "version": "1.0.0",
+  "version": "1.1.10",
   "scripts": {
     "start": "expo start",
     "db:generate": "npx drizzle-kit generate",
     "register:ios": "eas device:create",
     "move-to-ios-build-dir": "rm -rf ./builds/ios && mkdir -p ./builds/ios && mv *.ipa ./builds/ios",
-    "build:ios:local:development": "ENV=development && eas build --platform ios --local --profile development && yarn move-to-ios-build-dir",
-    "build:ios:cloud:internal": "eas build --profile internal --platform ios",
-    "build:ios:local:internal": "eas build --platform ios --local --profile internal && yarn move-to-ios-build-dir",
-    "build:ios:cloud:production": "eas build --profile production --platform ios",
-    "build:ios:local:production": "eas build --platform ios --local --profile production && yarn move-to-ios-build-dir",
-    "submit:ios": "eas submit --platform ios --profile production"
+    "prebuild:ios": "expo prebuild -p ios",
+    "build:ios:local:development": "ENV=development && yarn prebuild:ios && eas build --platform ios --local --profile development && yarn move-to-ios-build-dir",
+    "build:ios:cloud:internal": "yarn prebuild:ios && eas build --profile internal --platform ios",
+    "build:ios:local:internal": "yarn prebuild:ios && eas build --platform ios --local --profile internal && yarn move-to-ios-build-dir",
+    "build:ios:cloud:production": "yarn prebuild:ios && eas build --profile production --platform ios",
+    "build:ios:local:production": "yarn prebuild:ios && eas build --platform ios --local --profile production && yarn move-to-ios-build-dir",
+    "submit:ios": "eas submit --platform ios --profile production",
+    "android": "expo run:android",
+    "ios": "expo run:ios"
   },
   "jest": {
     "preset": "jest-expo"

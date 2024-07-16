@@ -1,9 +1,5 @@
 # Local Development Notes
 
-## .env
-
-The env is just for EXPO to load in env variables currently.
-
 ## Prettier / eslint
 
 I am writing this as a note to myself when Prettier / eslint eventually stop working. 

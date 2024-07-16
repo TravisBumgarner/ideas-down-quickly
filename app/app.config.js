@@ -2,9 +2,12 @@ import 'dotenv/config'
 
 const config = () => ({
   expo: {
-    name: process.env.APP_NAME || 'Ideas',
+    runtimeVersion: {
+      policy: 'appVersion',
+    },
+    name: process.env.APP_NAME || 'Ideas Down',
     slug: 'ideas-down-quickly',
-    version: '1.0.0',
+    version: '1.1.10',
     orientation: 'portrait',
     icon: './assets/images/icon.png',
     scheme: 'myapp',
@@ -19,6 +22,7 @@ const config = () => ({
         process.env.EXPO_BUNDLE_IDENTIFIER ||
         'com.sillysideprojects.ideas.prod',
       supportsTablet: true,
+      entitlements: {},
     },
     android: {
       adaptiveIcon: {
@@ -45,5 +49,7 @@ const config = () => ({
     },
   },
 })
+
+console.log(config())
 
 export default config()

@@ -70,7 +70,7 @@ const Button = ({
           onPress={onPress}
           disabled={disabled}
           icon={icon}
-        >
+      >
           <Text
             style={StyleSheet.flatten([
               {

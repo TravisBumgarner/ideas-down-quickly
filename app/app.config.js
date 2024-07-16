@@ -7,7 +7,7 @@ const config = () => ({
     },
     name: process.env.APP_NAME || 'Ideas Down',
     slug: 'ideas-down-quickly',
-    version: '1.1.4',
+    version: '1.1.10',
     orientation: 'portrait',
     icon: './assets/images/icon.png',
     scheme: 'myapp',
@@ -49,5 +49,7 @@ const config = () => ({
     },
   },
 })
+
+console.log(config())
 
 export default config()

@@ -12,14 +12,10 @@ const Header = () => {
       <div>
         <Link
           css={{ marginRight: '16px' }}
-          href=''
-          download
+          target='_blank'
+          href='https://apps.apple.com/us/app/ideas-down-quickly/id6529524065?platform=iphone'
         >
           App Store
-        </Link>
-        <Link href=''
-          download>
-          Play Store
         </Link>
       </div>
     </div >

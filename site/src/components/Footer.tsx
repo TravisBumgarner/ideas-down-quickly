@@ -26,18 +26,10 @@ const Footer = () => {
     >
       <Grid container justifyContent="center" spacing={4}>
         <Grid item>
-          <Link href="https://github.com/TravisBumgarner/Todo-Today-Releases/releases/download/v1.2.11/Todo-Today_1.2.11.exe" download color="inherit" underline="hover">
+          <Link href="https://apps.apple.com/us/app/ideas-down-quickly/id6529524065?platform=iphone" target="_blank" color="inherit" underline="hover">
             <GetAppIcon sx={{ verticalAlign: 'middle', mr: 1 }} />
             <Typography variant="body1" component="span">
               App Store
-            </Typography>
-          </Link>
-        </Grid>
-        <Grid item>
-          <Link href="https://github.com/TravisBumgarner/Todo-Today-Releases/releases/download/v1.2.11/Todo-Today_1.2.11.dmg" download color="inherit" underline="hover">
-            <GetAppIcon sx={{ verticalAlign: 'middle', mr: 1 }} />
-            <Typography variant="body1" component="span">
-              Play Store
             </Typography>
           </Link>
         </Grid>

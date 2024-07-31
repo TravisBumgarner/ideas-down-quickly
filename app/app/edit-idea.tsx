@@ -1,19 +1,19 @@
-import { router, useLocalSearchParams } from 'expo-router'
-import * as React from 'react'
-import { SafeAreaView, View } from 'react-native'
-import { ActivityIndicator } from 'react-native-paper'
-import { useAsyncEffect } from 'use-async-effect'
-
 import queries from '@/db/queries'
 import { SelectLabel } from '@/db/schema'
 import Button from '@/shared/components/Button'
 import ButtonWrapper from '@/shared/components/ButtonWrapper'
-import Dropdown from '@/shared/components/Dropdown'
+import Label from '@/shared/components/Label'
+import LabelFilterModal from '@/shared/components/LabelFilterModal'
 import PageWrapper from '@/shared/components/PageWrapper'
 import TextInput from '@/shared/components/TextInput'
 import { context } from '@/shared/context'
 import { URLParams } from '@/shared/types'
+import { router, useLocalSearchParams } from 'expo-router'
+import * as React from 'react'
+import { SafeAreaView, View } from 'react-native'
 import 'react-native-get-random-values'
+import { ActivityIndicator } from 'react-native-paper'
+import { useAsyncEffect } from 'use-async-effect'
 
 const IdeaEdit = ({
   labelId,
@@ -27,9 +27,21 @@ const IdeaEdit = ({
   const { dispatch } = React.useContext(context)
   const params = useLocalSearchParams<URLParams['edit-idea']>()
   const [selectedLabelId, setSelectedLabelId] = React.useState('')
-  const [labelList, setLabelList] = React.useState<
-    { label: string; value: string }[]
-  >([])
+  const [labelList, setLabelList] = React.useState<SelectLabel[]>([])
+  const [isModalVisible, setIsModalVisible] = React.useState(false)
+
+  const onFilterSubmitCallback = React.useCallback(
+    (id: string) => {
+      setSelectedLabelId(id)
+      setLabel(labelList.filter(l => l.id === id)[0])
+      setIsModalVisible(false)
+    },
+    [labelList]
+  )
+
+  const onFilterCancelCallback = React.useCallback(() => {
+    setIsModalVisible(false)
+  }, [])
 
   useAsyncEffect(async () => {
     if (!params.ideaId) {
@@ -46,7 +58,7 @@ const IdeaEdit = ({
     const labels = await queries.select.labels()
     setIdeaText(idea.text)
     setLabel(label)
-    setLabelList(labels.map(label => ({ label: label.text, value: label.id })))
+    setLabelList(labels)
     setSelectedLabelId(idea.labelId)
   }, [labelId, params.ideaId])
 
@@ -88,11 +100,12 @@ const IdeaEdit = ({
           multiline
           color={label.color}
         />
-        <Dropdown
-          value={selectedLabelId}
-          onChangeCallback={setSelectedLabelId}
-          data={labelList}
-          dropdownPosition="bottom"
+        <Label {...label} handlePress={() => setIsModalVisible(true)} />
+        <LabelFilterModal
+          filterLabelList={labelList}
+          onSubmit={onFilterSubmitCallback}
+          onCancel={onFilterCancelCallback}
+          isModalVisible={isModalVisible}
         />
       </View>
 

@@ -1,26 +1,26 @@
-import { useFocusEffect } from '@react-navigation/native'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { SafeAreaView, ScrollView, View } from 'react-native'
-import { ActivityIndicator } from 'react-native-paper'
-
 import queries from '@/db/queries'
+import { SelectLabel } from '@/db/schema'
 import Button from '@/shared/components/Button'
-import Dropdown from '@/shared/components/Dropdown'
+import ButtonWrapper from '@/shared/components/ButtonWrapper'
 import { default as IdeasByLabel } from '@/shared/components/IdeasByLabel'
+import LabelFilterModal from '@/shared/components/LabelFilterModal'
 import PageWrapper from '@/shared/components/PageWrapper'
 import Typography from '@/shared/components/Typography'
 import { COLORS, SPACING } from '@/shared/theme'
 import { IdeasByDateAndLabel } from '@/shared/types'
 import { notNull } from '@/shared/utilities'
+import { useFocusEffect } from '@react-navigation/native'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { SafeAreaView, ScrollView, View } from 'react-native'
+import { ActivityIndicator } from 'react-native-paper'
 
 const History = () => {
   const [ideasByDateAndLabel, setIdeasByDateAndLabel] =
     useState<IdeasByDateAndLabel | null>(null)
 
   const [selectedFilterLabelId, setSelectedFilterLabelId] = useState('')
-  const [filterLabelList, setFilterLabelList] = useState<
-    { label: string; value: string }[]
-  >([])
+  const [filterLabelList, setFilterLabelList] = useState<SelectLabel[]>([])
+  const [isModalVisible, setIsModalVisible] = useState(false)
 
   const clearFilter = useCallback(() => {
     setSelectedFilterLabelId('')
@@ -31,10 +31,16 @@ const History = () => {
     setIdeasByDateAndLabel(result)
 
     const labels = await queries.select.labels()
-    setFilterLabelList([
-      { label: 'All', value: '' },
-      ...labels.map(label => ({ label: label.text, value: label.id })),
-    ])
+    setFilterLabelList(labels)
+  }, [])
+
+  const onFilterSubmitCallback = useCallback((id: string) => {
+    setSelectedFilterLabelId(id)
+    setIsModalVisible(false)
+  }, [])
+
+  const onFilterCancelCallback = useCallback(() => {
+    setIsModalVisible(false)
   }, [])
 
   useEffect(() => {
@@ -47,12 +53,13 @@ const History = () => {
     }, [fetchFromDB])
   )
 
-  const rows = useMemo(() => {
+  const [rows, unfilteredRowsCount] = useMemo(() => {
     if (ideasByDateAndLabel === null) {
-      return []
+      return [[], 0] as const
     }
 
     const output: JSX.Element[] = []
+    let unfilteredRowsCount = 0
 
     Object.keys(ideasByDateAndLabel).forEach(date => {
       const dateOutput = (
@@ -65,6 +72,7 @@ const History = () => {
 
       const ideasOutput = Object.keys(ideasByLabel)
         .map(labelId => {
+          unfilteredRowsCount += ideasByLabel[labelId].ideas.length
           if (selectedFilterLabelId && selectedFilterLabelId !== labelId) {
             return null
           }
@@ -85,9 +93,10 @@ const History = () => {
       }
     })
 
-    return output
+    return [output, unfilteredRowsCount]
   }, [ideasByDateAndLabel, fetchFromDB, selectedFilterLabelId])
 
+  console.log('unfilteredRowsCount', unfilteredRowsCount)
   if (ideasByDateAndLabel === null) {
     return (
       <SafeAreaView style={{ backgroundColor: COLORS.NEUTRAL[700], flex: 1 }}>
@@ -121,7 +130,7 @@ const History = () => {
       {rows.length > 0 ? (
         <ScrollView>
           {rows}
-          {rows.length < 5 && (
+          {unfilteredRowsCount < 5 && (
             <Typography variant="caption" style={{ textAlign: 'center' }}>
               Swipe right on an idea to delete or left to edit
             </Typography>
@@ -149,14 +158,28 @@ const History = () => {
         </View>
       )}
 
-      <View style={{ marginVertical: SPACING.MEDIUM }}>
-        <Dropdown
-          value={selectedFilterLabelId}
-          onChangeCallback={setSelectedFilterLabelId}
-          data={filterLabelList}
-          dropdownPosition="top"
-        />
-      </View>
+      <ButtonWrapper
+        full={
+          <Button
+            onPress={
+              selectedFilterLabelId
+                ? () => setSelectedFilterLabelId('')
+                : () => setIsModalVisible(true)
+            }
+            variant="filled"
+            color={selectedFilterLabelId ? 'warning' : 'primary'}
+          >
+            {selectedFilterLabelId ? 'Clear Filter' : 'Filter'}
+          </Button>
+        }
+      />
+
+      <LabelFilterModal
+        filterLabelList={filterLabelList}
+        onSubmit={onFilterSubmitCallback}
+        onCancel={onFilterCancelCallback}
+        isModalVisible={isModalVisible}
+      />
     </PageWrapper>
   )
 }

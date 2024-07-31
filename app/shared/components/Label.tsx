@@ -2,11 +2,10 @@ import { useCallback, useRef } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Swipeable, TouchableOpacity } from 'react-native-gesture-handler'
 import { Icon, Text } from 'react-native-paper'
+import { BORDER_RADIUS, BORDER_WIDTH, COLORS, SPACING } from '@/shared/theme'
 
 import { navigateWithParams, timeAgo } from '../utilities'
 import Typography from './Typography'
-
-import { BORDER_RADIUS, BORDER_WIDTH, COLORS, SPACING } from '@/shared/theme'
 
 type Props = {
   color: string
@@ -15,9 +14,18 @@ type Props = {
   lastUsedAt: string | null
   id: string
   handlePress?: () => void
+  disableSideSwipe?: boolean
 }
 
-const Label = ({ color, icon, text, lastUsedAt, id, handlePress }: Props) => {
+const Label = ({
+  color,
+  icon,
+  text,
+  lastUsedAt,
+  id,
+  handlePress,
+  disableSideSwipe,
+}: Props) => {
   const swipeableRef = useRef<Swipeable>(null)
 
   const handleEdit = useCallback(() => {
@@ -25,8 +33,10 @@ const Label = ({ color, icon, text, lastUsedAt, id, handlePress }: Props) => {
     navigateWithParams('edit-label', { labelId: id })
   }, [id])
 
-  const renderRightActions = useCallback(
-    () => (
+  const renderRightActions = useCallback(() => {
+    if (disableSideSwipe) return null
+
+    return (
       <TouchableOpacity
         onPress={handleEdit}
         style={StyleSheet.flatten([
@@ -36,9 +46,8 @@ const Label = ({ color, icon, text, lastUsedAt, id, handlePress }: Props) => {
       >
         <Icon source="pencil" size={24} color={COLORS.PRIMARY[300]} />
       </TouchableOpacity>
-    ),
-    [handleEdit]
-  )
+    )
+  }, [handleEdit, disableSideSwipe])
 
   return (
     <Swipeable ref={swipeableRef} renderRightActions={renderRightActions}>

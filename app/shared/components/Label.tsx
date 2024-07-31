@@ -1,4 +1,3 @@
-import { BORDER_RADIUS, BORDER_WIDTH, COLORS, SPACING } from '@/shared/theme'
 import { useCallback, useRef } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Swipeable, TouchableOpacity } from 'react-native-gesture-handler'
@@ -6,6 +5,8 @@ import { Icon, Text } from 'react-native-paper'
 
 import { navigateWithParams, timeAgo } from '../utilities'
 import Typography from './Typography'
+
+import { BORDER_RADIUS, BORDER_WIDTH, COLORS, SPACING } from '@/shared/theme'
 
 type Props = {
   color: string

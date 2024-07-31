@@ -1,3 +1,15 @@
+import { router, useLocalSearchParams } from 'expo-router'
+import * as React from 'react'
+import {
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native'
+import { ActivityIndicator, Icon } from 'react-native-paper'
+import { useAsyncEffect } from 'use-async-effect'
+
 import { ICONS } from '@/assets/iconlist'
 import queries from '@/db/queries'
 import Button from '@/shared/components/Button'
@@ -8,18 +20,7 @@ import TextInput from '@/shared/components/TextInput'
 import { context } from '@/shared/context'
 import { BORDER_WIDTH, COLORS, SPACING } from '@/shared/theme'
 import { URLParams } from '@/shared/types'
-import { router, useLocalSearchParams } from 'expo-router'
-import * as React from 'react'
-import {
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native'
 import 'react-native-get-random-values'
-import { ActivityIndicator, Icon } from 'react-native-paper'
-import { useAsyncEffect } from 'use-async-effect'
 
 const IdeaEdit = () => {
   const [labelText, setLabelText] = React.useState('')
@@ -168,7 +169,7 @@ const IdeaEdit = () => {
             variant="filled"
             onPress={handleSubmit}
           >
-            Submit
+            Save
           </Button>
         }
       />

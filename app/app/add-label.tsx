@@ -1,3 +1,10 @@
+import { router } from 'expo-router'
+import * as React from 'react'
+import { Keyboard, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
+import { Icon } from 'react-native-paper'
+import { v4 as uuidv4 } from 'uuid'
+
 import { ICONS } from '@/assets/iconlist'
 import queries from '@/db/queries'
 import { NewLabel } from '@/db/schema'
@@ -8,13 +15,7 @@ import PageWrapper from '@/shared/components/PageWrapper'
 import TextInput from '@/shared/components/TextInput'
 import { BORDER_WIDTH, COLORS, SPACING } from '@/shared/theme'
 import { navigateWithParams } from '@/shared/utilities'
-import { router } from 'expo-router'
-import * as React from 'react'
-import { Keyboard, StyleSheet, TouchableOpacity, View } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
 import 'react-native-get-random-values'
-import { Icon } from 'react-native-paper'
-import { v4 as uuidv4 } from 'uuid'
 
 const DISPLAY_DATE = new Date().toISOString()
 
@@ -58,7 +59,6 @@ const AddLabel = () => {
           color={color}
           icon={icon}
           text={labelText}
-          readonly={true}
           lastUsedAt={DISPLAY_DATE}
         />
         <TextInput
@@ -109,6 +109,7 @@ const AddLabel = () => {
             contentContainerStyle={{
               flexDirection: 'row',
               flexWrap: 'wrap',
+              justifyContent: 'space-between',
             }}
           >
             {ICONS.map(icon => (

@@ -56,3 +56,7 @@ export const timeAgo = (date: string) => {
     return `${diffInMinutes}m ago`
   }
 }
+
+export function notNull<T>(value: T | null): value is T {
+  return value !== null
+}

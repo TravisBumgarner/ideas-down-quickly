@@ -1,5 +1,3 @@
-import queries from '@/db/queries'
-import { BORDER_RADIUS, BORDER_WIDTH, COLORS, SPACING } from '@/shared/theme'
 import { useCallback, useRef } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Swipeable } from 'react-native-gesture-handler'
@@ -8,6 +6,9 @@ import { Icon } from 'react-native-paper'
 import { Idea as IdeaType } from '../types'
 import { navigateWithParams } from '../utilities'
 import Typography from './Typography'
+
+import queries from '@/db/queries'
+import { BORDER_RADIUS, BORDER_WIDTH, COLORS, SPACING } from '@/shared/theme'
 
 const Idea = ({
   idea,
@@ -77,7 +78,7 @@ const Idea = ({
   )
 }
 
-const SHARED_SPACING = BORDER_WIDTH.MEDIUM
+const SHARED_SPACING = SPACING.SMALL
 
 const styles = StyleSheet.create({
   separator: {
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
     borderTopColor: COLORS.NEUTRAL[800],
     borderTopWidth: SHARED_SPACING,
     justifyContent: 'center',
-    padding: SPACING.XXSMALL,
+    padding: SPACING.SMALL,
   },
   swipeableLeft: {
     marginRight: SHARED_SPACING,

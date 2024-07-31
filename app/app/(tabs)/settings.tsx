@@ -3,7 +3,7 @@ import * as DocumentPicker from 'expo-document-picker'
 import * as FileSystem from 'expo-file-system'
 import * as Sharing from 'expo-sharing'
 import * as React from 'react'
-import { View } from 'react-native'
+import { Linking, View } from 'react-native'
 
 import queries from '@/db/queries'
 import { IdeaRunType, LabelRunType } from '@/db/schema'
@@ -124,6 +124,10 @@ const Settings = () => {
     }
   }
 
+  const handleFeedbackAndSupport = React.useCallback(() => {
+    Linking.openURL('https://ideas.sillysideprojects.com/contact')
+  }, [])
+
   return (
     <PageWrapper>
       <View
@@ -174,8 +178,24 @@ const Settings = () => {
             variant="filled"
             color="warning"
           >
-            Wipe Database and Migrations
+            Wipe All Data
           </Button>
+        </View>
+
+        <View style={{ marginTop: SPACING.XLARGE }}>
+          <Typography variant="h2">Feedback & Support</Typography>
+          <ButtonWrapper
+            full={
+              <Button
+                variant="filled"
+                color="primary"
+                onPress={handleFeedbackAndSupport}
+                disabled={isProcessing}
+              >
+                Leave a Message
+              </Button>
+            }
+          />
         </View>
       </View>
     </PageWrapper>

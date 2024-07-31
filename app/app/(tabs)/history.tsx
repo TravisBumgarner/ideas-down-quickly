@@ -55,7 +55,7 @@ const History = () => {
 
   const [rows, unfilteredRowsCount] = useMemo(() => {
     if (ideasByDateAndLabel === null) {
-      return [[], 0] as const
+      return [[], 0]
     }
 
     const output: JSX.Element[] = []
@@ -96,7 +96,6 @@ const History = () => {
     return [output, unfilteredRowsCount]
   }, [ideasByDateAndLabel, fetchFromDB, selectedFilterLabelId])
 
-  console.log('unfilteredRowsCount', unfilteredRowsCount)
   if (ideasByDateAndLabel === null) {
     return (
       <SafeAreaView style={{ backgroundColor: COLORS.NEUTRAL[700], flex: 1 }}>

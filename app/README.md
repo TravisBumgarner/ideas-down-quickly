@@ -1,17 +1,9 @@
-# Local Development Notes
+# Deploys  
 
-## Prettier / eslint
+Notes
+- `production` is the branch to be used for deploying to the app store.
 
-I am writing this as a note to myself when Prettier / eslint eventually stop working. 
-All settings should be in `settings.json`. 
-The installed VS Code extensions are 
-- Enabled
-  - Related - `ESLint`
-  - Unrelated - `Black Formatter`, `Flake 8`
-- Disabled
-  - Related - `Prettier - Code formatter`, `Prettier ESLint` (It appears I don't need either of these plugins to lint with the NPM packages I've installed. )
-
-# Development Build for iOS
+## Development Build for iOS
 
 [Tutorial](https://docs.expo.dev/develop/development-builds/create-a-build/)
 
@@ -23,7 +15,7 @@ This still requires a connection to the macbook and local dev running in VS COde
   3. Install
 2. `yarn run build:ios:local:development`
 
-# Distribution for Internal Use
+## Distribution for Internal Use
 
 [Tutorial](https://docs.expo.dev/build/internal-distribution/)
 
@@ -43,12 +35,14 @@ Build Locally
 1. `yarn run build:ios:local:internal`
 2. Open XCode -> Window -> Devices & Simulators -> Select phone -> Drag IPA onto phone. 
 
-# Deploy to iOS Store
+## Deploy to iOS Store
 
 https://docs.expo.dev/submit/ios/
 
 1. `yarn build:ios:cloud:production`
 2. 
+
+# Local Development
 
 # SQLite
 

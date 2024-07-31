@@ -96,6 +96,7 @@ const History = () => {
     return [output, unfilteredRowsCount]
   }, [ideasByDateAndLabel, fetchFromDB, selectedFilterLabelId])
 
+  console.log('unfilteredRowsCount', unfilteredRowsCount)
   if (ideasByDateAndLabel === null) {
     return (
       <SafeAreaView style={{ backgroundColor: COLORS.NEUTRAL[700], flex: 1 }}>

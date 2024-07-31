@@ -11,7 +11,11 @@ type ButtonWrapperProps = {
 
 const ButtonWrapper: React.FC<ButtonWrapperProps> = ({ left, right, full }) => {
   if (full) {
-    return <View style={styles.full}>{full}</View>
+    return (
+      <View style={styles.container}>
+        <View style={styles.full}>{full}</View>
+      </View>
+    )
   }
 
   return (
@@ -38,7 +42,7 @@ const styles = StyleSheet.create({
     marginTop: SPACING.MEDIUM,
   },
   full: {
-    margin: SPACING.MEDIUM,
+    flex: 1,
   },
 })
 

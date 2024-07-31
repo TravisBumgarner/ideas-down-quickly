@@ -1,3 +1,8 @@
+import { useFocusEffect } from '@react-navigation/native'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { SafeAreaView, ScrollView, View } from 'react-native'
+import { ActivityIndicator } from 'react-native-paper'
+
 import queries from '@/db/queries'
 import Button from '@/shared/components/Button'
 import Dropdown from '@/shared/components/Dropdown'
@@ -6,10 +11,7 @@ import PageWrapper from '@/shared/components/PageWrapper'
 import Typography from '@/shared/components/Typography'
 import { COLORS, SPACING } from '@/shared/theme'
 import { IdeasByDateAndLabel } from '@/shared/types'
-import { useFocusEffect } from '@react-navigation/native'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { SafeAreaView, ScrollView, View } from 'react-native'
-import { ActivityIndicator } from 'react-native-paper'
+import { notNull } from '@/shared/utilities'
 
 const History = () => {
   const [ideasByDateAndLabel, setIdeasByDateAndLabel] =
@@ -24,8 +26,8 @@ const History = () => {
     setSelectedFilterLabelId('')
   }, [])
 
-  const fetchFromDB = useCallback(async (filterToLabels?: string[]) => {
-    const result = await queries.select.ideasGroupedByLabel(filterToLabels)
+  const fetchFromDB = useCallback(async () => {
+    const result = await queries.select.ideasGroupedByLabel()
     setIdeasByDateAndLabel(result)
 
     const labels = await queries.select.labels()
@@ -36,12 +38,8 @@ const History = () => {
   }, [])
 
   useEffect(() => {
-    if (selectedFilterLabelId) {
-      fetchFromDB([selectedFilterLabelId])
-    } else {
-      fetchFromDB()
-    }
-  }, [fetchFromDB, selectedFilterLabelId])
+    fetchFromDB()
+  }, [fetchFromDB])
 
   useFocusEffect(
     useCallback(() => {
@@ -57,7 +55,7 @@ const History = () => {
     const output: JSX.Element[] = []
 
     Object.keys(ideasByDateAndLabel).forEach(date => {
-      output.push(
+      const dateOutput = (
         <Typography key={date} variant="h1" style={{ width: '100%' }}>
           {date}
         </Typography>
@@ -65,19 +63,30 @@ const History = () => {
 
       const ideasByLabel = ideasByDateAndLabel[date]
 
-      Object.keys(ideasByLabel).forEach(key => {
-        output.push(
-          <IdeasByLabel
-            key={key + date}
-            ideasByLabel={ideasByLabel[key]}
-            onDeleteCallback={fetchFromDB}
-          />
-        )
-      })
+      const ideasOutput = Object.keys(ideasByLabel)
+        .map(labelId => {
+          if (selectedFilterLabelId && selectedFilterLabelId !== labelId) {
+            return null
+          }
+
+          return (
+            <IdeasByLabel
+              key={labelId + date}
+              ideasByLabel={ideasByLabel[labelId]}
+              onDeleteCallback={fetchFromDB}
+            />
+          )
+        })
+        .filter(notNull)
+
+      if (ideasOutput.length > 0) {
+        output.push(dateOutput)
+        output.push(...ideasOutput)
+      }
     })
 
     return output
-  }, [ideasByDateAndLabel, fetchFromDB])
+  }, [ideasByDateAndLabel, fetchFromDB, selectedFilterLabelId])
 
   if (ideasByDateAndLabel === null) {
     return (

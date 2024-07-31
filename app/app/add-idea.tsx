@@ -1,3 +1,9 @@
+import { router, useLocalSearchParams } from 'expo-router'
+import * as React from 'react'
+import { SafeAreaView, View } from 'react-native'
+import { ActivityIndicator } from 'react-native-paper'
+import { v4 as uuidv4 } from 'uuid'
+
 import queries from '@/db/queries'
 import { NewIdea, SelectLabel } from '@/db/schema'
 import Button from '@/shared/components/Button'
@@ -6,12 +12,7 @@ import PageWrapper from '@/shared/components/PageWrapper'
 import TextInput from '@/shared/components/TextInput'
 import { context } from '@/shared/context'
 import { URLParams } from '@/shared/types'
-import { router, useLocalSearchParams } from 'expo-router'
-import * as React from 'react'
-import { SafeAreaView, View } from 'react-native'
 import 'react-native-get-random-values'
-import { ActivityIndicator } from 'react-native-paper'
-import { v4 as uuidv4 } from 'uuid'
 
 const AddIdea = () => {
   const { dispatch } = React.useContext(context)

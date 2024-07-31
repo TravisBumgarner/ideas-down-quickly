@@ -1,3 +1,9 @@
+import { router, useLocalSearchParams } from 'expo-router'
+import * as React from 'react'
+import { SafeAreaView, View } from 'react-native'
+import { ActivityIndicator } from 'react-native-paper'
+import { useAsyncEffect } from 'use-async-effect'
+
 import queries from '@/db/queries'
 import { SelectLabel } from '@/db/schema'
 import Button from '@/shared/components/Button'
@@ -7,12 +13,7 @@ import PageWrapper from '@/shared/components/PageWrapper'
 import TextInput from '@/shared/components/TextInput'
 import { context } from '@/shared/context'
 import { URLParams } from '@/shared/types'
-import { router, useLocalSearchParams } from 'expo-router'
-import * as React from 'react'
-import { SafeAreaView, View } from 'react-native'
 import 'react-native-get-random-values'
-import { ActivityIndicator } from 'react-native-paper'
-import { useAsyncEffect } from 'use-async-effect'
 
 const IdeaEdit = ({
   labelId,
@@ -108,7 +109,7 @@ const IdeaEdit = ({
             variant="filled"
             onPress={handleSubmit}
           >
-            Submit
+            Save
           </Button>
         }
       />

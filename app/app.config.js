@@ -25,6 +25,9 @@ const config = () => ({
       entitlements: {},
     },
     android: {
+      package:
+        process.env.EXPO_BUNDLE_IDENTIFIER ||
+        'com.sillysideprojects.ideas.prod',
       adaptiveIcon: {
         foregroundImage: './assets/images/adaptive-icon.png',
         backgroundColor: '#ffffff',

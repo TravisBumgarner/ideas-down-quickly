@@ -1,5 +1,14 @@
 # Deploys  
 
+# Android
+
+1. Local setup: https://docs.expo.dev/get-started/set-up-your-environment/?platform=android&device=physical&mode=development-build&buildEnv=local
+2. Install abd `brew install android-platform-tools`
+3. `abd devices` to list phone.
+4. Phone needs to be in developer mode with USB debugging enabled and stay awake.
+5. `eas build -p android --profile development --local`
+6. `npx expo run:android`
+
 Notes
 - `production` is the branch to be used for deploying to the app store.
 

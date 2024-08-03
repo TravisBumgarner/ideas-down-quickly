@@ -1,12 +1,18 @@
 import 'dotenv/config'
 
+console.log({
+  a: process.env.EXPO_BUNDLE_IDENTIFIER,
+  b: process.env.EXPO_APP_NAME,
+})
+
+console.log(process.env)
 const config = () => ({
   expo: {
     runtimeVersion: {
       policy: 'appVersion',
     },
     icon: './assets/images/icon.png',
-    name: process.env.APP_NAME || 'Ideas Down',
+    name: process.env.EXPO_APP_NAME || 'Ideas Down',
     slug: 'ideas-down-quickly',
     version: '1.2.0',
     orientation: 'portrait',
@@ -49,5 +55,4 @@ const config = () => ({
   },
 })
 
-console.log('config', config())
 export default config()

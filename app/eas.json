@@ -3,26 +3,26 @@
     "version": ">= 9.1.0"
   },
   "build": {
-    "development": {
+    "dev": {
       "developmentClient": true,
       "distribution": "internal",
       "env": {
         "EXPO_BUNDLE_IDENTIFIER": "com.sillysideprojects.ideas.dev",
-        "APP_NAME": "Ideas Down Dev"
+        "EXPO_APP_NAME": "Ideas Down Dev"
       }
     },
     "internal": {
       "distribution": "internal",
       "env": {
         "EXPO_BUNDLE_IDENTIFIER": "com.sillysideprojects.ideas.internal",
-        "APP_NAME": "Ideas Down Internal"
+        "EXPO_APP_NAME": "Ideas Down Internal"
       }
     },
     "production": {
       "distribution": "store",
       "env": {
         "EXPO_BUNDLE_IDENTIFIER": "com.sillysideprojects.ideas.prod",
-        "APP_NAME": "Ideas Down"
+        "EXPO_APP_NAME": "Ideas Down"
       }
     }
   },

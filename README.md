@@ -1,7 +1,7 @@
 # New Releases
 
 1. Make code changes and merge into master.
-2. Update ChangeLog.tsx
+2. Update ChangeLog.tsx and merge into master.
 3. Increment version number
     1. Update package.json with new version number
     2. Update app.config.js with new version number

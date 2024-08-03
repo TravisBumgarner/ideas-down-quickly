@@ -67,6 +67,8 @@ https://docs.expo.dev/submit/ios/
 
 # iOS
 
+Note - Adding prebuild to `eas build --profile foobar -p ios` causes env vars not to load.
+
 - `brew install fastlane`
 
 ## SQLite

@@ -6,7 +6,7 @@ const config = () => ({
       policy: 'appVersion',
     },
     icon: './assets/images/icon.png',
-    name: process.env.APP_NAME || 'Ideas Down',
+    name: process.env.EXPO_APP_NAME || 'Ideas Down',
     slug: 'ideas-down-quickly',
     version: '1.2.0',
     orientation: 'portrait',
@@ -49,5 +49,4 @@ const config = () => ({
   },
 })
 
-console.log('config', config())
 export default config()

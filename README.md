@@ -11,7 +11,7 @@
         - Load ipa onto device via XCode
     - Android
         - `yarn run build:android:local:internal`
-        - Load apk onto device via `abd -s deviceid foo.apk`
+        - Load apk onto device via `yarn run move-apk-to-device`
 5. (Optional) Generate new screenshots
     1. Play Store
     2. App Store

@@ -5,6 +5,7 @@ const config = () => ({
     runtimeVersion: {
       policy: 'appVersion',
     },
+    icon: './assets/images/icon.png',
     name: process.env.APP_NAME || 'Ideas Down',
     slug: 'ideas-down-quickly',
     version: '1.2.0',
@@ -21,17 +22,12 @@ const config = () => ({
         process.env.EXPO_BUNDLE_IDENTIFIER ||
         'com.sillysideprojects.ideas.prod',
       supportsTablet: true,
-      icon: './assets/images/icon.png',
       entitlements: {},
     },
     android: {
       package:
         process.env.EXPO_BUNDLE_IDENTIFIER ||
         'com.sillysideprojects.ideas.prod',
-      adaptiveIcon: {
-        foregroundImage: './assets/images/icon_512x512.png',
-        backgroundColor: '#3A4D53',
-      },
     },
     web: {
       bundler: 'metro',

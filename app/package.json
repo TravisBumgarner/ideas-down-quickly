@@ -14,13 +14,14 @@
     "build:ios:cloud:production": "yarn prebuild:ios && eas build --profile production -p ios",
     "build:ios:local:production": "yarn prebuild:ios && eas build -p ios --local --profile production && yarn move-to-ios-build-dir",
     "submit:ios": "eas submit -p ios --profile production",
-    "move-to-android-build-dir": "rm -rf ./builds/android && mkdir -p ./builds/android && mv *.apk *.aab ./builds/android",
+    "move-to-android-build-dir": "rm -rf ./builds/android && mkdir -p ./builds/android && (mv *.apk ./builds/android || true) && (mv *.aab ./builds/android || true)",
     "build:android:local:development": "ENV=development && eas build -p android --local --profile development && yarn move-to-android-build-dir",
     "build:android:local:internal": "eas build -p android --local --profile internal && yarn move-to-ios-build-dir",
     "build:android:local:production": "eas build -p android --local --profile production && yarn move-to-android-build-dir",
     "submit:android": "eas submit -p android --profile production",
     "android": "expo run:android",
-    "ios": "expo run:ios"
+    "ios": "expo run:ios",
+    "move-apk-to-device": "./scripts/move-to-android.sh"
   },
   "jest": {
     "preset": "jest-expo"

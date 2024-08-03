@@ -83,3 +83,9 @@ Should open in SQLite Browser
 3. Create a backup such as `Foo.json`
 4. `find . -name Foo.json` (If the name isn't exact it won't match. Make sure not to save as `Foo.json.json` on accident)
 5. Drag restore file into this folder, open on iOS device.
+
+# Android
+
+## Restore Data
+
+1. Data can be dragged onto emualtor screen and it'll save to the downloads dir.

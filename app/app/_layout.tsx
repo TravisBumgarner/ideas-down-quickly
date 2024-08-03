@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/react-native'
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator'
-import { useFonts } from 'expo-font'
+// import { useFonts } from 'expo-font'
 import { Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { useEffect } from 'react'
@@ -49,19 +49,28 @@ function App() {
 }
 
 const AppWrapper = () => {
-  const [loaded] = useFonts({
-    Montserrat: require('../assets/fonts/Montserrat.ttf'),
-  })
+  // const [loaded] = useFonts({
+  //   Montserrat: require('../assets/fonts/Montserrat.ttf'),
+  // })
   const { success } = useMigrations(db, migrations)
 
   useEffect(() => {
-    if (loaded && success) {
+    if (
+      // loaded &&
+      success
+    ) {
       // I have no idea why but if SplashScreen.hideAsync isn't at the top default export it doesn't work?
       SplashScreen.hideAsync()
     }
-  }, [loaded, success])
+  }, [
+    // loaded,
+    success,
+  ])
 
-  if (!loaded && !success) {
+  if (
+    // !loaded &&
+    !success
+  ) {
     return null
   }
 

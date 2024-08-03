@@ -7,21 +7,21 @@ const config = () => ({
     },
     name: process.env.APP_NAME || 'Ideas Down',
     slug: 'ideas-down-quickly',
-    version: '1.1.10',
+    version: '1.2.0',
     orientation: 'portrait',
-    icon: './assets/images/icon.png',
     scheme: 'myapp',
     userInterfaceStyle: 'automatic',
     splash: {
       image: './assets/images/splash.png',
       resizeMode: 'cover',
-      backgroundColor: '#ffffff',
+      backgroundColor: '#3A4D53',
     },
     ios: {
       bundleIdentifier:
         process.env.EXPO_BUNDLE_IDENTIFIER ||
         'com.sillysideprojects.ideas.prod',
       supportsTablet: true,
+      icon: './assets/images/icon.png',
       entitlements: {},
     },
     android: {
@@ -29,8 +29,8 @@ const config = () => ({
         process.env.EXPO_BUNDLE_IDENTIFIER ||
         'com.sillysideprojects.ideas.prod',
       adaptiveIcon: {
-        foregroundImage: './assets/images/adaptive-icon.png',
-        backgroundColor: '#ffffff',
+        foregroundImage: './assets/images/icon_512x512.png',
+        backgroundColor: '#3A4D53',
       },
     },
     web: {
@@ -53,4 +53,5 @@ const config = () => ({
   },
 })
 
+console.log('config', config())
 export default config()

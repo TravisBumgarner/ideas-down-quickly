@@ -22,3 +22,5 @@ expo-env.d.ts
 *.ipa
 .env
 *.apk
+*.aab
+silly-side-projects-*.json

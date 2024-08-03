@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     color: COLORS.NEUTRAL[200],
     fontSize: 20,
     fontWeight: 'bold',
-    lineHeight: 0, // TODO - ugh.
+    lineHeight: 20, // lineHeight of 0 will cause component to dissapear.
   },
 })
 

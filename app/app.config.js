@@ -6,7 +6,11 @@ const config = () => ({
       policy: 'appVersion',
     },
     icon: './assets/images/icon.png',
+<<<<<<< HEAD
     name: process.env.EXPO_APP_NAME || 'Ideas Down',
+=======
+    name: process.env.APP_NAME || 'Ideas Down',
+>>>>>>> production
     slug: 'ideas-down-quickly',
     version: '1.2.0',
     orientation: 'portrait',

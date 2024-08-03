@@ -8,14 +8,14 @@
       "distribution": "internal",
       "env": {
         "EXPO_BUNDLE_IDENTIFIER": "com.sillysideprojects.ideas.dev",
-        "EXPO_APP_NAME": "Ideas Down Dev"
+        "EXPO_APP_NAME": "Dev"
       }
     },
     "internal": {
       "distribution": "internal",
       "env": {
         "EXPO_BUNDLE_IDENTIFIER": "com.sillysideprojects.ideas.internal",
-        "EXPO_APP_NAME": "Ideas Down Internal"
+        "EXPO_APP_NAME": "Internal"
       }
     },
     "production": {

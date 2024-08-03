@@ -1,11 +1,5 @@
 import 'dotenv/config'
 
-console.log({
-  a: process.env.EXPO_BUNDLE_IDENTIFIER,
-  b: process.env.EXPO_APP_NAME,
-})
-
-console.log(process.env)
 const config = () => ({
   expo: {
     runtimeVersion: {

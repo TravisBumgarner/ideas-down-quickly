@@ -14,7 +14,7 @@
     "internal": {
       "distribution": "internal",
       "env": {
-        "EXPO_BUNDLE_IDENTIFIER": "com.sillysideprojects.ideas.prod",
+        "EXPO_BUNDLE_IDENTIFIER": "com.sillysideprojects.ideas.internal",
         "EXPO_APP_NAME": "Ideas Down Internal"
       }
     },

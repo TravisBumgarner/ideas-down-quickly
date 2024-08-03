@@ -5,17 +5,17 @@ const config = () => ({
     runtimeVersion: {
       policy: 'appVersion',
     },
+    icon: './assets/images/icon.png',
     name: process.env.APP_NAME || 'Ideas Down',
     slug: 'ideas-down-quickly',
-    version: '1.1.10',
+    version: '1.2.0',
     orientation: 'portrait',
-    icon: './assets/images/icon.png',
     scheme: 'myapp',
     userInterfaceStyle: 'automatic',
     splash: {
       image: './assets/images/splash.png',
       resizeMode: 'cover',
-      backgroundColor: '#ffffff',
+      backgroundColor: '#3A4D53',
     },
     ios: {
       bundleIdentifier:
@@ -25,10 +25,9 @@ const config = () => ({
       entitlements: {},
     },
     android: {
-      adaptiveIcon: {
-        foregroundImage: './assets/images/adaptive-icon.png',
-        backgroundColor: '#ffffff',
-      },
+      package:
+        process.env.EXPO_BUNDLE_IDENTIFIER ||
+        'com.sillysideprojects.ideas.prod',
     },
     web: {
       bundler: 'metro',
@@ -50,4 +49,5 @@ const config = () => ({
   },
 })
 
+console.log('config', config())
 export default config()

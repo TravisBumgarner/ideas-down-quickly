@@ -5,6 +5,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   SafeAreaView,
+  StatusBar,
   StyleProp,
   StyleSheet,
   ViewStyle,
@@ -34,7 +35,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.NEUTRAL[800],
     flex: 1,
-    paddingHorizontal: SPACING.MEDIUM,
+    paddingHorizontal: SPACING.SMALL,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
 })
 

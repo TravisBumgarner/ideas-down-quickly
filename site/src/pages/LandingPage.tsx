@@ -57,9 +57,9 @@ const LandingPage = () => {
       </Section>
 
       <div css={downloadSectionCSS}>
-        <Typography css={{marginBottom: '16px', fontSize: '64px'}} variant="h2">Clear your mind and make room for your next big idea.
+        <Typography css={{marginBottom: '16px', fontSize: '32px'}} variant="h2">Clear your mind and make room for your next big idea.
         </Typography>
-        <Button variant='contained' target='_blank' href="https://apps.apple.com/us/app/ideas-down-quickly/id6529524065?platform=iphone" css={ctaButtonCSS}>App Store</Button><br/>
+        <Button variant='contained' target='_blank' href="https://apps.apple.com/us/app/ideas-down-quickly/id6529524065?platform=iphone" css={ctaButtonCSS}>App Store</Button>
         <Button variant='contained' target='_blank' href='https://docs.google.com/forms/d/e/1FAIpQLSftglI15-9coi2P1Tx_QaZitHYrSMvVilQKn6_BB1t_3V3nvg/viewform?usp=sf_link' css={ctaButtonCSS}>Play Store Internal Testing</Button>
       </div>
 
@@ -117,8 +117,8 @@ const Image = styled('img')(({ theme }) => ({
 }))
 
 const ctaButtonCSS = css`
-  font-size: 24px;
-  margin-bottom: 16px;
+  font-size: 16px;
+  margin: 16px;
 `
 
 const listStyleCSS = {

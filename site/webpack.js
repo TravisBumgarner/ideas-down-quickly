@@ -25,7 +25,13 @@ module.exports = {
         test: /\.(png|jpe?g|gif)$/i,
         use: [
           {
-            loader: 'file-loader'
+            loader: 'file-loader',
+            options: {
+              name: '[name].[hash].[ext]', // Name the file with its original name and append a unique hash
+              outputPath: 'images', // Output the files to the 'images' directory
+              publicPath: 'images', // Set the public path to reference files from the 'images' directory
+              esModule: false // Disable ES module syntax (optional, depending on your setup)
+            }
           }
         ]
       }
@@ -51,6 +57,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/static/index.template.ejs',
       favicon: './src/static/favicon.png',
+      ogbanner: '/src/static/og-banner.png',
       inject: 'body'
     })
   ],

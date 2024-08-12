@@ -37,7 +37,7 @@ const LandingPage = () => {
       <Section>
         <Text>
           <Typography variant="h5" css={titleCSS}>Reflect</Typography>
-          <Typography>Keep all your ideas in one place, organized by date and category. Use filters to focus on specific categories.</Typography>
+          <Typography>Keep all your ideas in one place, organized by date and category. Use filters to focus on specific topics.</Typography>
         </Text>
         <div><Image src={Reflect} alt="Reflect" /></div>
       </Section>

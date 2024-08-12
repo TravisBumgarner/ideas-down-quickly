@@ -57,7 +57,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/static/index.template.ejs',
       favicon: './src/static/favicon.png',
-      ogbanner: '/src/static/og-banner.png',
       inject: 'body'
     })
   ],

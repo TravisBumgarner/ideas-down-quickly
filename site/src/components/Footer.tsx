@@ -34,6 +34,14 @@ const Footer = () => {
           </Link>
         </Grid>
         <Grid item>
+          <Link href="https://docs.google.com/forms/d/e/1FAIpQLSftglI15-9coi2P1Tx_QaZitHYrSMvVilQKn6_BB1t_3V3nvg/viewform?usp=sf_link" target="_blank" color="inherit" underline="hover">
+            <GetAppIcon sx={{ verticalAlign: 'middle', mr: 1 }} />
+            <Typography variant="body1" component="span">
+              Play Store Internal Testing
+            </Typography>
+          </Link>
+        </Grid>
+        <Grid item>
           <Link href="/changelog" color="inherit" underline="hover">
             <ChangeCircle sx={{ verticalAlign: 'middle', mr: 1 }} />
             <Typography variant="body1" component="span">

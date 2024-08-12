@@ -77,7 +77,7 @@ export const theme = createTheme({
 export const pageWrapperCSS = css`
   box-sizing: border-box;
   overflow-y: auto;
-  max-width: 800px !important;
+  max-width: 750px !important;
   display: flex;
   align-items: center;
   flex-direction: column;

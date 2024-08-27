@@ -36,10 +36,10 @@ const changelogData: Array<{
     date: 'August 27th, 2024',
     notes: [{
       type: NoteType.BugFix,
-      text: "Improve cancel button behavior when adding an idea after creating a cateogry"
+      text: "Improve cancel button behavior when adding an idea after creating a category"
     }, {
       type: NoteType.BugFix,
-      text: "Fix keyboard not dismissable when trying to delete database"
+      text: "Fix keyboard not dismissible when trying to delete database"
     },
     {
       type: NoteType.Feature,

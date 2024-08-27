@@ -1,32 +1,22 @@
-import * as Sentry from '@sentry/react-native'
-import * as DocumentPicker from 'expo-document-picker'
-import * as FileSystem from 'expo-file-system'
-import * as Sharing from 'expo-sharing'
-import * as React from 'react'
-import { Linking, View } from 'react-native'
-
 import queries from '@/db/queries'
 import { IdeaRunType, LabelRunType } from '@/db/schema'
 import Button from '@/shared/components/Button'
 import ButtonWrapper from '@/shared/components/ButtonWrapper'
 import PageWrapper from '@/shared/components/PageWrapper'
-import TextInput from '@/shared/components/TextInput'
 import Typography from '@/shared/components/Typography'
 import { context } from '@/shared/context'
-import { COLORS, SPACING } from '@/shared/theme'
+import { SPACING } from '@/shared/theme'
+import * as Sentry from '@sentry/react-native'
+import * as DocumentPicker from 'expo-document-picker'
+import * as FileSystem from 'expo-file-system'
+import { router } from 'expo-router'
+import * as Sharing from 'expo-sharing'
+import * as React from 'react'
+import { Linking, View } from 'react-native'
 
 const Settings = () => {
   const { dispatch } = React.useContext(context)
   const [isProcessing, setIsProcessing] = React.useState(false)
-  const [deleteText, setDeleteText] = React.useState('')
-
-  const handleWipeDatabase = React.useCallback(() => {
-    queries.delete.everything()
-    dispatch({
-      type: 'TOAST',
-      payload: { message: 'Database wiped', variant: 'SUCCESS' },
-    })
-  }, [dispatch])
 
   const handleBackup = async () => {
     setIsProcessing(true)
@@ -128,6 +118,10 @@ const Settings = () => {
     Linking.openURL('https://ideas.sillysideprojects.com/contact')
   }, [])
 
+  const handleDeleteConfirm = React.useCallback(() => {
+    router.navigate('delete-database')
+  }, [])
+
   return (
     <PageWrapper>
       <View
@@ -142,44 +136,35 @@ const Settings = () => {
         <View>
           <Typography variant="h2">Database</Typography>
           <ButtonWrapper
-            left={
+            vertical={[
               <Button
-                variant="filled"
+                key="backup"
+                variant="link"
                 color="primary"
                 onPress={handleBackup}
                 disabled={isProcessing}
               >
                 Backup Data
-              </Button>
-            }
-            right={
+              </Button>,
               <Button
-                variant="filled"
+                key="restore"
+                variant="link"
                 color="primary"
                 onPress={handleRestore}
                 disabled={isProcessing}
               >
                 Restore Data
-              </Button>
-            }
+              </Button>,
+              <Button
+                key="delete"
+                variant="link"
+                color="warning"
+                onPress={handleDeleteConfirm}
+              >
+                Delete All Data
+              </Button>,
+            ]}
           />
-        </View>
-
-        <View style={{ marginTop: SPACING.XLARGE }}>
-          <TextInput
-            label="Type 'Delete' to wipe database"
-            value={deleteText}
-            onChangeText={text => setDeleteText(text)}
-            color={COLORS.WARNING[300]}
-          />
-          <Button
-            disabled={deleteText !== 'Delete'}
-            onPress={handleWipeDatabase}
-            variant="filled"
-            color="warning"
-          >
-            Wipe All Data
-          </Button>
         </View>
 
         <View style={{ marginTop: SPACING.XLARGE }}>

@@ -29,7 +29,7 @@ const Toast = () => {
         justifyContent: 'center',
         alignItems: 'center',
         margin: SPACING.MEDIUM,
-        bottom: -20,
+        bottom: 40,
       }}
     >
       <Text

@@ -7,9 +7,27 @@ type ButtonWrapperProps = {
   left?: React.ReactElement
   right?: React.ReactElement
   full?: React.ReactElement
+  vertical?: React.ReactElement[]
 }
 
-const ButtonWrapper: React.FC<ButtonWrapperProps> = ({ left, right, full }) => {
+const ButtonWrapper: React.FC<ButtonWrapperProps> = ({
+  left,
+  right,
+  full,
+  vertical,
+}) => {
+  if (vertical) {
+    return (
+      <View style={styles.vertical}>
+        {vertical.map((child, index) => (
+          <View key={index} style={styles.verticalChild}>
+            {child}
+          </View>
+        ))}
+      </View>
+    )
+  }
+
   if (full) {
     return (
       <View style={styles.container}>
@@ -43,6 +61,12 @@ const styles = StyleSheet.create({
   },
   full: {
     flex: 1,
+  },
+  vertical: {
+    flexDirection: 'column',
+  },
+  verticalChild: {
+    marginTop: SPACING.SMALL,
   },
 })
 

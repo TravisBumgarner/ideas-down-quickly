@@ -19,3 +19,4 @@
 1. Build for production.
     - iOS
         - `yarn run build:ios:local:production`
+        - `yarn run submit:ios`

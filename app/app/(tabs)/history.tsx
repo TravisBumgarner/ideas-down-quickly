@@ -40,8 +40,7 @@ const History = () => {
 
     setHasCheckedIfFeedbackRequested(true)
     const feedbackRequested = await getValueFromKeyStore('feedbackRequested')
-    // if (feedbackRequested !== 'true') {
-    if (feedbackRequested) {
+    if (feedbackRequested !== 'true') {
       if (await StoreReview.hasAction()) {
         saveValueToKeyStore('feedbackRequested', 'true')
         StoreReview.requestReview()

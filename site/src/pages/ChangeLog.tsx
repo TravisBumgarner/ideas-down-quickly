@@ -31,6 +31,23 @@ const changelogData: Array<{
   title: string
   notes: { type: NoteType, text: string }[]
 }> = [
+  {
+    version: '1.3.0',
+    date: 'August 27th, 2024',
+    notes: [{
+      type: NoteType.BugFix,
+      text: "Improve cancel button behavior when adding an idea after creating a cateogry"
+    }, {
+      type: NoteType.BugFix,
+      text: "Fix keyboard not dismissable when trying to delete database"
+    },
+    {
+      type: NoteType.Feature,
+      text: "Add feedback request"
+    },
+    ],
+    title: 'Small Improvements'
+  },
     {
       version: '1.2.0',
       date: 'August 3rd, 2024',

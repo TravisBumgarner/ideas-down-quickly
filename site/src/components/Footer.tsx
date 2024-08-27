@@ -20,7 +20,7 @@ const Footer = () => {
         width: '100%',
         backgroundColor: theme.palette.background.paper,
         borderTop: `1px solid ${theme.palette.divider}`,
-        padding: '20px 0',
+        padding: '20px 0px',
         marginTop: '60px'
       }}
     >

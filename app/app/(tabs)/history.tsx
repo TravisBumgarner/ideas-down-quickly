@@ -8,11 +8,17 @@ import PageWrapper from '@/shared/components/PageWrapper'
 import Typography from '@/shared/components/Typography'
 import { COLORS, SPACING } from '@/shared/theme'
 import { IdeasByDateAndLabel } from '@/shared/types'
-import { notNull } from '@/shared/utilities'
+import {
+  getValueFromKeyStore,
+  notNull,
+  saveValueToKeyStore,
+} from '@/shared/utilities'
 import { useFocusEffect } from '@react-navigation/native'
+import * as StoreReview from 'expo-store-review'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { SafeAreaView, ScrollView, View } from 'react-native'
 import { ActivityIndicator } from 'react-native-paper'
+import { useAsyncEffect } from 'use-async-effect'
 
 const History = () => {
   const [ideasByDateAndLabel, setIdeasByDateAndLabel] =
@@ -21,6 +27,26 @@ const History = () => {
   const [selectedFilterLabelId, setSelectedFilterLabelId] = useState('')
   const [filterLabelList, setFilterLabelList] = useState<SelectLabel[]>([])
   const [isModalVisible, setIsModalVisible] = useState(false)
+  const [hasCheckedIfFeedbackRequested, setHasCheckedIfFeedbackRequested] =
+    useState(false)
+
+  // Request feedback once the user has recorded ideas for at least 3 days.
+  useAsyncEffect(async () => {
+    const shouldRequestFeedback =
+      ideasByDateAndLabel !== null &&
+      Object.keys(ideasByDateAndLabel).length >= 3
+
+    if (!shouldRequestFeedback || hasCheckedIfFeedbackRequested) return
+
+    setHasCheckedIfFeedbackRequested(true)
+    const feedbackRequested = await getValueFromKeyStore('feedbackRequested')
+    if (feedbackRequested !== 'true') {
+      if (await StoreReview.hasAction()) {
+        saveValueToKeyStore('feedbackRequested', 'true')
+        StoreReview.requestReview()
+      }
+    }
+  }, [ideasByDateAndLabel, hasCheckedIfFeedbackRequested])
 
   const clearFilter = useCallback(() => {
     setSelectedFilterLabelId('')

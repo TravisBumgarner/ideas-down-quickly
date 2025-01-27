@@ -6,9 +6,8 @@ import {
   TextField,
   Typography
 } from '@mui/material'
-import React, { useState } from 'react'
-import { pageWrapperCSS, theme } from 'theme'
-import { submitContactForm } from '../firebase'
+import React, { useCallback, useState } from 'react'
+import { pageWrapperCSS } from 'theme'
 
 const ContactForm: React.FC = () => {
   const [success, setSuccess] = React.useState(false)
@@ -28,14 +27,21 @@ const ContactForm: React.FC = () => {
     })
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    setIsSubmitting(true)
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault()
-    const response = (await submitContactForm(formData)) as any
-    if (response.data) {
+    setIsSubmitting(true)
+    const response = await fetch('https://contact-form.nfshost.com/contact', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    })
+    if (response.ok) {
       setSuccess(true)
       setFormData(prev => ({
-        ...prev, ...{
+        ...prev,
+        ...{
           name: '',
           email: '',
           message: ''
@@ -45,7 +51,7 @@ const ContactForm: React.FC = () => {
       setFailure(true)
     }
     setIsSubmitting(false)
-  }
+  }, [formData])
 
   const handleClose = () => {
     setSuccess(false)

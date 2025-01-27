@@ -16,8 +16,7 @@
     "react-router": "^6.4.0",
     "react-router-dom": "^6.6.1",
     "runtypes": "^6.6.0",
-    "use-async-effect": "^2.2.7",
-    "firebase": "^10.6.0"
+    "use-async-effect": "^2.2.7"
   },
   "devDependencies": {
     "@types/react-dom": "^18.0.10",
@@ -47,8 +46,8 @@
     "analyze": "source-map-explorer 'build/*.js'",
     "lint:run": "npx eslint --ext .ts ./src/**",
     "lint:fix": "npx eslint --ext .ts ./src/** --fix",
-    "start": "webpack-dev-server --mode=development --config=webpack.js",
+    "dev": "webpack-dev-server --mode=development --config=webpack.js",
     "bundle": "export NODE_ENV=production && rm -rf ./build; mkdir ./build; webpack --config=webpack.js",
-    "deploy": "gcloud config set project silly-side-projects && gcloud builds submit --tag gcr.io/silly-side-projects/ideas-down-quickly && gcloud run deploy ideas-down-quickly --image gcr.io/silly-side-projects/ideas-down-quickly --platform managed --region us-east1"
+    "deploy:nfs": "yarn run bundle && bash deploy.sh"
   }
 }

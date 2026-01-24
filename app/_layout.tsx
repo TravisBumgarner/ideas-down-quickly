@@ -3,11 +3,18 @@ import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator'
 // import { useFonts } from 'expo-font'
 import { db } from '@/db/client'
 import migrations from '@/db/migrations/migrations'
+import {
+  CURRENT_VERSION,
+  LAST_SEEN_CHANGELOG_VERSION_KEY,
+  shouldShowChangelog,
+} from '@/shared/changelog'
+import ChangelogModal from '@/shared/components/ChangelogModal'
 import Toast from '@/shared/components/Toast'
 import Context from '@/shared/context'
+import { getValueFromKeyStore, saveValueToKeyStore } from '@/shared/utilities'
 import { Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { MD3DarkTheme, PaperProvider } from 'react-native-paper'
 
@@ -54,6 +61,8 @@ const AppWrapper = () => {
   //   Montserrat: require('../assets/fonts/Montserrat.ttf'),
   // })
   const { success } = useMigrations(db, migrations)
+  const [showChangelogModal, setShowChangelogModal] = useState(false)
+  const [changelogChecked, setChangelogChecked] = useState(false)
 
   useEffect(() => {
     if (
@@ -68,6 +77,26 @@ const AppWrapper = () => {
     success,
   ])
 
+  useEffect(() => {
+    if (success && !changelogChecked) {
+      const checkChangelog = async () => {
+        const lastSeenVersion = await getValueFromKeyStore(
+          LAST_SEEN_CHANGELOG_VERSION_KEY
+        )
+        if (shouldShowChangelog(lastSeenVersion ?? null)) {
+          setShowChangelogModal(true)
+        }
+        setChangelogChecked(true)
+      }
+      checkChangelog()
+    }
+  }, [success, changelogChecked])
+
+  const handleDismissChangelog = async () => {
+    await saveValueToKeyStore(LAST_SEEN_CHANGELOG_VERSION_KEY, CURRENT_VERSION)
+    setShowChangelogModal(false)
+  }
+
   if (
     // !loaded &&
     !success
@@ -75,7 +104,16 @@ const AppWrapper = () => {
     return null
   }
 
-  return <App />
+  return (
+    <>
+      <App />
+      <ChangelogModal
+        visible={showChangelogModal}
+        onDismiss={handleDismissChangelog}
+        showFullChangelog={false}
+      />
+    </>
+  )
 }
 
 export default AppWrapper

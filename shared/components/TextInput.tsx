@@ -10,7 +10,10 @@ type Props = {
   multiline?: boolean
   color: string
   autoFocus?: boolean
+  maxLines?: number
 }
+
+const LINE_HEIGHT = 36 // Approximate line height for fontSize 24
 
 const TextInput: React.FC<Props> = ({
   multiline,
@@ -19,7 +22,10 @@ const TextInput: React.FC<Props> = ({
   onChangeText,
   color,
   autoFocus,
+  maxLines,
 }) => {
+  const maxHeight = maxLines ? maxLines * LINE_HEIGHT : undefined
+
   return (
     <View style={styles.container}>
       {label && <Text style={styles.label}>{label}</Text>}
@@ -31,6 +37,7 @@ const TextInput: React.FC<Props> = ({
         style={StyleSheet.flatten([
           styles.textInput,
           { backgroundColor: COLORS.MISC.TRANSPARENT },
+          maxHeight ? { maxHeight } : {},
         ])}
         textColor={COLORS.NEUTRAL[200]}
         autoFocus={autoFocus} //eslint-disable-line
@@ -38,6 +45,7 @@ const TextInput: React.FC<Props> = ({
           borderColor: color,
           borderWidth: BORDER_WIDTH.XSMALL,
         }}
+        scrollEnabled={!!maxLines}
       />
     </View>
   )

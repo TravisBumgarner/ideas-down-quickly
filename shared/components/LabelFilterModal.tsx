@@ -2,7 +2,7 @@ import { SelectLabel } from '@/db/schema'
 import * as React from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import { Modal, Portal, Switch, Text } from 'react-native-paper'
+import { Modal, Portal } from 'react-native-paper'
 
 import { COLORS, SPACING } from '../theme'
 import Button from './Button'
@@ -14,8 +14,6 @@ type Props = {
   onSubmit: (id: string) => void
   onCancel: () => void
   isModalVisible: boolean
-  showArchived: boolean
-  onShowArchivedChange: (value: boolean) => void
 }
 
 const LabelFilterModal: React.FC<Props> = ({
@@ -23,8 +21,6 @@ const LabelFilterModal: React.FC<Props> = ({
   onCancel,
   onSubmit,
   isModalVisible,
-  showArchived,
-  onShowArchivedChange,
 }) => {
   return (
     <Portal>
@@ -34,14 +30,6 @@ const LabelFilterModal: React.FC<Props> = ({
         onDismiss={onCancel}
       >
         <GestureHandlerRootView>
-          <View style={styles.toggleContainer}>
-            <Text style={styles.toggleLabel}>Show Archived</Text>
-            <Switch
-              value={showArchived}
-              onValueChange={onShowArchivedChange}
-              color={COLORS.PRIMARY[300]}
-            />
-          </View>
           <ScrollView>
             {filterLabelList.map(
               ({ color, id, icon, text, lastUsedAt }, index) => (
@@ -86,19 +74,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: SPACING.MEDIUM,
     paddingTop: SPACING.MEDIUM,
     width: '100%',
-  },
-  toggleContainer: {
-    alignItems: 'center',
-    backgroundColor: COLORS.NEUTRAL[900],
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: SPACING.MEDIUM,
-    paddingHorizontal: SPACING.MEDIUM,
-    paddingVertical: SPACING.SMALL,
-  },
-  toggleLabel: {
-    color: COLORS.NEUTRAL[100],
-    fontSize: 16,
   },
 })
 

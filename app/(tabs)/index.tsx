@@ -5,20 +5,21 @@ import Label from '@/shared/components/Label'
 import PageWrapper from '@/shared/components/PageWrapper'
 import Typography from '@/shared/components/Typography'
 import { context } from '@/shared/context'
-import { SPACING } from '@/shared/theme'
+import { COLORS, SPACING } from '@/shared/theme'
 import { navigateWithParams } from '@/shared/utilities'
 import { router, useFocusEffect } from 'expo-router'
 import * as React from 'react'
-import { SafeAreaView, ScrollView, View } from 'react-native'
-import { ActivityIndicator } from 'react-native-paper'
+import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
+import { ActivityIndicator, Switch, Text } from 'react-native-paper'
 
 const LabelSelect = () => {
   const [labels, setLabels] = React.useState<SelectLabel[] | null>(null)
+  const [showArchived, setShowArchived] = React.useState(false)
   const { dispatch } = React.useContext(context)
 
   const fetchLabels = React.useCallback(() => {
-    queries.select.labels().then(setLabels)
-  }, [])
+    queries.select.labels({ includeArchived: showArchived }).then(setLabels)
+  }, [showArchived])
 
   useFocusEffect(
     React.useCallback(() => {
@@ -27,12 +28,17 @@ const LabelSelect = () => {
   )
 
   const handleArchive = React.useCallback(
-    async (id: string) => {
-      await queries.update.archiveLabel(id, true)
+    async (id: string, isCurrentlyArchived: boolean) => {
+      await queries.update.archiveLabel(id, !isCurrentlyArchived)
       fetchLabels()
       dispatch({
         type: 'TOAST',
-        payload: { message: 'Category archived', variant: 'SUCCESS' },
+        payload: {
+          message: isCurrentlyArchived
+            ? 'Category restored'
+            : 'Category archived',
+          variant: 'SUCCESS',
+        },
       })
     },
     [fetchLabels, dispatch]
@@ -89,26 +95,28 @@ const LabelSelect = () => {
             flex: 1,
           }}
         >
-          {labels.map(({ color, id, icon, text, lastUsedAt }, index) => (
-            <View
-              key={index}
-              style={{
-                marginBottom: SPACING.SMALL,
-              }}
-            >
-              <Label
-                lastUsedAt={lastUsedAt}
-                color={color}
-                icon={icon}
-                text={text}
-                id={id}
-                handlePress={() =>
-                  navigateWithParams('add-idea', { labelId: id })
-                }
-                onArchive={() => handleArchive(id)}
-              />
-            </View>
-          ))}
+          {labels.map(
+            ({ color, id, icon, text, lastUsedAt, isArchived }, index) => (
+              <View
+                key={index}
+                style={{
+                  marginBottom: SPACING.SMALL,
+                }}
+              >
+                <Label
+                  lastUsedAt={lastUsedAt}
+                  color={color}
+                  icon={icon}
+                  text={text}
+                  id={id}
+                  handlePress={() =>
+                    navigateWithParams('add-idea', { labelId: id })
+                  }
+                  onArchive={() => handleArchive(id, isArchived === 1)}
+                />
+              </View>
+            )
+          )}
           {labels.length < 3 && (
             <Typography style={{ textAlign: 'center' }} variant="caption">
               Swipe right to archive, left to edit
@@ -116,12 +124,15 @@ const LabelSelect = () => {
           )}
         </ScrollView>
       </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          marginBottom: SPACING.MEDIUM,
-        }}
-      >
+      <View style={styles.bottomSection}>
+        <View style={styles.toggleContainer}>
+          <Text style={styles.toggleLabel}>Show Archived</Text>
+          <Switch
+            value={showArchived}
+            onValueChange={setShowArchived}
+            color={COLORS.PRIMARY[300]}
+          />
+        </View>
         <Button variant="filled" color="primary" onPress={addNewLabel}>
           Add a new Category
         </Button>
@@ -129,5 +140,24 @@ const LabelSelect = () => {
     </PageWrapper>
   )
 }
+
+const styles = StyleSheet.create({
+  bottomSection: {
+    marginBottom: SPACING.MEDIUM,
+  },
+  toggleContainer: {
+    alignItems: 'center',
+    backgroundColor: COLORS.NEUTRAL[900],
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: SPACING.MEDIUM,
+    paddingHorizontal: SPACING.MEDIUM,
+    paddingVertical: SPACING.SMALL,
+  },
+  toggleLabel: {
+    color: COLORS.NEUTRAL[100],
+    fontSize: 16,
+  },
+})
 
 export default LabelSelect

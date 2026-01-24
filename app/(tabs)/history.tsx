@@ -27,7 +27,6 @@ const History = () => {
   const [selectedFilterLabelId, setSelectedFilterLabelId] = useState('')
   const [filterLabelList, setFilterLabelList] = useState<SelectLabel[]>([])
   const [isModalVisible, setIsModalVisible] = useState(false)
-  const [showArchived, setShowArchived] = useState(false)
   const [hasCheckedIfFeedbackRequested, setHasCheckedIfFeedbackRequested] =
     useState(false)
 
@@ -54,16 +53,12 @@ const History = () => {
   }, [])
 
   const fetchFromDB = useCallback(async () => {
-    const result = await queries.select.ideasGroupedByLabel({
-      includeArchived: showArchived,
-    })
+    const result = await queries.select.ideasGroupedByLabel()
     setIdeasByDateAndLabel(result)
 
-    const labels = await queries.select.labels({
-      includeArchived: showArchived,
-    })
+    const labels = await queries.select.labels()
     setFilterLabelList(labels)
-  }, [showArchived])
+  }, [])
 
   const onFilterSubmitCallback = useCallback((id: string) => {
     setSelectedFilterLabelId(id)
@@ -72,10 +67,6 @@ const History = () => {
 
   const onFilterCancelCallback = useCallback(() => {
     setIsModalVisible(false)
-  }, [])
-
-  const onShowArchivedChange = useCallback((value: boolean) => {
-    setShowArchived(value)
   }, [])
 
   useEffect(() => {
@@ -139,7 +130,7 @@ const History = () => {
     )
   }
 
-  if (Object.keys(ideasByDateAndLabel).length === 0 && !showArchived) {
+  if (Object.keys(ideasByDateAndLabel).length === 0) {
     return (
       <PageWrapper>
         <View
@@ -155,27 +146,6 @@ const History = () => {
             Start on the Ideate tab.
           </Typography>
         </View>
-
-        <ButtonWrapper
-          full={
-            <Button
-              onPress={() => setIsModalVisible(true)}
-              variant="filled"
-              color="primary"
-            >
-              Filter
-            </Button>
-          }
-        />
-
-        <LabelFilterModal
-          filterLabelList={filterLabelList}
-          onSubmit={onFilterSubmitCallback}
-          onCancel={onFilterCancelCallback}
-          isModalVisible={isModalVisible}
-          showArchived={showArchived}
-          onShowArchivedChange={onShowArchivedChange}
-        />
       </PageWrapper>
     )
   }
@@ -217,19 +187,14 @@ const History = () => {
         full={
           <Button
             onPress={
-              selectedFilterLabelId || showArchived
-                ? () => {
-                    setSelectedFilterLabelId('')
-                    setShowArchived(false)
-                  }
+              selectedFilterLabelId
+                ? () => setSelectedFilterLabelId('')
                 : () => setIsModalVisible(true)
             }
             variant="filled"
-            color={
-              selectedFilterLabelId || showArchived ? 'warning' : 'primary'
-            }
+            color={selectedFilterLabelId ? 'warning' : 'primary'}
           >
-            {selectedFilterLabelId || showArchived ? 'Clear Filter' : 'Filter'}
+            {selectedFilterLabelId ? 'Clear Filter' : 'Filter'}
           </Button>
         }
       />
@@ -239,8 +204,6 @@ const History = () => {
         onSubmit={onFilterSubmitCallback}
         onCancel={onFilterCancelCallback}
         isModalVisible={isModalVisible}
-        showArchived={showArchived}
-        onShowArchivedChange={onShowArchivedChange}
       />
     </PageWrapper>
   )

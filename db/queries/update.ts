@@ -44,7 +44,19 @@ const label = async (
   }
 }
 
+const archiveLabel = async (id: string, isArchived: boolean) => {
+  return await db
+    .update(LabelsTable)
+    .set({
+      isArchived: isArchived ? 1 : 0,
+      updatedAt: new Date().toISOString(),
+    })
+    .where(eq(LabelsTable.id, id))
+    .returning()
+}
+
 export default {
   idea,
   label,
+  archiveLabel,
 }

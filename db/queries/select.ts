@@ -1,6 +1,6 @@
 import { db } from '@/db/client'
 import { IdeasByDateAndLabel } from '@/shared/types'
-import { desc, eq } from 'drizzle-orm'
+import { and, desc, eq } from 'drizzle-orm'
 
 import { IdeasTable, LabelsTable } from '../schema'
 
@@ -16,18 +16,28 @@ const labelById = async (id: string) => {
   )[0]
 }
 
-const labels = async () => {
-  return await db
-    .select()
-    .from(LabelsTable)
-    .orderBy(desc(LabelsTable.lastUsedAt))
+const labels = async (options?: { includeArchived?: boolean }) => {
+  const query = db.select().from(LabelsTable)
+
+  if (!options?.includeArchived) {
+    return await query
+      .where(eq(LabelsTable.isArchived, 0))
+      .orderBy(desc(LabelsTable.lastUsedAt))
+  }
+
+  return await query.orderBy(desc(LabelsTable.lastUsedAt))
 }
 
-const ideasGroupedByLabel = async () => {
+const ideasGroupedByLabel = async (options?: { includeArchived?: boolean }) => {
+  const baseCondition = eq(IdeasTable.labelId, LabelsTable.id)
+  const joinCondition = options?.includeArchived
+    ? baseCondition
+    : and(baseCondition, eq(LabelsTable.isArchived, 0))
+
   const result = await db
     .select()
     .from(IdeasTable)
-    .innerJoin(LabelsTable, eq(IdeasTable.labelId, LabelsTable.id))
+    .innerJoin(LabelsTable, joinCondition)
     .orderBy(desc(IdeasTable.createdAt))
 
   const output: IdeasByDateAndLabel = {}

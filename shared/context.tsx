@@ -36,7 +36,7 @@ const reducer = (state: State, action: Action): State => {
 
 const context = createContext({
   state: EMPTY_STATE,
-  dispatch: () => { },
+  dispatch: () => {},
 } as {
   state: State
   dispatch: Dispatch<Action>

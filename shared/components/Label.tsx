@@ -46,10 +46,7 @@ const Label = ({
     return (
       <TouchableOpacity
         onPress={handleArchive}
-        style={StyleSheet.flatten([
-          styles.swipeableBase,
-          styles.swipeableLeft,
-        ])}
+        style={StyleSheet.flatten([styles.swipeableBase, styles.swipeableLeft])}
       >
         <Icon source="archive" size={24} color={COLORS.WARNING[300]} />
       </TouchableOpacity>

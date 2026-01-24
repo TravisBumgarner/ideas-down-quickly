@@ -15,6 +15,7 @@ type Props = {
   id: string
   handlePress?: () => void
   disableSideSwipe?: boolean
+  onArchive?: () => void
 }
 
 const Label = ({
@@ -25,6 +26,7 @@ const Label = ({
   id,
   handlePress,
   disableSideSwipe,
+  onArchive,
 }: Props) => {
   const swipeableRef = useRef<Swipeable>(null)
 
@@ -32,6 +34,27 @@ const Label = ({
     swipeableRef.current?.close()
     navigateWithParams('edit-label', { labelId: id })
   }, [id])
+
+  const handleArchive = useCallback(() => {
+    swipeableRef.current?.close()
+    onArchive?.()
+  }, [onArchive])
+
+  const renderLeftActions = useCallback(() => {
+    if (disableSideSwipe) return null
+
+    return (
+      <TouchableOpacity
+        onPress={handleArchive}
+        style={StyleSheet.flatten([
+          styles.swipeableBase,
+          styles.swipeableLeft,
+        ])}
+      >
+        <Icon source="archive" size={24} color={COLORS.WARNING[300]} />
+      </TouchableOpacity>
+    )
+  }, [handleArchive, disableSideSwipe])
 
   const renderRightActions = useCallback(() => {
     if (disableSideSwipe) return null
@@ -50,7 +73,11 @@ const Label = ({
   }, [handleEdit, disableSideSwipe])
 
   return (
-    <Swipeable ref={swipeableRef} renderRightActions={renderRightActions}>
+    <Swipeable
+      ref={swipeableRef}
+      renderLeftActions={renderLeftActions}
+      renderRightActions={renderRightActions}
+    >
       <TouchableOpacity
         style={StyleSheet.flatten([
           styles.container,
@@ -97,6 +124,9 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'center',
     padding: SPACING.MEDIUM,
+  },
+  swipeableLeft: {
+    marginRight: SPACING.MEDIUM,
   },
   swipeableRight: {
     marginLeft: SPACING.MEDIUM,

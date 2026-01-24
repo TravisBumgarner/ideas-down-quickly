@@ -1,5 +1,5 @@
-import { db } from '@/db/client'
 import { eq } from 'drizzle-orm'
+import { db } from '@/db/client'
 
 import { IdeasTable, LabelsTable } from '../schema'
 

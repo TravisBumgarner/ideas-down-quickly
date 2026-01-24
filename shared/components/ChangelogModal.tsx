@@ -1,9 +1,9 @@
-import * as React from 'react'
+import type * as React from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { Modal, Portal, Text } from 'react-native-paper'
 
-import { CHANGELOG, ChangelogEntry } from '../changelog'
+import { CHANGELOG, type ChangelogEntry } from '../changelog'
 import { COLORS, SPACING } from '../theme'
 import Button from './Button'
 import ButtonWrapper from './ButtonWrapper'

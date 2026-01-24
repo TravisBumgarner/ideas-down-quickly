@@ -1,3 +1,6 @@
+import { router } from 'expo-router'
+import * as React from 'react'
+import { View } from 'react-native'
 import queries from '@/db/queries'
 import Button from '@/shared/components/Button'
 import ButtonWrapper from '@/shared/components/ButtonWrapper'
@@ -5,9 +8,6 @@ import PageWrapper from '@/shared/components/PageWrapper'
 import TextInput from '@/shared/components/TextInput'
 import { context } from '@/shared/context'
 import { COLORS, SPACING } from '@/shared/theme'
-import { router } from 'expo-router'
-import * as React from 'react'
-import { View } from 'react-native'
 import 'react-native-get-random-values'
 
 const DeleteDatabase = () => {

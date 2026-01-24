@@ -18,7 +18,7 @@ import PageWrapper from '@/shared/components/PageWrapper'
 import TextInput from '@/shared/components/TextInput'
 import { context } from '@/shared/context'
 import { BORDER_WIDTH, COLORS, SPACING } from '@/shared/theme'
-import { URLParams } from '@/shared/types'
+import type { URLParams } from '@/shared/types'
 import 'react-native-get-random-values'
 
 const IdeaEdit = () => {

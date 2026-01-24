@@ -1,7 +1,7 @@
-import React from 'react'
+import type React from 'react'
 import { StyleSheet, Text } from 'react-native'
 import { Button as ButtonRNP } from 'react-native-paper'
-import { IconSource } from 'react-native-paper/lib/typescript/components/Icon'
+import type { IconSource } from 'react-native-paper/lib/typescript/components/Icon'
 
 import { BORDER_RADIUS, COLORS } from '../theme'
 

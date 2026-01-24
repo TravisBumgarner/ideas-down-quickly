@@ -1,7 +1,6 @@
+import { Tabs } from 'expo-router'
 import { TabBarIcon } from '@/shared/components/TabBarIcon'
 import { COLORS } from '@/shared/theme'
-import { Tabs } from 'expo-router'
-import React from 'react'
 
 export default function TabLayout() {
   return (

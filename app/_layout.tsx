@@ -1,5 +1,10 @@
 import * as Sentry from '@sentry/react-native'
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator'
+import { Stack } from 'expo-router'
+import * as SplashScreen from 'expo-splash-screen'
+import { useEffect, useState } from 'react'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { MD3DarkTheme, PaperProvider } from 'react-native-paper'
 // import { useFonts } from 'expo-font'
 import { db } from '@/db/client'
 import migrations from '@/db/migrations/migrations'
@@ -12,11 +17,6 @@ import ChangelogModal from '@/shared/components/ChangelogModal'
 import Toast from '@/shared/components/Toast'
 import Context from '@/shared/context'
 import { getValueFromKeyStore, saveValueToKeyStore } from '@/shared/utilities'
-import { Stack } from 'expo-router'
-import * as SplashScreen from 'expo-splash-screen'
-import { useEffect, useState } from 'react'
-import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import { MD3DarkTheme, PaperProvider } from 'react-native-paper'
 
 Sentry.init({
   dsn: 'https://64ffbe37c5fcfb045fa5ac415b9e5d16@o196886.ingest.us.sentry.io/4507545983385600',

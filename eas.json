@@ -23,7 +23,6 @@
     },
     "testflight": {
       "distribution": "store",
-      "autoIncrement": true,
       "env": {
         "EXPO_BUNDLE_IDENTIFIER": "com.sillysideprojects.ideas.prod",
         "EXPO_APP_NAME": "Ideas Down",
@@ -32,7 +31,6 @@
     },
     "production": {
       "distribution": "store",
-      "autoIncrement": true,
       "env": {
         "EXPO_BUNDLE_IDENTIFIER": "com.sillysideprojects.ideas.prod",
         "EXPO_APP_NAME": "Ideas Down",

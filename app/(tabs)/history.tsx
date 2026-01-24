@@ -27,6 +27,7 @@ const History = () => {
   const [selectedFilterLabelId, setSelectedFilterLabelId] = useState('')
   const [filterLabelList, setFilterLabelList] = useState<SelectLabel[]>([])
   const [isModalVisible, setIsModalVisible] = useState(false)
+  const [showArchived, setShowArchived] = useState(false)
   const [hasCheckedIfFeedbackRequested, setHasCheckedIfFeedbackRequested] =
     useState(false)
 
@@ -53,12 +54,16 @@ const History = () => {
   }, [])
 
   const fetchFromDB = useCallback(async () => {
-    const result = await queries.select.ideasGroupedByLabel()
+    const result = await queries.select.ideasGroupedByLabel({
+      includeArchived: showArchived,
+    })
     setIdeasByDateAndLabel(result)
 
-    const labels = await queries.select.labels()
+    const labels = await queries.select.labels({
+      includeArchived: showArchived,
+    })
     setFilterLabelList(labels)
-  }, [])
+  }, [showArchived])
 
   const onFilterSubmitCallback = useCallback((id: string) => {
     setSelectedFilterLabelId(id)
@@ -67,6 +72,10 @@ const History = () => {
 
   const onFilterCancelCallback = useCallback(() => {
     setIsModalVisible(false)
+  }, [])
+
+  const onShowArchivedChange = useCallback((value: boolean) => {
+    setShowArchived(value)
   }, [])
 
   useEffect(() => {
@@ -187,14 +196,23 @@ const History = () => {
         full={
           <Button
             onPress={
-              selectedFilterLabelId
-                ? () => setSelectedFilterLabelId('')
+              selectedFilterLabelId || showArchived
+                ? () => {
+                    setSelectedFilterLabelId('')
+                    setShowArchived(false)
+                  }
                 : () => setIsModalVisible(true)
             }
             variant="filled"
-            color={selectedFilterLabelId ? 'warning' : 'primary'}
+            color={
+              selectedFilterLabelId || showArchived ? 'warning' : 'primary'
+            }
           >
-            {selectedFilterLabelId ? 'Clear Filter' : 'Filter'}
+            {selectedFilterLabelId
+              ? 'Clear Filter'
+              : showArchived
+                ? 'Showing Archived'
+                : 'Filter'}
           </Button>
         }
       />
@@ -204,6 +222,8 @@ const History = () => {
         onSubmit={onFilterSubmitCallback}
         onCancel={onFilterCancelCallback}
         isModalVisible={isModalVisible}
+        showArchived={showArchived}
+        onShowArchivedChange={onShowArchivedChange}
       />
     </PageWrapper>
   )

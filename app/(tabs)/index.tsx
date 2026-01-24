@@ -4,6 +4,7 @@ import Button from '@/shared/components/Button'
 import Label from '@/shared/components/Label'
 import PageWrapper from '@/shared/components/PageWrapper'
 import Typography from '@/shared/components/Typography'
+import { context } from '@/shared/context'
 import { SPACING } from '@/shared/theme'
 import { navigateWithParams } from '@/shared/utilities'
 import { router, useFocusEffect } from 'expo-router'
@@ -13,11 +14,28 @@ import { ActivityIndicator } from 'react-native-paper'
 
 const LabelSelect = () => {
   const [labels, setLabels] = React.useState<SelectLabel[] | null>(null)
+  const { dispatch } = React.useContext(context)
+
+  const fetchLabels = React.useCallback(() => {
+    queries.select.labels().then(setLabels)
+  }, [])
 
   useFocusEffect(
     React.useCallback(() => {
-      queries.select.labels().then(setLabels)
-    }, [])
+      fetchLabels()
+    }, [fetchLabels])
+  )
+
+  const handleArchive = React.useCallback(
+    async (id: string) => {
+      await queries.update.archiveLabel(id, true)
+      fetchLabels()
+      dispatch({
+        type: 'TOAST',
+        payload: { message: 'Category archived', variant: 'SUCCESS' },
+      })
+    },
+    [fetchLabels, dispatch]
   )
 
   const addNewLabel = React.useCallback(() => {
@@ -87,12 +105,13 @@ const LabelSelect = () => {
                 handlePress={() =>
                   navigateWithParams('add-idea', { labelId: id })
                 }
+                onArchive={() => handleArchive(id)}
               />
             </View>
           ))}
           {labels.length < 3 && (
             <Typography style={{ textAlign: 'center' }} variant="caption">
-              Swipe left to edit
+              Swipe right to archive, left to edit
             </Typography>
           )}
         </ScrollView>

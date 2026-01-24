@@ -97,7 +97,7 @@ tasks:
       - Show toast notification confirming archive
     depends_on: [2, 3]
     effort: 1
-    status: scoped
+    status: completed
 
   - id: 5
     github_issue: 76
@@ -113,7 +113,7 @@ tasks:
       - Clear visual indication when archived items are being shown
     depends_on: [3]
     effort: 2
-    status: scoped
+    status: completed
 
   # ==================== MILESTONE 2: Changelog Modal ====================
 

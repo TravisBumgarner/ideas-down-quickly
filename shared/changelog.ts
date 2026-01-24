@@ -13,6 +13,9 @@ export const CHANGELOG: ChangelogEntry[] = [
     changes: [
       'Added ability to archive labels',
       'Added changelog modal for new version notifications',
+      'Improved Reflect page performance with virtual scrolling',
+      'Fixed new labels without ideas always appearing first',
+      'Limited idea input to 10 lines with scroll',
     ],
   },
   {

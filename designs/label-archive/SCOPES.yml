@@ -192,4 +192,4 @@ tasks:
       - Consistent styling with existing settings buttons
     depends_on: [7]
     effort: 1
-    status: scoped
+    status: implementing

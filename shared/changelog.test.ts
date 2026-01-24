@@ -1,7 +1,7 @@
 import {
-  shouldShowChangelog,
   CURRENT_VERSION,
   LAST_SEEN_CHANGELOG_VERSION_KEY,
+  shouldShowChangelog,
 } from './changelog'
 
 describe('shouldShowChangelog', () => {

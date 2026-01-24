@@ -1,9 +1,9 @@
-import { db } from '@/db/client'
-import { PartialWithRequiredKeys } from '@/shared/types'
 import { eq } from 'drizzle-orm'
+import { db } from '@/db/client'
+import type { PartialWithRequiredKeys } from '@/shared/types'
 import 'react-native-get-random-values'
 
-import { IdeasTable, LabelsTable, NewIdea, NewLabel } from '../schema'
+import { IdeasTable, LabelsTable, type NewIdea, type NewLabel } from '../schema'
 
 const idea = async (
   id: string,

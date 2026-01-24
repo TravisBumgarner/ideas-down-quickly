@@ -77,7 +77,7 @@ const AddIdea = () => {
       <ButtonWrapper
         left={
           <Button variant="link" color="warning" onPress={handleCancel}>
-            Cancel
+            Close
           </Button>
         }
         right={

@@ -2,13 +2,12 @@ import { useCallback, useRef } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Swipeable } from 'react-native-gesture-handler'
 import { Icon } from 'react-native-paper'
+import queries from '@/db/queries'
+import { BORDER_RADIUS, BORDER_WIDTH, COLORS, SPACING } from '@/shared/theme'
 
 import { Idea as IdeaType } from '../types'
 import { navigateWithParams } from '../utilities'
 import Typography from './Typography'
-
-import queries from '@/db/queries'
-import { BORDER_RADIUS, BORDER_WIDTH, COLORS, SPACING } from '@/shared/theme'
 
 const Idea = ({
   idea,

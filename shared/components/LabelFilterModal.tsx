@@ -55,7 +55,7 @@ const LabelFilterModal: React.FC<Props> = ({
           <ButtonWrapper
             full={
               <Button variant="link" color="warning" onPress={onCancel}>
-                Cancel
+                Close
               </Button>
             }
           />

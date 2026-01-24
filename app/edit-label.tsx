@@ -9,7 +9,6 @@ import {
 } from 'react-native'
 import { ActivityIndicator, Icon } from 'react-native-paper'
 import { useAsyncEffect } from 'use-async-effect'
-
 import { ICONS } from '@/assets/iconlist'
 import queries from '@/db/queries'
 import Button from '@/shared/components/Button'

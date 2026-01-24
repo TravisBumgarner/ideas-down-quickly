@@ -4,7 +4,6 @@ import { Keyboard, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { Icon } from 'react-native-paper'
 import { v4 as uuidv4 } from 'uuid'
-
 import { ICONS } from '@/assets/iconlist'
 import queries from '@/db/queries'
 import { NewLabel } from '@/db/schema'

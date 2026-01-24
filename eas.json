@@ -1,6 +1,7 @@
 {
   "cli": {
-    "version": ">= 9.1.0"
+    "version": ">= 9.1.0",
+    "appVersionSource": "local"
   },
   "build": {
     "dev": {
@@ -20,8 +21,18 @@
         "SENTRY_DISABLE_AUTO_UPLOAD": "true"
       }
     },
+    "testflight": {
+      "distribution": "store",
+      "autoIncrement": "buildNumber",
+      "env": {
+        "EXPO_BUNDLE_IDENTIFIER": "com.sillysideprojects.ideas.prod",
+        "EXPO_APP_NAME": "Ideas Down",
+        "SENTRY_DISABLE_AUTO_UPLOAD": "true"
+      }
+    },
     "production": {
       "distribution": "store",
+      "autoIncrement": "buildNumber",
       "env": {
         "EXPO_BUNDLE_IDENTIFIER": "com.sillysideprojects.ideas.prod",
         "EXPO_APP_NAME": "Ideas Down",

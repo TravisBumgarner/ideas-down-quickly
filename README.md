@@ -22,7 +22,8 @@ All builds run locally via EAS. Build artifacts output to the project root (`.ip
 | Profile | Purpose | iOS | Android |
 |---------|---------|-----|---------|
 | dev | Development build with dev client | `yarn build:ios:dev` | `yarn build:android:dev` |
-| internal | Testing/QA distribution | `yarn build:ios:internal` | `yarn build:android:internal` |
+| internal | Ad-hoc install to registered devices | `yarn build:ios:internal` | `yarn build:android:internal` |
+| testflight | TestFlight beta distribution | `yarn build:ios:testflight` | - |
 | production | App store release | `yarn build:ios:production` | `yarn build:android:production` |
 
 ### iOS Device Registration
@@ -48,6 +49,15 @@ Scan the QR code, then go to Settings > General > VPN & Device Management to com
 Update version in both files:
 - `package.json`
 - `app.config.js`
+
+### TestFlight (iOS Beta)
+
+```bash
+yarn build:ios:testflight
+yarn submit:ios
+```
+
+Then distribute to testers in App Store Connect > TestFlight.
 
 ### App Store Submission
 

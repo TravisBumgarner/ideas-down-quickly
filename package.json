@@ -1,7 +1,7 @@
 {
   "name": "ideas-down-quickly",
   "main": "expo-router/entry",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "scripts": {
     "start": "expo start",
     "ios": "expo run:ios",
@@ -12,6 +12,7 @@
     "device:register": "eas device:create",
     "build:ios:dev": "eas build -p ios --local --profile dev",
     "build:ios:internal": "eas build -p ios --local --profile internal",
+    "build:ios:testflight": "eas build -p ios --local --profile testflight",
     "build:ios:production": "eas build -p ios --local --profile production",
     "build:android:dev": "eas build -p android --local --profile dev",
     "build:android:internal": "eas build -p android --local --profile internal",

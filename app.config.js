@@ -2,13 +2,10 @@ import 'dotenv/config'
 
 const config = () => ({
   expo: {
-    runtimeVersion: {
-      policy: 'appVersion',
-    },
     icon: './assets/images/icon.png',
     name: process.env.EXPO_APP_NAME || 'Ideas Down',
     slug: 'ideas-down-quickly',
-    version: '1.3.0',
+    version: '1.4.0',
     orientation: 'portrait',
     scheme: 'myapp',
     userInterfaceStyle: 'automatic',
@@ -23,6 +20,9 @@ const config = () => ({
         'com.sillysideprojects.ideas.prod',
       supportsTablet: true,
       entitlements: {},
+      infoPlist: {
+        ITSAppUsesNonExemptEncryption: false,
+      },
     },
     android: {
       package:

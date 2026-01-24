@@ -1,5 +1,9 @@
+import { router, useFocusEffect } from 'expo-router'
+import * as React from 'react'
+import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
+import { ActivityIndicator, Switch, Text } from 'react-native-paper'
 import queries from '@/db/queries'
-import { SelectLabel } from '@/db/schema'
+import type { SelectLabel } from '@/db/schema'
 import Button from '@/shared/components/Button'
 import Label from '@/shared/components/Label'
 import PageWrapper from '@/shared/components/PageWrapper'
@@ -7,10 +11,6 @@ import Typography from '@/shared/components/Typography'
 import { context } from '@/shared/context'
 import { COLORS, SPACING } from '@/shared/theme'
 import { navigateWithParams } from '@/shared/utilities'
-import { router, useFocusEffect } from 'expo-router'
-import * as React from 'react'
-import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
-import { ActivityIndicator, Switch, Text } from 'react-native-paper'
 
 const LabelSelect = () => {
   const [labels, setLabels] = React.useState<SelectLabel[] | null>(null)

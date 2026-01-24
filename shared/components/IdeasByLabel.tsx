@@ -1,9 +1,9 @@
-import { BORDER_RADIUS, BORDER_WIDTH, COLORS, SPACING } from '@/shared/theme'
 import { useCallback } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Icon } from 'react-native-paper'
+import { BORDER_RADIUS, BORDER_WIDTH, COLORS, SPACING } from '@/shared/theme'
 
-import { IdeasByLabel } from '../types'
+import type { IdeasByLabel } from '../types'
 import { navigateWithParams } from '../utilities'
 import Idea from './Idea'
 import Typography from './Typography'

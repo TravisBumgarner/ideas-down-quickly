@@ -1,13 +1,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { router } from 'expo-router'
 
-import { URLParams } from './types'
+import type { URLParams } from './types'
 
 export const saveValueToKeyStore = async (key: string, value: string) => {
   try {
     await AsyncStorage.setItem(key, value)
     return key
-  } catch (e) {
+  } catch (_e) {
     return null
   }
 }
@@ -18,7 +18,7 @@ export const getValueFromKeyStore = async (key: string) => {
     if (value !== null) {
       return value
     }
-  } catch (e) {
+  } catch (_e) {
     return null
   }
 }

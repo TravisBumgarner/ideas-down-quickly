@@ -1,15 +1,15 @@
-import Typography from '@/shared/components/Typography'
-import { COLORS, SPACING } from '@/shared/theme'
-import * as React from 'react'
+import type * as React from 'react'
 import {
   KeyboardAvoidingView,
   Platform,
   SafeAreaView,
   StatusBar,
-  StyleProp,
+  type StyleProp,
   StyleSheet,
-  ViewStyle,
+  type ViewStyle,
 } from 'react-native'
+import Typography from '@/shared/components/Typography'
+import { COLORS, SPACING } from '@/shared/theme'
 
 const PageWrapper: React.FC<{
   style?: StyleProp<ViewStyle>

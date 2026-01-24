@@ -4,10 +4,10 @@ import { db } from '../client'
 import {
   IdeasTable,
   LabelsTable,
-  NewIdea,
-  NewLabel,
-  SelectIdea,
-  SelectLabel,
+  type NewIdea,
+  type NewLabel,
+  type SelectIdea,
+  type SelectLabel,
 } from '../schema'
 
 const idea = async (idea: NewIdea) => {

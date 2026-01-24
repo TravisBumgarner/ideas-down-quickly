@@ -1,6 +1,6 @@
-import { db } from '@/db/client'
-import { IdeasByDateAndLabel } from '@/shared/types'
 import { and, desc, eq, sql } from 'drizzle-orm'
+import { db } from '@/db/client'
+import type { IdeasByDateAndLabel } from '@/shared/types'
 
 import { IdeasTable, LabelsTable } from '../schema'
 

@@ -4,11 +4,11 @@ export type ChangelogEntry = {
   changes: string[]
 }
 
-export const CURRENT_VERSION = '1.4.0'
+export const CURRENT_VERSION = '1.4.1'
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
-    version: '1.4.0',
+    version: '1.4.1',
     date: '2026-01-24',
     changes: [
       'Added ability to archive labels',

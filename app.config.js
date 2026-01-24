@@ -2,13 +2,10 @@ import 'dotenv/config'
 
 const config = () => ({
   expo: {
-    runtimeVersion: {
-      policy: 'appVersion',
-    },
     icon: './assets/images/icon.png',
     name: process.env.EXPO_APP_NAME || 'Ideas Down',
     slug: 'ideas-down-quickly',
-    version: '1.3.0',
+    version: '1.4.0',
     orientation: 'portrait',
     scheme: 'myapp',
     userInterfaceStyle: 'automatic',
@@ -23,6 +20,9 @@ const config = () => ({
         'com.sillysideprojects.ideas.prod',
       supportsTablet: true,
       entitlements: {},
+      infoPlist: {
+        ITSAppUsesNonExemptEncryption: false,
+      },
     },
     android: {
       package:
@@ -34,7 +34,21 @@ const config = () => ({
       output: 'static',
       favicon: './assets/images/favicon.png',
     },
-    plugins: ['expo-router', 'expo-font'],
+    plugins: [
+      'expo-router',
+      'expo-font',
+      [
+        '@sentry/react-native/expo',
+        {
+          organization: process.env.SENTRY_ORG,
+          project: process.env.SENTRY_PROJECT,
+          // Disable auto-upload if org/project not configured
+          uploadSourceMaps: !!process.env.SENTRY_ORG,
+          uploadNativeSymbols: !!process.env.SENTRY_ORG,
+        },
+      ],
+      'expo-sqlite',
+    ],
     experiments: {
       typedRoutes: true,
     },

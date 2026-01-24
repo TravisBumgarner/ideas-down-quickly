@@ -1,116 +1,97 @@
-# New Releases
+# Ideas Down
 
-1. Make code changes and merge into master.
-1. Update ChangeLog.tsx and merge into master.
-1. Deploy Website.
-1. Increment version number
-    1. Update package.json with new version number
-    1. Update app.config.js with new version number
-1. Perform local testing for Android and iOS
-    - iOS
-        - `yarn run build:ios:local:internal`
-        - Load ipa onto device via XCode
-    - Android
-        - `yarn run build:android:local:internal`
-        - Load apk onto device via `yarn run move-apk-to-device`
-1. (Optional) Generate new screenshots
-    1. Play Store
-    1. App Store
-1. Build for production.
-    - iOS
-        - `yarn run build:ios:local:production`
-        - `yarn run submit:ios`
+## Setup
 
-# Deploys  
+1. Install dependencies: `yarn`
+2. Copy `.env.example` to `.env`
+3. Install Fastlane (for iOS builds): `brew install fastlane`
+4. Install ADB (for Android device installs): `brew install android-platform-tools`
 
-### Android Build
+## Development
 
-1. Local setup: https://docs.expo.dev/get-started/set-up-your-environment/?platform=android&device=physical&mode=development-build&buildEnv=local
-2. Install abd `brew install android-platform-tools`
-3. `abd devices` to list phone.
-4. Phone needs to be in developer mode with USB debugging enabled and stay awake.
-5. `yarn run build:android:local:development`
-6. Install on device
-  - Emulator:  `npx expo run:android`
-  - Device: `adb -s deviceid install path/to/the/file.apk` (`adb devices` to get IDs)
+```bash
+yarn start          # Start Expo dev server
+yarn ios            # Run on iOS simulator
+yarn android        # Run on Android emulator
+```
 
+## Building
 
-### Android Deploy to store
+All builds run locally via EAS. Build artifacts output to the project root (`.ipa`, `.apk`, `.aab`).
 
-- https://github.com/expo/fyi/blob/main/creating-google-service-account.md
+| Profile | Purpose | iOS | Android |
+|---------|---------|-----|---------|
+| dev | Development build with dev client | `yarn build:ios:dev` | `yarn build:android:dev` |
+| internal | Ad-hoc install to registered devices | `yarn build:ios:internal` | `yarn build:android:internal` |
+| testflight | TestFlight beta distribution | `yarn build:ios:testflight` | - |
+| production | App store release | `yarn build:ios:production` | `yarn build:android:production` |
 
-1. `yarn run build:android:local:production`
-2. `yarn run submit:android`
+### iOS Device Registration
 
-## iOS
+Before building for a physical iOS device:
 
-Notes
-- `production` is the branch to be used for deploying to the app store.
+```bash
+yarn device:register
+```
 
-### Development Build for iOS
+Scan the QR code, then go to Settings > General > VPN & Device Management to complete registration.
 
-[Tutorial](https://docs.expo.dev/develop/development-builds/create-a-build/)
+### Installing Builds
 
-This still requires a connection to the macbook and local dev running in VS COde
+**iOS:** Open Xcode > Window > Devices and Simulators > Drag `.ipa` onto device
 
-1. `yarn run register:ios
-  1. Select Website
-  2. Scan QR Code on phone and goto Settings -> General ->VPN & Device Management -> Register for Development
-  3. Install
-2. `yarn run build:ios:local:development`
+**Android:** `adb install path/to/file.apk` (use `adb devices` to verify connection)
 
-### Distribution for Internal Use
+## Releasing
 
-[Tutorial](https://docs.expo.dev/build/internal-distribution/)
+### Version Bump
 
-- TestFlight share app with up to 100 internal testers
-- Internal distribution - EAS feature that allows developers to share a URL to install app
+Update version in both files:
+- `package.json`
+- `app.config.js`
 
-Add new devices
-1. `yarn run register:ios`
-  1. Select Website
-  2. Scan QR Code on phone and goto Settings -> General ->VPN & Device Management -> Register for Development
-  3. Install
+### TestFlight (iOS Beta)
 
-Build on Server
-1. `yarn run build:ios:cloud:internal`
+```bash
+yarn build:ios:testflight
+yarn submit:ios
+```
 
-Build Locally
-1. `yarn run build:ios:local:internal`
-2. Open XCode -> Window -> Devices & Simulators -> Select phone -> Drag IPA onto phone. 
+Then distribute to testers in App Store Connect > TestFlight.
 
-### Deploy to iOS Store
+### App Store Submission
 
-https://docs.expo.dev/submit/ios/
-
-1. `yarn build:ios:cloud:production`
-2. 
-
-# Local Development
-
+```bash
 # iOS
-
-Note - Adding prebuild to `eas build --profile foobar -p ios` causes env vars not to load.
-
-- `brew install fastlane`
-
-## SQLite
-
-cd /Users/travisbumgarner/Library/Developer/CoreSimulator/Devices
-find . -name database.db
-open [pathname]
-Should open in SQLite Browser
-
-## iOS Backups & Restores of Data
-
-1. Get the device name from XCode -> Windows -> Devices & Simulators (Match Name from Simulator to list)
-2. cd `/Users/travisbumgarner/Library/Developer/CoreSimulator/Devices/DEVICE_NAME_HERE/data/Containers/Shared/AppGroup/`
-3. Create a backup such as `Foo.json`
-4. `find . -name Foo.json` (If the name isn't exact it won't match. Make sure not to save as `Foo.json.json` on accident)
-5. Drag restore file into this folder, open on iOS device.
+yarn build:ios:production
+yarn submit:ios
 
 # Android
+yarn build:android:production
+yarn submit:android
+```
 
-## Restore Data
+## Database
 
-1. Data can be dragged onto emualtor screen and it'll save to the downloads dir.
+Generate migrations after schema changes:
+
+```bash
+yarn db:generate
+```
+
+### Inspecting SQLite (iOS Simulator)
+
+```bash
+cd ~/Library/Developer/CoreSimulator/Devices
+find . -name database.db
+# Open the found path in a SQLite browser
+```
+
+### Data Backup/Restore
+
+**iOS Simulator:**
+1. Find device in Xcode > Window > Devices and Simulators
+2. Navigate to `~/Library/Developer/CoreSimulator/Devices/DEVICE_ID/data/Containers/Shared/AppGroup/`
+3. Export/import JSON files from this location
+
+**Android Emulator:** Drag files onto emulator screen to save to Downloads.

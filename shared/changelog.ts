@@ -21,3 +21,16 @@ export const CHANGELOG: ChangelogEntry[] = [
     changes: ['Initial release'],
   },
 ]
+
+export const LAST_SEEN_CHANGELOG_VERSION_KEY = 'lastSeenChangelogVersion'
+
+/**
+ * Determines if the changelog modal should be shown based on the last seen version.
+ * Returns true if:
+ * - No version has been seen before (null/undefined)
+ * - The last seen version is older than the current version
+ */
+export function shouldShowChangelog(lastSeenVersion: string | null): boolean {
+  // Stub implementation - will be implemented in ralph-code phase
+  return false
+}

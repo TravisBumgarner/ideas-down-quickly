@@ -115,14 +115,10 @@ const AppWrapper = () => {
   }
 
   return (
-    <>
-      <App />
-      <ChangelogModal
-        visible={showChangelogModal}
-        onDismiss={handleDismissChangelog}
-        showFullChangelog={false}
-      />
-    </>
+    <App
+      showChangelogModal={showChangelogModal}
+      onDismissChangelog={handleDismissChangelog}
+    />
   )
 }
 

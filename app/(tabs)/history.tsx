@@ -2,23 +2,33 @@ import queries from '@/db/queries'
 import { SelectLabel } from '@/db/schema'
 import Button from '@/shared/components/Button'
 import ButtonWrapper from '@/shared/components/ButtonWrapper'
-import { default as IdeasByLabel } from '@/shared/components/IdeasByLabel'
+import { default as IdeasByLabelComponent } from '@/shared/components/IdeasByLabel'
 import LabelFilterModal from '@/shared/components/LabelFilterModal'
 import PageWrapper from '@/shared/components/PageWrapper'
 import Typography from '@/shared/components/Typography'
 import { COLORS, SPACING } from '@/shared/theme'
-import { IdeasByDateAndLabel } from '@/shared/types'
-import {
-  getValueFromKeyStore,
-  notNull,
-  saveValueToKeyStore,
-} from '@/shared/utilities'
+import { IdeasByDateAndLabel, IdeasByLabel } from '@/shared/types'
+import { getValueFromKeyStore, saveValueToKeyStore } from '@/shared/utilities'
 import { useFocusEffect } from '@react-navigation/native'
 import * as StoreReview from 'expo-store-review'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { SafeAreaView, ScrollView, View } from 'react-native'
+import { FlatList, ListRenderItem, SafeAreaView, View } from 'react-native'
 import { ActivityIndicator } from 'react-native-paper'
 import { useAsyncEffect } from 'use-async-effect'
+
+type DateHeaderItem = {
+  type: 'date'
+  date: string
+}
+
+type IdeasByLabelItem = {
+  type: 'ideas'
+  date: string
+  labelId: string
+  ideasByLabel: IdeasByLabel
+}
+
+type ListItem = DateHeaderItem | IdeasByLabelItem
 
 const History = () => {
   const [ideasByDateAndLabel, setIdeasByDateAndLabel] =
@@ -79,48 +89,68 @@ const History = () => {
     }, [fetchFromDB])
   )
 
-  const [rows, unfilteredRowsCount] = useMemo(() => {
+  const [listData, unfilteredRowsCount] = useMemo(() => {
     if (ideasByDateAndLabel === null) {
       return [[], 0]
     }
 
-    const output: JSX.Element[] = []
+    const output: ListItem[] = []
     let unfilteredRowsCount = 0
 
     Object.keys(ideasByDateAndLabel).forEach(date => {
-      const dateOutput = (
-        <Typography key={date} variant="h1" style={{ width: '100%' }}>
-          {date}
-        </Typography>
-      )
-
       const ideasByLabel = ideasByDateAndLabel[date]
+      const dateItems: ListItem[] = []
 
-      const ideasOutput = Object.keys(ideasByLabel)
-        .map(labelId => {
-          unfilteredRowsCount += ideasByLabel[labelId].ideas.length
-          if (selectedFilterLabelId && selectedFilterLabelId !== labelId) {
-            return null
-          }
+      Object.keys(ideasByLabel).forEach(labelId => {
+        unfilteredRowsCount += ideasByLabel[labelId].ideas.length
+        if (selectedFilterLabelId && selectedFilterLabelId !== labelId) {
+          return
+        }
 
-          return (
-            <IdeasByLabel
-              key={labelId + date}
-              ideasByLabel={ideasByLabel[labelId]}
-              onDeleteCallback={fetchFromDB}
-            />
-          )
+        dateItems.push({
+          type: 'ideas',
+          date,
+          labelId,
+          ideasByLabel: ideasByLabel[labelId],
         })
-        .filter(notNull)
+      })
 
-      if (ideasOutput.length > 0) {
-        output.push(dateOutput)
-        output.push(...ideasOutput)
+      if (dateItems.length > 0) {
+        output.push({ type: 'date', date })
+        output.push(...dateItems)
       }
     })
 
     return [output, unfilteredRowsCount]
-  }, [ideasByDateAndLabel, fetchFromDB, selectedFilterLabelId])
+  }, [ideasByDateAndLabel, selectedFilterLabelId])
+
+  const renderItem: ListRenderItem<ListItem> = useCallback(
+    ({ item }) => {
+      if (item.type === 'date') {
+        return (
+          <Typography variant="h1" style={{ width: '100%' }}>
+            {item.date}
+          </Typography>
+        )
+      }
+
+      return (
+        <IdeasByLabelComponent
+          ideasByLabel={item.ideasByLabel}
+          onDeleteCallback={fetchFromDB}
+        />
+      )
+    },
+    [fetchFromDB]
+  )
+
+  const keyExtractor = useCallback(
+    (item: ListItem) =>
+      item.type === 'date'
+        ? `date-${item.date}`
+        : `ideas-${item.date}-${item.labelId}`,
+    []
+  )
 
   if (ideasByDateAndLabel === null) {
     return (
@@ -152,15 +182,23 @@ const History = () => {
 
   return (
     <PageWrapper>
-      {rows.length > 0 ? (
-        <ScrollView>
-          {rows}
-          {unfilteredRowsCount < 5 && (
-            <Typography variant="caption" style={{ textAlign: 'center' }}>
-              Swipe right on an idea to delete or left to edit
-            </Typography>
-          )}
-        </ScrollView>
+      {listData.length > 0 ? (
+        <FlatList
+          data={listData}
+          renderItem={renderItem}
+          keyExtractor={keyExtractor}
+          initialNumToRender={10}
+          maxToRenderPerBatch={10}
+          windowSize={5}
+          removeClippedSubviews={true}
+          ListFooterComponent={
+            unfilteredRowsCount < 5 ? (
+              <Typography variant="caption" style={{ textAlign: 'center' }}>
+                Swipe right on an idea to delete or left to edit
+              </Typography>
+            ) : null
+          }
+        />
       ) : (
         <View
           style={{

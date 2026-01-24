@@ -2,6 +2,7 @@ import queries from '@/db/queries'
 import { IdeaRunType, LabelRunType } from '@/db/schema'
 import Button from '@/shared/components/Button'
 import ButtonWrapper from '@/shared/components/ButtonWrapper'
+import ChangelogModal from '@/shared/components/ChangelogModal'
 import PageWrapper from '@/shared/components/PageWrapper'
 import Typography from '@/shared/components/Typography'
 import { context } from '@/shared/context'
@@ -17,6 +18,7 @@ import { Linking, View } from 'react-native'
 const Settings = () => {
   const { dispatch } = React.useContext(context)
   const [isProcessing, setIsProcessing] = React.useState(false)
+  const [isChangelogVisible, setIsChangelogVisible] = React.useState(false)
 
   const handleBackup = async () => {
     setIsProcessing(true)
@@ -182,7 +184,28 @@ const Settings = () => {
             }
           />
         </View>
+
+        <View style={{ marginTop: SPACING.XLARGE }}>
+          <Typography variant="h2">About</Typography>
+          <ButtonWrapper
+            full={
+              <Button
+                variant="filled"
+                color="primary"
+                onPress={() => setIsChangelogVisible(true)}
+              >
+                View Changelog
+              </Button>
+            }
+          />
+        </View>
       </View>
+
+      <ChangelogModal
+        visible={isChangelogVisible}
+        onDismiss={() => setIsChangelogVisible(false)}
+        showFullChangelog={true}
+      />
     </PageWrapper>
   )
 }

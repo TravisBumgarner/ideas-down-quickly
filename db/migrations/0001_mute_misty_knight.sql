@@ -1,0 +1,1 @@
+ALTER TABLE `label` ADD `isArchived` integer DEFAULT 0 NOT NULL;

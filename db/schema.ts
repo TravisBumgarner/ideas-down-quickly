@@ -1,5 +1,5 @@
-import { sqliteTable, text } from 'drizzle-orm/sqlite-core'
-import { Null, Record, String } from 'runtypes'
+import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core'
+import { Null, Number, Record, String } from 'runtypes'
 
 export const IdeasTable = sqliteTable('idea', {
   id: text('id').primaryKey().unique().notNull(),
@@ -22,6 +22,7 @@ export const LabelsTable = sqliteTable('label', {
   lastUsedAt: text('lastUsedAt'),
   icon: text('icon').notNull(),
   color: text('color').notNull(),
+  isArchived: integer('isArchived').default(0).notNull(),
 })
 
 export type SelectLabel = typeof LabelsTable.$inferSelect
@@ -33,6 +34,7 @@ export const LabelRunType = Record({
   lastUsedAt: String.Or(Null), // This shouldn't be null anymore.
   icon: String,
   color: String,
+  isArchived: Number,
 })
 
 export type NewLabel = typeof LabelsTable.$inferInsert

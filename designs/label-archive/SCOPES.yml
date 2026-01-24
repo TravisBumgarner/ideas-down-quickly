@@ -1,0 +1,195 @@
+project: Label Archive and Changelog Features
+repo: TravisBumgarner/ideas-down-quickly
+design_file: null  # Requirements provided via user input
+scoping_date: 2026-01-24
+
+milestones:
+  - number: 1
+    title: "1. Label Archive Feature"
+    description: Add ability to archive labels and filter archived items in Reflect view
+    branch:
+      working: 72-label-archive-feature
+      base: main
+
+  - number: 2
+    title: "2. Changelog Modal Feature"
+    description: Add changelog modal on app startup and changelog button in settings
+    branch:
+      working: 77-changelog-modal-feature
+      base: main
+
+tasks:
+  # ==================== MILESTONE 1: Label Archive ====================
+
+  - id: 1
+    github_issue: 72
+    milestone: 1
+    title: Add isArchived field to labels schema
+    description: |
+      Add an `isArchived` boolean field to the `LabelsTable` schema and create
+      the corresponding database migration. This field will track whether a
+      label has been archived by the user.
+
+      SQLite uses integers for booleans (0 = false, 1 = true). Add to db/schema.ts:
+      ```typescript
+      isArchived: integer('isArchived').default(0).notNull()
+      ```
+
+      Also update `LabelRunType` to include the new field.
+    acceptance_criteria:
+      - Add isArchived integer field with default 0 to LabelsTable in db/schema.ts
+      - Update LabelRunType runtypes validator to include isArchived
+      - Generate migration using yarn db:generate
+    depends_on: []
+    effort: 1
+    status: implementing
+
+  - id: 2
+    github_issue: 73
+    milestone: 1
+    title: Add left swipe archive action to Label component
+    description: |
+      Add a left swipe action to the Label component that archives the label.
+      This follows the existing pattern where right swipe is for edit.
+
+      Reference the Idea.tsx component which implements both left (delete) and
+      right (edit) swipe actions. Add renderLeftActions with archive icon.
+    acceptance_criteria:
+      - Add renderLeftActions to Label's Swipeable with archive icon
+      - Add onArchive callback prop to Label component
+      - Swipeable closes after archive action is triggered
+    depends_on: [1]
+    effort: 2
+    status: scoped
+
+  - id: 3
+    github_issue: 74
+    milestone: 1
+    title: Update queries to filter archived labels and add archive mutation
+    description: |
+      Update database queries to:
+      1. Filter out archived labels by default in the main label list
+      2. Filter out ideas from archived labels in Reflect view by default
+      3. Add update query to set a label's isArchived status
+
+      Queries are in db/queries/select.ts and db/queries/update.ts.
+    acceptance_criteria:
+      - queries.select.labels() excludes archived labels by default
+      - queries.select.ideasGroupedByLabel() excludes ideas from archived labels by default
+      - Add optional includeArchived parameter to both queries
+      - Add queries.update.archiveLabel(id, isArchived) function
+    depends_on: [1]
+    effort: 2
+    status: scoped
+
+  - id: 4
+    github_issue: 75
+    milestone: 1
+    title: Integrate archive action in Ideate tab label list
+    description: |
+      Wire up the archive functionality in the main Ideate tab (app/(tabs)/index.tsx)
+      where labels are displayed. When user swipes left and taps archive icon,
+      the label should be archived and removed from the list.
+    acceptance_criteria:
+      - Pass onArchive handler to Label components in index.tsx
+      - Handler calls queries.update.archiveLabel(id, true)
+      - Refresh label list after archiving to remove the archived label
+      - Show toast notification confirming archive
+    depends_on: [2, 3]
+    effort: 1
+    status: scoped
+
+  - id: 5
+    github_issue: 76
+    milestone: 1
+    title: Add Show Archived toggle to Reflect filter
+    description: |
+      Add a toggle to the Reflect tab's filter modal (LabelFilterModal.tsx)
+      that allows users to include archived labels and their ideas in the view.
+    acceptance_criteria:
+      - Add "Show Archived" toggle to LabelFilterModal.tsx
+      - Pass showArchived state to parent history.tsx
+      - When enabled, query includes archived labels and their ideas
+      - Clear visual indication when archived items are being shown
+    depends_on: [3]
+    effort: 2
+    status: scoped
+
+  # ==================== MILESTONE 2: Changelog Modal ====================
+
+  - id: 6
+    github_issue: 77
+    milestone: 2
+    title: Create changelog data structure and content
+    description: |
+      Create a changelog data structure that stores version history with
+      release notes. Used by both startup modal and settings page.
+
+      Create shared/changelog.ts with:
+      - CHANGELOG array of version entries
+      - CURRENT_VERSION constant matching app.config.js
+      - TypeScript types for changelog entry
+    acceptance_criteria:
+      - Create shared/changelog.ts with typed changelog array
+      - Each entry has version, date, and changes array
+      - Export CURRENT_VERSION constant
+    depends_on: []
+    effort: 1
+    status: scoped
+
+  - id: 7
+    github_issue: 78
+    milestone: 2
+    title: Create ChangelogModal component
+    description: |
+      Create a reusable modal component that displays the changelog.
+      Shown on app startup for new versions and openable from settings.
+
+      Reference LabelFilterModal for styling consistency.
+    acceptance_criteria:
+      - Create shared/components/ChangelogModal.tsx
+      - Props: visible, onDismiss, showFullChangelog boolean
+      - When showFullChangelog=false, show only latest version
+      - When showFullChangelog=true, show all versions scrollable
+    depends_on: [6]
+    effort: 2
+    status: scoped
+
+  - id: 8
+    github_issue: 79
+    milestone: 2
+    title: Show changelog modal on app startup for new versions
+    description: |
+      Display changelog modal automatically when app starts if user hasn't
+      seen the current version's changelog. Track last seen version in AsyncStorage.
+
+      Use existing saveValueToKeyStore/getValueFromKeyStore utilities.
+      Storage key: 'lastSeenChangelogVersion'
+
+      Check happens in app/_layout.tsx after migrations succeed.
+    acceptance_criteria:
+      - Check AsyncStorage for last seen changelog version on startup
+      - Show modal if last seen < current version or no stored version
+      - Save current version to AsyncStorage when modal dismissed
+      - Modal shows only latest version changes (not full history)
+    depends_on: [6, 7]
+    effort: 2
+    status: scoped
+
+  - id: 9
+    github_issue: 80
+    milestone: 2
+    title: Add View Changelog button to Settings page
+    description: |
+      Add button to Settings page that opens full changelog modal,
+      allowing users to view complete version history anytime.
+
+      Add under new "About" section after "Feedback & Support" in
+      app/(tabs)/settings.tsx using same ButtonWrapper pattern.
+    acceptance_criteria:
+      - Add "View Changelog" button under new "About" section in Settings
+      - Button opens ChangelogModal with showFullChangelog=true
+      - Consistent styling with existing settings buttons
+    depends_on: [7]
+    effort: 1
+    status: scoped

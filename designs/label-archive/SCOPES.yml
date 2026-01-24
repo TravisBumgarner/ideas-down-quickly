@@ -153,7 +153,7 @@ tasks:
       - When showFullChangelog=true, show all versions scrollable
     depends_on: [6]
     effort: 2
-    status: implementing
+    status: completed
 
   - id: 8
     github_issue: 79

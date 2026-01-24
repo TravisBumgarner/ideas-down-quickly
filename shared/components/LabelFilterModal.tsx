@@ -67,7 +67,7 @@ const LabelFilterModal: React.FC<Props> = ({
           <ButtonWrapper
             full={
               <Button variant="link" color="warning" onPress={onCancel}>
-                Cancel
+                Close
               </Button>
             }
           />
@@ -90,7 +90,6 @@ const styles = StyleSheet.create({
   toggleContainer: {
     alignItems: 'center',
     backgroundColor: COLORS.NEUTRAL[900],
-    borderRadius: 8,
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: SPACING.MEDIUM,

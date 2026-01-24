@@ -229,11 +229,7 @@ const History = () => {
               selectedFilterLabelId || showArchived ? 'warning' : 'primary'
             }
           >
-            {selectedFilterLabelId
-              ? 'Clear Filter'
-              : showArchived
-                ? 'Showing Archived'
-                : 'Filter'}
+            {selectedFilterLabelId || showArchived ? 'Clear Filter' : 'Filter'}
           </Button>
         }
       />

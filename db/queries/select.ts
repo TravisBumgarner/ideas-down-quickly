@@ -1,6 +1,6 @@
 import { db } from '@/db/client'
 import { IdeasByDateAndLabel } from '@/shared/types'
-import { and, desc, eq } from 'drizzle-orm'
+import { and, desc, eq, sql } from 'drizzle-orm'
 
 import { IdeasTable, LabelsTable } from '../schema'
 
@@ -18,14 +18,17 @@ const labelById = async (id: string) => {
 
 const labels = async (options?: { includeArchived?: boolean }) => {
   const query = db.select().from(LabelsTable)
+  // Use lastUsedAt if available, otherwise fall back to createdAt for sorting
+  // This ensures new labels without ideas are sorted by creation date
+  const sortColumn = sql`COALESCE(${LabelsTable.lastUsedAt}, ${LabelsTable.createdAt})`
 
   if (!options?.includeArchived) {
     return await query
       .where(eq(LabelsTable.isArchived, 0))
-      .orderBy(desc(LabelsTable.lastUsedAt))
+      .orderBy(desc(sortColumn))
   }
 
-  return await query.orderBy(desc(LabelsTable.lastUsedAt))
+  return await query.orderBy(desc(sortColumn))
 }
 
 const ideasGroupedByLabel = async (options?: { includeArchived?: boolean }) => {

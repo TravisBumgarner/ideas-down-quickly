@@ -1,10 +1,12 @@
-import { useCallback, useRef } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Swipeable, TouchableOpacity } from 'react-native-gesture-handler'
-import { Icon, Text } from 'react-native-paper'
+import { Icon, Modal, Portal, Text } from 'react-native-paper'
 import { BORDER_RADIUS, BORDER_WIDTH, COLORS, SPACING } from '@/shared/theme'
 
 import { navigateWithParams, timeAgo } from '../utilities'
+import Button from './Button'
+import ButtonWrapper from './ButtonWrapper'
 import Typography from './Typography'
 
 type Props = {
@@ -29,23 +31,33 @@ const Label = ({
   onArchive,
 }: Props) => {
   const swipeableRef = useRef<Swipeable>(null)
+  const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false)
 
   const handleEdit = useCallback(() => {
     swipeableRef.current?.close()
     navigateWithParams('edit-label', { labelId: id })
   }, [id])
 
-  const handleArchive = useCallback(() => {
+  const handleArchivePress = useCallback(() => {
     swipeableRef.current?.close()
+    setIsConfirmModalVisible(true)
+  }, [])
+
+  const handleArchiveConfirm = useCallback(() => {
+    setIsConfirmModalVisible(false)
     onArchive?.()
   }, [onArchive])
+
+  const handleArchiveCancel = useCallback(() => {
+    setIsConfirmModalVisible(false)
+  }, [])
 
   const renderLeftActions = useCallback(() => {
     if (disableSideSwipe) return null
 
     return (
       <TouchableOpacity
-        onPress={handleArchive}
+        onPress={handleArchivePress}
         style={StyleSheet.flatten([
           styles.swipeableBase,
           styles.swipeableLeft,
@@ -54,7 +66,7 @@ const Label = ({
         <Icon source="archive" size={24} color={COLORS.WARNING[300]} />
       </TouchableOpacity>
     )
-  }, [handleArchive, disableSideSwipe])
+  }, [handleArchivePress, disableSideSwipe])
 
   const renderRightActions = useCallback(() => {
     if (disableSideSwipe) return null
@@ -73,32 +85,60 @@ const Label = ({
   }, [handleEdit, disableSideSwipe])
 
   return (
-    <Swipeable
-      ref={swipeableRef}
-      renderLeftActions={renderLeftActions}
-      renderRightActions={renderRightActions}
-    >
-      <TouchableOpacity
-        style={StyleSheet.flatten([
-          styles.container,
-          {
-            borderRightColor: color,
-          },
-        ])}
-        onPress={handlePress}
+    <>
+      <Swipeable
+        ref={swipeableRef}
+        renderLeftActions={renderLeftActions}
+        renderRightActions={renderRightActions}
       >
-        <Icon source={icon} size={24} color={color} />
-        <View style={styles.textContainer}>
-          {/* For some reason no text adjusts the height of the Typography element */}
-          <Typography variant="h2">{text.length > 0 ? text : ' '}</Typography>
-          <Text style={styles.dateText}>
-            {lastUsedAt
-              ? `Last ideated ${timeAgo(lastUsedAt)}`
-              : 'No ideation yet'}
+        <TouchableOpacity
+          style={StyleSheet.flatten([
+            styles.container,
+            {
+              borderRightColor: color,
+            },
+          ])}
+          onPress={handlePress}
+        >
+          <Icon source={icon} size={24} color={color} />
+          <View style={styles.textContainer}>
+            {/* For some reason no text adjusts the height of the Typography element */}
+            <Typography variant="h2">{text.length > 0 ? text : ' '}</Typography>
+            <Text style={styles.dateText}>
+              {lastUsedAt
+                ? `Last ideated ${timeAgo(lastUsedAt)}`
+                : 'No ideation yet'}
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </Swipeable>
+
+      <Portal>
+        <Modal
+          visible={isConfirmModalVisible}
+          onDismiss={handleArchiveCancel}
+          contentContainerStyle={styles.modalContainer}
+        >
+          <Typography variant="h2">Archive "{text}"?</Typography>
+          <Text style={styles.modalText}>
+            This label and its ideas will be hidden. You can view archived items
+            from the Reflect tab.
           </Text>
-        </View>
-      </TouchableOpacity>
-    </Swipeable>
+          <ButtonWrapper
+            left={
+              <Button variant="link" color="primary" onPress={handleArchiveCancel}>
+                Cancel
+              </Button>
+            }
+            right={
+              <Button variant="filled" color="warning" onPress={handleArchiveConfirm}>
+                Archive
+              </Button>
+            }
+          />
+        </Modal>
+      </Portal>
+    </>
   )
 }
 
@@ -116,6 +156,17 @@ const styles = StyleSheet.create({
   dateText: {
     color: COLORS.NEUTRAL[200],
     fontSize: 13,
+  },
+  modalContainer: {
+    backgroundColor: COLORS.NEUTRAL[700],
+    borderRadius: BORDER_RADIUS.MEDIUM,
+    margin: SPACING.LARGE,
+    padding: SPACING.MEDIUM,
+  },
+  modalText: {
+    color: COLORS.NEUTRAL[200],
+    marginBottom: SPACING.MEDIUM,
+    marginTop: SPACING.SMALL,
   },
   swipeableBase: {
     alignItems: 'center',

@@ -8,21 +8,24 @@
       "distribution": "internal",
       "env": {
         "EXPO_BUNDLE_IDENTIFIER": "com.sillysideprojects.ideas.dev",
-        "EXPO_APP_NAME": "Dev"
+        "EXPO_APP_NAME": "Dev",
+        "SENTRY_DISABLE_AUTO_UPLOAD": "true"
       }
     },
     "internal": {
       "distribution": "internal",
       "env": {
         "EXPO_BUNDLE_IDENTIFIER": "com.sillysideprojects.ideas.internal",
-        "EXPO_APP_NAME": "Internal"
+        "EXPO_APP_NAME": "Internal",
+        "SENTRY_DISABLE_AUTO_UPLOAD": "true"
       }
     },
     "production": {
       "distribution": "store",
       "env": {
         "EXPO_BUNDLE_IDENTIFIER": "com.sillysideprojects.ideas.prod",
-        "EXPO_APP_NAME": "Ideas Down"
+        "EXPO_APP_NAME": "Ideas Down",
+        "SENTRY_DISABLE_AUTO_UPLOAD": "true"
       }
     }
   },

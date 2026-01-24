@@ -34,7 +34,21 @@ const config = () => ({
       output: 'static',
       favicon: './assets/images/favicon.png',
     },
-    plugins: ['expo-router', 'expo-font'],
+    plugins: [
+      'expo-router',
+      'expo-font',
+      [
+        '@sentry/react-native/expo',
+        {
+          organization: process.env.SENTRY_ORG,
+          project: process.env.SENTRY_PROJECT,
+          // Disable auto-upload if org/project not configured
+          uploadSourceMaps: !!process.env.SENTRY_ORG,
+          uploadNativeSymbols: !!process.env.SENTRY_ORG,
+        },
+      ],
+      'expo-sqlite',
+    ],
     experiments: {
       typedRoutes: true,
     },

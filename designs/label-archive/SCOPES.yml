@@ -42,7 +42,7 @@ tasks:
       - Generate migration using yarn db:generate
     depends_on: []
     effort: 1
-    status: implementing
+    status: completed
 
   - id: 2
     github_issue: 73

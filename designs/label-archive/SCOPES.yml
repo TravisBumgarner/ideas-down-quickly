@@ -80,7 +80,7 @@ tasks:
       - Add queries.update.archiveLabel(id, isArchived) function
     depends_on: [1]
     effort: 2
-    status: implementing
+    status: completed
 
   - id: 4
     github_issue: 75

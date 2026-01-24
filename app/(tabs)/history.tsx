@@ -139,7 +139,7 @@ const History = () => {
     )
   }
 
-  if (Object.keys(ideasByDateAndLabel).length === 0) {
+  if (Object.keys(ideasByDateAndLabel).length === 0 && !showArchived) {
     return (
       <PageWrapper>
         <View
@@ -155,6 +155,27 @@ const History = () => {
             Start on the Ideate tab.
           </Typography>
         </View>
+
+        <ButtonWrapper
+          full={
+            <Button
+              onPress={() => setIsModalVisible(true)}
+              variant="filled"
+              color="primary"
+            >
+              Filter
+            </Button>
+          }
+        />
+
+        <LabelFilterModal
+          filterLabelList={filterLabelList}
+          onSubmit={onFilterSubmitCallback}
+          onCancel={onFilterCancelCallback}
+          isModalVisible={isModalVisible}
+          showArchived={showArchived}
+          onShowArchivedChange={onShowArchivedChange}
+        />
       </PageWrapper>
     )
   }

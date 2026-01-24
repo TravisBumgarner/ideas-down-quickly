@@ -31,7 +31,12 @@ Sentry.init({
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync()
 
-function App() {
+type AppProps = {
+  showChangelogModal: boolean
+  onDismissChangelog: () => void
+}
+
+function App({ showChangelogModal, onDismissChangelog }: AppProps) {
   return (
     <PaperProvider theme={MD3DarkTheme}>
       <Context>
@@ -51,6 +56,11 @@ function App() {
           </Stack>
         </GestureHandlerRootView>
         <Toast />
+        <ChangelogModal
+          visible={showChangelogModal}
+          onDismiss={onDismissChangelog}
+          showFullChangelog={false}
+        />
       </Context>
     </PaperProvider>
   )
@@ -105,14 +115,10 @@ const AppWrapper = () => {
   }
 
   return (
-    <>
-      <App />
-      <ChangelogModal
-        visible={showChangelogModal}
-        onDismiss={handleDismissChangelog}
-        showFullChangelog={false}
-      />
-    </>
+    <App
+      showChangelogModal={showChangelogModal}
+      onDismissChangelog={handleDismissChangelog}
+    />
   )
 }
 

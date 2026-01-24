@@ -70,6 +70,7 @@ const AddIdea = () => {
           value={ideaText}
           onChangeText={text => setIdeaText(text)}
           multiline
+          maxLines={10}
           color={label.color}
           autoFocus={true} //eslint-disable-line
         />

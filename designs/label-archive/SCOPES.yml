@@ -135,7 +135,7 @@ tasks:
       - Export CURRENT_VERSION constant
     depends_on: []
     effort: 1
-    status: implementing
+    status: completed
 
   - id: 7
     github_issue: 78

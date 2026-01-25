@@ -16,6 +16,7 @@ export const CHANGELOG: ChangelogEntry[] = [
       'Improved Reflect page performance with virtual scrolling',
       'Fixed new labels without ideas always appearing first',
       'Limited idea input to 10 lines with scroll',
+      'Save & Another button allows quick addition of multiple ideas',
     ],
   },
   {

@@ -1,14 +1,14 @@
-import { router, useLocalSearchParams } from 'expo-router'
-import * as React from 'react'
-import { SafeAreaView, View } from 'react-native'
 import queries from '@/db/queries'
 import type { NewIdea, SelectLabel } from '@/db/schema'
 import Button from '@/shared/components/Button'
-import ButtonWrapper from '@/shared/components/ButtonWrapper'
 import PageWrapper from '@/shared/components/PageWrapper'
 import TextInput from '@/shared/components/TextInput'
 import { context } from '@/shared/context'
+import { SPACING } from '@/shared/theme'
 import type { URLParams } from '@/shared/types'
+import { router, useLocalSearchParams } from 'expo-router'
+import * as React from 'react'
+import { SafeAreaView, StyleSheet, View } from 'react-native'
 import 'react-native-get-random-values'
 import { ActivityIndicator } from 'react-native-paper'
 import { v4 as uuidv4 } from 'uuid'
@@ -37,7 +37,7 @@ const AddIdea = () => {
     router.navigate('/')
   }, [])
 
-  const handleSubmit = React.useCallback(async () => {
+  const saveIdea = React.useCallback(async () => {
     if (!params.labelId) {
       return
     }
@@ -49,10 +49,18 @@ const AddIdea = () => {
       createdAt: new Date().toISOString(),
     }
     await queries.insert.idea(idea)
+  }, [ideaText, params.labelId])
 
+  const handleSave = React.useCallback(async () => {
+    await saveIdea()
     setIdeaText('')
     router.navigate('/')
-  }, [ideaText, params.labelId])
+  }, [saveIdea])
+
+  const handleSaveAndAnother = React.useCallback(async () => {
+    await saveIdea()
+    setIdeaText('')
+  }, [saveIdea])
 
   if (label === null) {
     return (
@@ -75,25 +83,50 @@ const AddIdea = () => {
           autoFocus={true} //eslint-disable-line
         />
       </View>
-      <ButtonWrapper
-        left={
-          <Button variant="link" color="warning" onPress={handleCancel}>
+      <View style={styles.buttonRow}>
+        <View style={styles.buttonSmall}>
+          <Button variant="filled" color="warning" onPress={handleCancel}>
             Close
           </Button>
-        }
-        right={
+        </View>
+        <View style={styles.buttonFlex}>
+          <Button
+            disabled={ideaText.length === 0}
+            variant="link"
+            color="primary"
+            onPress={handleSave}
+          >
+            Save
+          </Button>
+        </View>
+        <View style={styles.buttonFlex}>
           <Button
             disabled={ideaText.length === 0}
             variant="filled"
             color="primary"
-            onPress={handleSubmit}
+            onPress={handleSaveAndAnother}
           >
-            Save
+            Save & Another
           </Button>
-        }
-      />
+        </View>
+      </View>
     </PageWrapper>
   )
 }
+
+const styles = StyleSheet.create({
+  buttonRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: SPACING.MEDIUM,
+    gap: SPACING.SMALL,
+  },
+  buttonSmall: {
+    width: 60,
+  },
+  buttonFlex: {
+    flex: 1,
+  },
+})
 
 export default AddIdea

@@ -1,8 +1,8 @@
+import type { SelectLabel } from '@/db/schema'
 import type * as React from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { Modal, Portal } from 'react-native-paper'
-import type { SelectLabel } from '@/db/schema'
 
 import { COLORS, SPACING } from '../theme'
 import Button from './Button'
@@ -54,7 +54,7 @@ const LabelFilterModal: React.FC<Props> = ({
           </ScrollView>
           <ButtonWrapper
             full={
-              <Button variant="link" color="warning" onPress={onCancel}>
+              <Button variant="filled" color="warning" onPress={onCancel}>
                 Close
               </Button>
             }

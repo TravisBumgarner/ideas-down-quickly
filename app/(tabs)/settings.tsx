@@ -1,10 +1,3 @@
-import * as Sentry from '@sentry/react-native'
-import * as DocumentPicker from 'expo-document-picker'
-import * as FileSystem from 'expo-file-system'
-import { router } from 'expo-router'
-import * as Sharing from 'expo-sharing'
-import * as React from 'react'
-import { Linking, View } from 'react-native'
 import queries from '@/db/queries'
 import { IdeaRunType, LabelRunType } from '@/db/schema'
 import Button from '@/shared/components/Button'
@@ -14,6 +7,13 @@ import PageWrapper from '@/shared/components/PageWrapper'
 import Typography from '@/shared/components/Typography'
 import { context } from '@/shared/context'
 import { SPACING } from '@/shared/theme'
+import * as Sentry from '@sentry/react-native'
+import * as DocumentPicker from 'expo-document-picker'
+import * as FileSystem from 'expo-file-system'
+import { router } from 'expo-router'
+import * as Sharing from 'expo-sharing'
+import * as React from 'react'
+import { Linking, View } from 'react-native'
 
 const Settings = () => {
   const { dispatch } = React.useContext(context)
@@ -141,7 +141,7 @@ const Settings = () => {
             vertical={[
               <Button
                 key="backup"
-                variant="link"
+                variant="filled"
                 color="primary"
                 onPress={handleBackup}
                 disabled={isProcessing}
@@ -150,7 +150,7 @@ const Settings = () => {
               </Button>,
               <Button
                 key="restore"
-                variant="link"
+                variant="filled"
                 color="primary"
                 onPress={handleRestore}
                 disabled={isProcessing}
@@ -159,7 +159,7 @@ const Settings = () => {
               </Button>,
               <Button
                 key="delete"
-                variant="link"
+                variant="filled"
                 color="warning"
                 onPress={handleDeleteConfirm}
               >

@@ -84,7 +84,9 @@ const LabelSelect = () => {
             Ideas are grouped by Category
           </Typography>
           {hasArchivedLabels && (
-            <View style={styles.toggleContainer}>
+            <View
+              style={[styles.toggleContainer, { marginTop: SPACING.LARGE }]}
+            >
               <Text style={styles.toggleLabel}>Show Archived</Text>
               <Switch
                 value={showArchived}

@@ -4,17 +4,17 @@ export type ChangelogEntry = {
   changes: string[]
 }
 
-export const CURRENT_VERSION = '1.4.3'
+export const CURRENT_VERSION = '1.4.4'
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
-    version: '1.4.3',
+    version: '1.4.4',
     date: '2026-01-24',
     changes: [
-      'Added ability to archive labels',
+      'Added ability to archive categories',
       'Added changelog modal for new version notifications',
       'Improved Reflect page performance with virtual scrolling',
-      'Fixed new labels without ideas always appearing first',
+      'Fixed new categories without ideas always appearing first',
       'Limited idea input to 10 lines with scroll',
       'Save & Another button allows quick addition of multiple ideas',
     ],

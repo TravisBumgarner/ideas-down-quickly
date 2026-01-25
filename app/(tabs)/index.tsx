@@ -14,11 +14,19 @@ import { navigateWithParams } from '@/shared/utilities'
 
 const LabelSelect = () => {
   const [labels, setLabels] = React.useState<SelectLabel[] | null>(null)
+  const [hasArchivedLabels, setHasArchivedLabels] = React.useState(false)
   const [showArchived, setShowArchived] = React.useState(false)
   const { dispatch } = React.useContext(context)
 
-  const fetchLabels = React.useCallback(() => {
-    queries.select.labels({ includeArchived: showArchived }).then(setLabels)
+  const fetchLabels = React.useCallback(async () => {
+    const fetchedLabels = await queries.select.labels({
+      includeArchived: showArchived,
+    })
+    setLabels(fetchedLabels)
+
+    // Check if there are any archived labels
+    const allLabels = await queries.select.labels({ includeArchived: true })
+    setHasArchivedLabels(allLabels.some(l => l.isArchived === 1))
   }, [showArchived])
 
   useFocusEffect(
@@ -75,6 +83,16 @@ const LabelSelect = () => {
           >
             Ideas are grouped by Category
           </Typography>
+          {hasArchivedLabels && (
+            <View style={styles.toggleContainer}>
+              <Text style={styles.toggleLabel}>Show Archived</Text>
+              <Switch
+                value={showArchived}
+                onValueChange={setShowArchived}
+                color={COLORS.PRIMARY[300]}
+              />
+            </View>
+          )}
         </View>
       </PageWrapper>
     )
@@ -109,6 +127,7 @@ const LabelSelect = () => {
                   icon={icon}
                   text={text}
                   id={id}
+                  isArchived={isArchived === 1}
                   handlePress={() =>
                     navigateWithParams('add-idea', { labelId: id })
                   }
@@ -119,7 +138,7 @@ const LabelSelect = () => {
           )}
           {labels.length < 3 && (
             <Typography style={{ textAlign: 'center' }} variant="caption">
-              Swipe right to archive, left to edit
+              Swipe right to archive/restore, left to edit
             </Typography>
           )}
         </ScrollView>

@@ -16,6 +16,7 @@ type Props = {
   handlePress?: () => void
   disableSideSwipe?: boolean
   onArchive?: () => void
+  isArchived?: boolean
 }
 
 const Label = ({
@@ -27,6 +28,7 @@ const Label = ({
   handlePress,
   disableSideSwipe,
   onArchive,
+  isArchived,
 }: Props) => {
   const swipeableRef = useRef<Swipeable>(null)
 
@@ -48,10 +50,14 @@ const Label = ({
         onPress={handleArchive}
         style={StyleSheet.flatten([styles.swipeableBase, styles.swipeableLeft])}
       >
-        <Icon source="archive" size={24} color={COLORS.WARNING[300]} />
+        <Icon
+          source={isArchived ? 'archive-arrow-up' : 'archive'}
+          size={24}
+          color={isArchived ? COLORS.PRIMARY[300] : COLORS.WARNING[300]}
+        />
       </TouchableOpacity>
     )
-  }, [handleArchive, disableSideSwipe])
+  }, [handleArchive, disableSideSwipe, isArchived])
 
   const renderRightActions = useCallback(() => {
     if (disableSideSwipe) return null
@@ -86,8 +92,12 @@ const Label = ({
       >
         <Icon source={icon} size={24} color={color} />
         <View style={styles.textContainer}>
-          {/* For some reason no text adjusts the height of the Typography element */}
-          <Typography variant="h2">{text.length > 0 ? text : ' '}</Typography>
+          <View style={styles.titleRow}>
+            <Typography variant="h2">{text.length > 0 ? text : ' '}</Typography>
+            {isArchived && (
+              <Icon source="archive" size={16} color={COLORS.WARNING[300]} />
+            )}
+          </View>
           <Text style={styles.dateText}>
             {lastUsedAt
               ? `Last ideated ${timeAgo(lastUsedAt)}`
@@ -131,6 +141,11 @@ const styles = StyleSheet.create({
   textContainer: {
     flexDirection: 'column',
     marginHorizontal: SPACING.MEDIUM,
+  },
+  titleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: SPACING.SMALL,
   },
 })
 

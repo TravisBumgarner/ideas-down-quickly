@@ -1,6 +1,3 @@
-import { router, useLocalSearchParams } from 'expo-router'
-import * as React from 'react'
-import { SafeAreaView, StyleSheet, View } from 'react-native'
 import queries from '@/db/queries'
 import type { NewIdea, SelectLabel } from '@/db/schema'
 import Button from '@/shared/components/Button'
@@ -9,6 +6,9 @@ import TextInput from '@/shared/components/TextInput'
 import { context } from '@/shared/context'
 import { SPACING } from '@/shared/theme'
 import type { URLParams } from '@/shared/types'
+import { router, useLocalSearchParams } from 'expo-router'
+import * as React from 'react'
+import { SafeAreaView, StyleSheet, View } from 'react-native'
 import 'react-native-get-random-values'
 import { ActivityIndicator } from 'react-native-paper'
 import { v4 as uuidv4 } from 'uuid'
@@ -85,8 +85,8 @@ const AddIdea = () => {
       </View>
       <View style={styles.buttonRow}>
         <View style={styles.buttonSmall}>
-          <Button variant="link" color="warning" onPress={handleCancel}>
-            X
+          <Button variant="filled" color="warning" onPress={handleCancel}>
+            Close
           </Button>
         </View>
         <View style={styles.buttonFlex}>
@@ -106,7 +106,7 @@ const AddIdea = () => {
             color="primary"
             onPress={handleSaveAndAnother}
           >
-            Save +
+            Save & Another
           </Button>
         </View>
       </View>

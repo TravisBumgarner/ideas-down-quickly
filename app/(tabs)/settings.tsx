@@ -201,6 +201,33 @@ const Settings = () => {
     }
   }
 
+  const handleICloudBackup = async () => {
+    setIsProcessing(true)
+    try {
+      const result = await backupToICloud()
+      if (result.success) {
+        setICloudBackupDate(new Date().toISOString())
+        dispatch({
+          type: 'TOAST',
+          payload: { message: 'Backup to iCloud successful', variant: 'SUCCESS' },
+        })
+      } else {
+        dispatch({
+          type: 'TOAST',
+          payload: { message: result.error || 'Backup failed', variant: 'ERROR' },
+        })
+      }
+    } catch (error) {
+      Sentry.captureException(error)
+      dispatch({
+        type: 'TOAST',
+        payload: { message: 'Backup failed', variant: 'ERROR' },
+      })
+    } finally {
+      setIsProcessing(false)
+    }
+  }
+
   return (
     <PageWrapper>
       <View
@@ -270,20 +297,30 @@ const Settings = () => {
             </View>
             {iCloudBackupDate && (
               <Text style={{ color: COLORS.NEUTRAL[300], marginBottom: SPACING.SMALL }}>
-                Last backup: {new Date(iCloudBackupDate).toLocaleDateString()}
+                Last backup: {new Date(iCloudBackupDate).toLocaleString()}
               </Text>
             )}
             <ButtonWrapper
-              full={
+              vertical={[
                 <Button
+                  key="backup"
+                  variant="filled"
+                  color="primary"
+                  onPress={handleICloudBackup}
+                  disabled={isProcessing}
+                >
+                  Backup to iCloud
+                </Button>,
+                <Button
+                  key="restore"
                   variant="filled"
                   color="primary"
                   onPress={handleICloudRestore}
                   disabled={isProcessing}
                 >
                   Restore from iCloud
-                </Button>
-              }
+                </Button>,
+              ]}
             />
           </View>
         )}

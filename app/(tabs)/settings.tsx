@@ -5,6 +5,7 @@ import { router } from 'expo-router'
 import * as Sharing from 'expo-sharing'
 import * as React from 'react'
 import { Linking, View } from 'react-native'
+import { Switch, Text } from 'react-native-paper'
 import queries from '@/db/queries'
 import { IdeaRunType, LabelRunType } from '@/db/schema'
 import Button from '@/shared/components/Button'
@@ -13,12 +14,33 @@ import ChangelogModal from '@/shared/components/ChangelogModal'
 import PageWrapper from '@/shared/components/PageWrapper'
 import Typography from '@/shared/components/Typography'
 import { context } from '@/shared/context'
-import { SPACING } from '@/shared/theme'
+import {
+  backupToICloud,
+  getICloudBackupEnabled,
+  getICloudBackupInfo,
+  isIOS,
+  restoreFromICloud,
+  setICloudBackupEnabled,
+} from '@/shared/icloud'
+import { COLORS, SPACING } from '@/shared/theme'
 
 const Settings = () => {
   const { dispatch } = React.useContext(context)
   const [isProcessing, setIsProcessing] = React.useState(false)
   const [isChangelogVisible, setIsChangelogVisible] = React.useState(false)
+  const [iCloudEnabled, setICloudEnabled] = React.useState(false)
+  const [iCloudBackupDate, setICloudBackupDate] = React.useState<string | null>(null)
+
+  React.useEffect(() => {
+    if (isIOS) {
+      getICloudBackupEnabled().then(setICloudEnabled)
+      getICloudBackupInfo().then(info => {
+        if (info.exists && info.backupDate) {
+          setICloudBackupDate(info.backupDate)
+        }
+      })
+    }
+  }, [])
 
   const handleBackup = async () => {
     setIsProcessing(true)
@@ -87,7 +109,12 @@ const Settings = () => {
 
       try {
         const ideas = rawIdeas.map(idea => IdeaRunType.check(idea))
-        const labels = rawLabels.map(label => LabelRunType.check(label))
+        const labels = rawLabels.map(label =>
+          LabelRunType.check({
+            ...label,
+            isArchived: label.isArchived ?? 0,
+          })
+        )
 
         await queries.delete.everything()
 
@@ -123,6 +150,56 @@ const Settings = () => {
   const handleDeleteConfirm = React.useCallback(() => {
     router.navigate('/delete-database')
   }, [])
+
+  const handleICloudToggle = async (value: boolean) => {
+    setICloudEnabled(value)
+    await setICloudBackupEnabled(value)
+    if (value) {
+      setIsProcessing(true)
+      const result = await backupToICloud()
+      setIsProcessing(false)
+      if (result.success) {
+        setICloudBackupDate(new Date().toISOString())
+        dispatch({
+          type: 'TOAST',
+          payload: { message: 'iCloud backup enabled', variant: 'SUCCESS' },
+        })
+      } else {
+        setICloudEnabled(false)
+        await setICloudBackupEnabled(false)
+        dispatch({
+          type: 'TOAST',
+          payload: { message: result.error || 'iCloud backup failed', variant: 'ERROR' },
+        })
+      }
+    }
+  }
+
+  const handleICloudRestore = async () => {
+    setIsProcessing(true)
+    try {
+      const result = await restoreFromICloud()
+      if (result.success) {
+        dispatch({
+          type: 'TOAST',
+          payload: { message: 'Restore from iCloud successful', variant: 'SUCCESS' },
+        })
+      } else {
+        dispatch({
+          type: 'TOAST',
+          payload: { message: result.error || 'Restore failed', variant: 'ERROR' },
+        })
+      }
+    } catch (error) {
+      Sentry.captureException(error)
+      dispatch({
+        type: 'TOAST',
+        payload: { message: 'Restore failed', variant: 'ERROR' },
+      })
+    } finally {
+      setIsProcessing(false)
+    }
+  }
 
   return (
     <PageWrapper>
@@ -168,6 +245,48 @@ const Settings = () => {
             ]}
           />
         </View>
+
+        {isIOS && (
+          <View style={{ marginTop: SPACING.XLARGE }}>
+            <Typography variant="h2">iCloud Backup</Typography>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                marginTop: SPACING.SMALL,
+                marginBottom: SPACING.SMALL,
+              }}
+            >
+              <Text style={{ color: COLORS.NEUTRAL[100] }}>
+                Auto-backup daily
+              </Text>
+              <Switch
+                value={iCloudEnabled}
+                onValueChange={handleICloudToggle}
+                disabled={isProcessing}
+                color={COLORS.PRIMARY[300]}
+              />
+            </View>
+            {iCloudBackupDate && (
+              <Text style={{ color: COLORS.NEUTRAL[300], marginBottom: SPACING.SMALL }}>
+                Last backup: {new Date(iCloudBackupDate).toLocaleDateString()}
+              </Text>
+            )}
+            <ButtonWrapper
+              full={
+                <Button
+                  variant="filled"
+                  color="primary"
+                  onPress={handleICloudRestore}
+                  disabled={isProcessing}
+                >
+                  Restore from iCloud
+                </Button>
+              }
+            />
+          </View>
+        )}
 
         <View style={{ marginTop: SPACING.XLARGE }}>
           <Typography variant="h2">Feedback & Support</Typography>

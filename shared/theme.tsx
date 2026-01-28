@@ -128,6 +128,40 @@ export type SemanticColors = {
   error: string
 }
 
-export const DARK_THEME: SemanticColors = {} as SemanticColors
+export const DARK_THEME: SemanticColors = {
+  background: COLORS.NEUTRAL[800],
+  surface: COLORS.NEUTRAL[700],
+  surfaceVariant: COLORS.NEUTRAL[900],
+  textPrimary: COLORS.NEUTRAL[100],
+  textSecondary: COLORS.NEUTRAL[300],
+  textDisabled: COLORS.NEUTRAL[400],
+  border: COLORS.NEUTRAL[600],
+  tabBar: COLORS.NEUTRAL[800],
+  tabBarLabel: COLORS.NEUTRAL[300],
+  tabBarActive: COLORS.PRIMARY[300],
+  switchActive: COLORS.PRIMARY[300],
+  primary: COLORS.PRIMARY[300],
+  secondary: COLORS.SECONDARY[300],
+  success: COLORS.SUCCESS[300],
+  warning: COLORS.WARNING[300],
+  error: COLORS.ERROR[300],
+}
 
-export const LIGHT_THEME: SemanticColors = {} as SemanticColors
+export const LIGHT_THEME: SemanticColors = {
+  background: COLORS.NEUTRAL[100],
+  surface: COLORS.NEUTRAL[200],
+  surfaceVariant: COLORS.MISC.WHITE,
+  textPrimary: COLORS.NEUTRAL[1000],
+  textSecondary: COLORS.NEUTRAL[600],
+  textDisabled: COLORS.NEUTRAL[500],
+  border: COLORS.NEUTRAL[300],
+  tabBar: COLORS.NEUTRAL[100],
+  tabBarLabel: COLORS.NEUTRAL[600],
+  tabBarActive: COLORS.PRIMARY[400],
+  switchActive: COLORS.PRIMARY[400],
+  primary: COLORS.PRIMARY[400],
+  secondary: COLORS.SECONDARY[400],
+  success: COLORS.SUCCESS[400],
+  warning: COLORS.WARNING[400],
+  error: COLORS.ERROR[400],
+}

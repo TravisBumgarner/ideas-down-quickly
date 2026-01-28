@@ -51,7 +51,7 @@ tasks:
       - Existing exports (COLORS, SPACING, BORDER_RADIUS, BORDER_WIDTH) untouched
     depends_on: []
     effort: 2
-    status: testing
+    status: implementing
 
   - id: 2
     github_issue: 105

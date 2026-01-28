@@ -12,12 +12,6 @@ export const CHANGELOG: ChangelogEntry[] = [
     date: '2026-01-28',
     changes: [
       'Added light theme with system, light, and dark mode options in Settings',
-    ],
-  },
-  {
-    version: '1.5.1',
-    date: '2026-01-26',
-    changes: [
       'Added iCloud backup. Users are opted out by default; enable in Settings.',
     ],
   },

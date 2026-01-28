@@ -22,11 +22,8 @@ import { getValueFromKeyStore, saveValueToKeyStore } from '@/shared/utilities'
 
 Sentry.init({
   dsn: 'https://64ffbe37c5fcfb045fa5ac415b9e5d16@o196886.ingest.us.sentry.io/4507545983385600',
-  // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
-  // We recommend adjusting this value in production.
+  enabled: !__DEV__,
   tracesSampleRate: 1.0,
-  // profilesSampleRate is relative to tracesSampleRate.
-  // Here, we'll capture profiles for 100% of transactions.
   profilesSampleRate: 1.0,
 })
 

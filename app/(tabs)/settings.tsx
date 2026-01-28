@@ -42,10 +42,20 @@ const Settings = () => {
   )
   const [isRestoreModalVisible, setIsRestoreModalVisible] =
     React.useState(false)
+  const [hasData, setHasData] = React.useState(false)
 
   const fetchICloudBackups = React.useCallback(async () => {
     const backups = await getAvailableICloudBackups()
     setICloudBackups(backups)
+  }, [])
+
+  React.useEffect(() => {
+    const checkData = async () => {
+      const labels = await queries.select.labels()
+      const ideas = await queries.select.ideas()
+      setHasData(labels.length > 0 || ideas.length > 0)
+    }
+    checkData()
   }, [])
 
   React.useEffect(() => {
@@ -320,7 +330,7 @@ const Settings = () => {
                 variant="filled"
                 color="primary"
                 onPress={handleBackup}
-                disabled={isProcessing}
+                disabled={isProcessing || !hasData}
               >
                 Backup
               </Button>
@@ -387,7 +397,7 @@ const Settings = () => {
                   variant="filled"
                   color="primary"
                   onPress={handleICloudBackup}
-                  disabled={isProcessing}
+                  disabled={isProcessing || !hasData}
                 >
                   Backup
                 </Button>

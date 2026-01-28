@@ -103,16 +103,22 @@ export async function backupToICloud(): Promise<{ success: boolean; error?: stri
   }
 }
 
-export async function getAvailableICloudBackups(): Promise<
-  { filename: string; backupDate: string }[]
-> {
+export type ICloudBackupEntry = {
+  filename: string
+  backupDate: string
+  ideaCount: number
+  labelCount: number
+  sizeBytes: number
+}
+
+export async function getAvailableICloudBackups(): Promise<ICloudBackupEntry[]> {
   if (!isIOS) return []
 
   try {
     const available = await CloudStorage.isCloudAvailable()
     if (!available) return []
 
-    const backups: { filename: string; backupDate: string }[] = []
+    const backups: ICloudBackupEntry[] = []
 
     const filesToCheck = [
       ...Array.from({ length: BACKUP_SLOTS }, (_, i) => getBackupFilename(i)),
@@ -127,7 +133,13 @@ export async function getAvailableICloudBackups(): Promise<
         const content = await CloudStorage.readFile(filename)
         const data = JSON.parse(content)
         if (data.backupDate) {
-          backups.push({ filename, backupDate: data.backupDate })
+          backups.push({
+            filename,
+            backupDate: data.backupDate,
+            ideaCount: Array.isArray(data.ideas) ? data.ideas.length : 0,
+            labelCount: Array.isArray(data.labels) ? data.labels.length : 0,
+            sizeBytes: content.length,
+          })
         }
       } catch {
         // Skip files that can't be read or parsed

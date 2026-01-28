@@ -16,6 +16,7 @@ import PageWrapper from '@/shared/components/PageWrapper'
 import Typography from '@/shared/components/Typography'
 import { context } from '@/shared/context'
 import {
+  type ICloudBackupEntry,
   backupToICloud,
   getAvailableICloudBackups,
   getICloudBackupEnabled,
@@ -32,7 +33,7 @@ const Settings = () => {
   const [isChangelogVisible, setIsChangelogVisible] = React.useState(false)
   const [iCloudEnabled, setICloudEnabled] = React.useState(false)
   const [iCloudBackupDate, setICloudBackupDate] = React.useState<string | null>(null)
-  const [iCloudBackups, setICloudBackups] = React.useState<{ filename: string; backupDate: string }[]>([])
+  const [iCloudBackups, setICloudBackups] = React.useState<ICloudBackupEntry[]>([])
   const [isRestoreModalVisible, setIsRestoreModalVisible] = React.useState(false)
 
   const fetchICloudBackups = React.useCallback(async () => {

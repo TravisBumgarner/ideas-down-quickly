@@ -13,6 +13,8 @@ export const CHANGELOG: ChangelogEntry[] = [
     changes: [
       'Added light theme with system, light, and dark mode options in Settings',
       'Added iCloud backup. Users are opted out by default; enable in Settings.',
+      'Improvements to backup and restore',
+      'More colors for categories',
     ],
   },
   {

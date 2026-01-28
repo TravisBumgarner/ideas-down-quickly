@@ -81,8 +81,68 @@ export const COLORS = {
     '27': '#b3f0ff',
     '28': '#d6b3ff',
     '29': '#FFB3FF',
+    '30': '#990000',
+    '31': '#994D00',
+    '32': '#999900',
+    '33': '#4D9900',
+    '34': '#009933',
+    '35': '#009999',
+    '36': '#004D99',
+    '37': '#000099',
+    '38': '#4D0099',
+    '39': '#990099',
   },
 } as const
+
+export const LABEL_COLOR_ROWS: [string[], string[]] = [
+  [
+    // Vivid rainbow
+    COLORS.LABELS['1'],
+    COLORS.LABELS['2'],
+    COLORS.LABELS['3'],
+    COLORS.LABELS['4'],
+    COLORS.LABELS['5'],
+    COLORS.LABELS['6'],
+    COLORS.LABELS['7'],
+    COLORS.LABELS['8'],
+    COLORS.LABELS['9'],
+    COLORS.LABELS['10'],
+    COLORS.LABELS['11'],
+    COLORS.LABELS['12'],
+    COLORS.LABELS['13'],
+    // Grays
+    COLORS.LABELS['14'],
+    COLORS.LABELS['15'],
+    COLORS.LABELS['16'],
+    COLORS.LABELS['17'],
+    COLORS.LABELS['18'],
+    COLORS.LABELS['19'],
+  ],
+  [
+    // Pastels
+    COLORS.LABELS['20'],
+    COLORS.LABELS['21'],
+    COLORS.LABELS['22'],
+    COLORS.LABELS['23'],
+    COLORS.LABELS['24'],
+    COLORS.LABELS['25'],
+    COLORS.LABELS['26'],
+    COLORS.LABELS['27'],
+    COLORS.LABELS['28'],
+    COLORS.LABELS['29'],
+    // Darks
+    COLORS.LABELS['30'],
+    COLORS.LABELS['31'],
+    COLORS.LABELS['32'],
+    COLORS.LABELS['33'],
+    COLORS.LABELS['34'],
+    COLORS.LABELS['35'],
+    COLORS.LABELS['36'],
+    COLORS.LABELS['37'],
+    COLORS.LABELS['38'],
+    COLORS.LABELS['39'],
+  ],
+]
 
 export const BORDER_RADIUS = {
   NONE: 0,

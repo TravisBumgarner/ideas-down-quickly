@@ -173,6 +173,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: SPACING.MEDIUM,
+    marginTop: SPACING.MEDIUM,
     paddingHorizontal: SPACING.MEDIUM,
     paddingVertical: SPACING.SMALL,
   },

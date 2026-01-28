@@ -18,7 +18,7 @@ import PageWrapper from '@/shared/components/PageWrapper'
 import TextInput from '@/shared/components/TextInput'
 import { context } from '@/shared/context'
 import { useTheme } from '@/shared/ThemeContext'
-import { BORDER_WIDTH, COLORS, SPACING } from '@/shared/theme'
+import { BORDER_WIDTH, COLORS, LABEL_COLOR_ROWS, SPACING } from '@/shared/theme'
 import type { URLParams } from '@/shared/types'
 import 'react-native-get-random-values'
 
@@ -50,6 +50,14 @@ const IdeaEdit = () => {
     setLastUsedAt(label.lastUsedAt)
     setIsLoading(false)
   }, [params.labelId])
+
+  const colorScrollRef = React.useRef<ScrollView>(null)
+  const iconScrollRef = React.useRef<ScrollView>(null)
+
+  React.useEffect(() => {
+    colorScrollRef.current?.flashScrollIndicators()
+    iconScrollRef.current?.flashScrollIndicators()
+  }, [])
 
   const handleCancel = React.useCallback(() => {
     router.navigate('/')
@@ -103,24 +111,25 @@ const IdeaEdit = () => {
             paddingBottom: SPACING.SMALL,
           }}
         >
-          <ScrollView
-            horizontal
-            style={{
-              flexDirection: 'row',
-            }}
-          >
-            {Object.values(COLORS.LABELS).map(color => (
-              <TouchableOpacity
-                key={color}
-                style={{
-                  margin: SPACING.XXSMALL,
-                  backgroundColor: color,
-                  width: 35,
-                  height: 35,
-                }}
-                onPress={() => setColor(color)}
-              />
-            ))}
+          <ScrollView horizontal ref={colorScrollRef}>
+            <View>
+              {LABEL_COLOR_ROWS.map((row, rowIndex) => (
+                <View key={rowIndex} style={{ flexDirection: 'row' }}>
+                  {row.map(color => (
+                    <TouchableOpacity
+                      key={color}
+                      style={{
+                        margin: SPACING.XXSMALL,
+                        backgroundColor: color,
+                        width: 35,
+                        height: 35,
+                      }}
+                      onPress={() => setColor(color)}
+                    />
+                  ))}
+                </View>
+              ))}
+            </View>
           </ScrollView>
         </View>
         <View
@@ -134,6 +143,7 @@ const IdeaEdit = () => {
           }}
         >
           <ScrollView
+            ref={iconScrollRef}
             contentContainerStyle={{
               flexDirection: 'row',
               flexWrap: 'wrap',

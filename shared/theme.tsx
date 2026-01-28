@@ -91,6 +91,7 @@ export const COLORS = {
     '37': '#000099',
     '38': '#4D0099',
     '39': '#990099',
+    '40': '#909090',
   },
 } as const
 
@@ -114,6 +115,7 @@ export const LABEL_COLOR_ROWS: [string[], string[]] = [
     COLORS.LABELS['14'],
     COLORS.LABELS['15'],
     COLORS.LABELS['16'],
+    COLORS.LABELS['40'],
     COLORS.LABELS['17'],
     COLORS.LABELS['18'],
     COLORS.LABELS['19'],

@@ -4,18 +4,20 @@ import * as FileSystem from 'expo-file-system'
 import { router } from 'expo-router'
 import * as Sharing from 'expo-sharing'
 import * as React from 'react'
-import { Linking, View } from 'react-native'
+import { Alert, Linking, ScrollView, View } from 'react-native'
 import { Switch, Text } from 'react-native-paper'
 import queries from '@/db/queries'
 import { IdeaRunType, LabelRunType } from '@/db/schema'
 import Button from '@/shared/components/Button'
 import ButtonWrapper from '@/shared/components/ButtonWrapper'
 import ChangelogModal from '@/shared/components/ChangelogModal'
+import ICloudRestoreModal from '@/shared/components/ICloudRestoreModal'
 import PageWrapper from '@/shared/components/PageWrapper'
 import Typography from '@/shared/components/Typography'
 import { context } from '@/shared/context'
 import {
   backupToICloud,
+  getAvailableICloudBackups,
   getICloudBackupEnabled,
   getICloudBackupInfo,
   isIOS,
@@ -30,6 +32,13 @@ const Settings = () => {
   const [isChangelogVisible, setIsChangelogVisible] = React.useState(false)
   const [iCloudEnabled, setICloudEnabled] = React.useState(false)
   const [iCloudBackupDate, setICloudBackupDate] = React.useState<string | null>(null)
+  const [iCloudBackups, setICloudBackups] = React.useState<{ filename: string; backupDate: string }[]>([])
+  const [isRestoreModalVisible, setIsRestoreModalVisible] = React.useState(false)
+
+  const fetchICloudBackups = React.useCallback(async () => {
+    const backups = await getAvailableICloudBackups()
+    setICloudBackups(backups)
+  }, [])
 
   React.useEffect(() => {
     if (isIOS) {
@@ -39,8 +48,9 @@ const Settings = () => {
           setICloudBackupDate(info.backupDate)
         }
       })
+      fetchICloudBackups()
     }
-  }, [])
+  }, [fetchICloudBackups])
 
   const handleBackup = async () => {
     setIsProcessing(true)
@@ -160,6 +170,7 @@ const Settings = () => {
       setIsProcessing(false)
       if (result.success) {
         setICloudBackupDate(new Date().toISOString())
+        fetchICloudBackups()
         dispatch({
           type: 'TOAST',
           payload: { message: 'iCloud backup enabled', variant: 'SUCCESS' },
@@ -175,30 +186,44 @@ const Settings = () => {
     }
   }
 
-  const handleICloudRestore = async () => {
-    setIsProcessing(true)
-    try {
-      const result = await restoreFromICloud()
-      if (result.success) {
-        dispatch({
-          type: 'TOAST',
-          payload: { message: 'Restore from iCloud successful', variant: 'SUCCESS' },
-        })
-      } else {
-        dispatch({
-          type: 'TOAST',
-          payload: { message: result.error || 'Restore failed', variant: 'ERROR' },
-        })
-      }
-    } catch (error) {
-      Sentry.captureException(error)
-      dispatch({
-        type: 'TOAST',
-        payload: { message: 'Restore failed', variant: 'ERROR' },
-      })
-    } finally {
-      setIsProcessing(false)
-    }
+  const handleICloudRestore = (filename: string) => {
+    setIsRestoreModalVisible(false)
+    Alert.alert(
+      'Restore from iCloud',
+      'This will replace all current local data with the iCloud backup. This action cannot be undone. Are you sure?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Restore',
+          style: 'destructive',
+          onPress: async () => {
+            setIsProcessing(true)
+            try {
+              const result = await restoreFromICloud(filename)
+              if (result.success) {
+                dispatch({
+                  type: 'TOAST',
+                  payload: { message: 'Restore from iCloud successful', variant: 'SUCCESS' },
+                })
+              } else {
+                dispatch({
+                  type: 'TOAST',
+                  payload: { message: result.error || 'Restore failed', variant: 'ERROR' },
+                })
+              }
+            } catch (error) {
+              Sentry.captureException(error)
+              dispatch({
+                type: 'TOAST',
+                payload: { message: 'Restore failed', variant: 'ERROR' },
+              })
+            } finally {
+              setIsProcessing(false)
+            }
+          },
+        },
+      ]
+    )
   }
 
   const handleICloudBackup = async () => {
@@ -207,6 +232,7 @@ const Settings = () => {
       const result = await backupToICloud()
       if (result.success) {
         setICloudBackupDate(new Date().toISOString())
+        fetchICloudBackups()
         dispatch({
           type: 'TOAST',
           payload: { message: 'Backup to iCloud successful', variant: 'SUCCESS' },
@@ -230,7 +256,7 @@ const Settings = () => {
 
   return (
     <PageWrapper>
-      <View
+      <ScrollView
         style={{
           flex: 1,
         }}
@@ -286,7 +312,7 @@ const Settings = () => {
               }}
             >
               <Text style={{ color: COLORS.NEUTRAL[100] }}>
-                Auto-backup daily
+                Auto-backup weekly
               </Text>
               <Switch
                 value={iCloudEnabled}
@@ -315,7 +341,7 @@ const Settings = () => {
                   key="restore"
                   variant="filled"
                   color="primary"
-                  onPress={handleICloudRestore}
+                  onPress={() => setIsRestoreModalVisible(true)}
                   disabled={isProcessing}
                 >
                   Restore from iCloud
@@ -355,12 +381,19 @@ const Settings = () => {
             }
           />
         </View>
-      </View>
+      </ScrollView>
 
       <ChangelogModal
         visible={isChangelogVisible}
         onDismiss={() => setIsChangelogVisible(false)}
         showFullChangelog={true}
+      />
+
+      <ICloudRestoreModal
+        visible={isRestoreModalVisible}
+        onDismiss={() => setIsRestoreModalVisible(false)}
+        onRestore={handleICloudRestore}
+        backups={iCloudBackups}
       />
     </PageWrapper>
   )

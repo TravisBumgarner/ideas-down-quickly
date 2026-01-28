@@ -16,7 +16,7 @@ import {
 import ChangelogModal from '@/shared/components/ChangelogModal'
 import Toast from '@/shared/components/Toast'
 import Context from '@/shared/context'
-import { performDailyBackupIfNeeded } from '@/shared/icloud'
+import { performWeeklyBackupIfNeeded } from '@/shared/icloud'
 import { getValueFromKeyStore, saveValueToKeyStore } from '@/shared/utilities'
 
 Sentry.init({
@@ -91,8 +91,8 @@ const AppWrapper = () => {
   useEffect(() => {
     if (success && !changelogChecked) {
       const checkChangelog = async () => {
-        // Perform daily iCloud backup if enabled
-        performDailyBackupIfNeeded()
+        // Perform weekly iCloud backup if enabled
+        performWeeklyBackupIfNeeded()
 
         const lastSeenVersion = await getValueFromKeyStore(
           LAST_SEEN_CHANGELOG_VERSION_KEY

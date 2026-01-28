@@ -1,10 +1,12 @@
 import * as React from 'react'
 import { Snackbar, Text } from 'react-native-paper'
 
+import { useTheme } from '../ThemeContext'
 import { context } from '../context'
 import { BORDER_RADIUS, COLORS, SPACING } from '../theme'
 
 const Toast = () => {
+  const { colors } = useTheme()
   const {
     state: { toast },
     dispatch,
@@ -35,7 +37,7 @@ const Toast = () => {
       <Text
         style={{
           textAlign: 'center',
-          color: COLORS.NEUTRAL[100],
+          color: colors.textPrimary,
           fontWeight: 'bold',
         }}
       >

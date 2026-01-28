@@ -1,6 +1,7 @@
 import { StyleSheet, View } from 'react-native'
 import { Text, TextInput as TextInputRNP } from 'react-native-paper'
 
+import { useTheme } from '../ThemeContext'
 import { BORDER_WIDTH, COLORS, SPACING } from '../theme'
 
 type Props = {
@@ -24,11 +25,12 @@ const TextInput: React.FC<Props> = ({
   autoFocus,
   maxLines,
 }) => {
+  const { colors } = useTheme()
   const maxHeight = maxLines ? maxLines * LINE_HEIGHT : undefined
 
   return (
     <View style={styles.container}>
-      {label && <Text style={styles.label}>{label}</Text>}
+      {label && <Text style={[styles.label, { color: colors.textDisabled }]}>{label}</Text>}
       <TextInputRNP
         onChangeText={onChangeText}
         value={value}
@@ -39,7 +41,7 @@ const TextInput: React.FC<Props> = ({
           { backgroundColor: COLORS.MISC.TRANSPARENT },
           maxHeight ? { maxHeight } : {},
         ])}
-        textColor={COLORS.NEUTRAL[200]}
+        textColor={colors.textSecondary}
         autoFocus={autoFocus} //eslint-disable-line
         underlineStyle={{
           borderColor: color,
@@ -57,7 +59,6 @@ const styles = StyleSheet.create({
     paddingVertical: SPACING.MEDIUM,
   },
   label: {
-    color: COLORS.NEUTRAL[400],
     paddingBottom: SPACING.MEDIUM,
   },
   textInput: {

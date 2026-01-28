@@ -1,13 +1,10 @@
 import type React from 'react'
-import { StyleSheet, Text } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { Button as ButtonRNP } from 'react-native-paper'
 import type { IconSource } from 'react-native-paper/lib/typescript/components/Icon'
 
-import { BORDER_RADIUS, COLORS } from '../theme'
-
-const SHARED = {
-  textColor: COLORS.NEUTRAL[100],
-} as const
+import { useTheme } from '../ThemeContext'
+import { BORDER_RADIUS } from '../theme'
 
 const Button = ({
   children,
@@ -24,68 +21,39 @@ const Button = ({
   icon?: IconSource
   variant: 'filled' | 'link'
 }): React.ReactElement => {
-  switch (color) {
-    case 'primary':
-      return (
-        <ButtonRNP
-          style={StyleSheet.flatten([
-            {
-              ...buttonStyles.base,
-              ...(variant === 'filled'
-                ? buttonStyles.primaryFilled
-                : buttonStyles.primaryLink),
-              ...(disabled ? { backgroundColor: COLORS.NEUTRAL[700] } : {}),
-            },
-          ])}
-          onPress={onPress}
-          disabled={disabled}
-          icon={icon}
-          {...SHARED}
-        >
-          <Text
-            style={{
-              ...(variant === 'filled'
-                ? textStyles.primaryFilled
-                : textStyles.primaryLink),
-              ...(disabled ? { color: COLORS.NEUTRAL[400] } : {}),
-            }}
-          >
-            {children}
-          </Text>
-        </ButtonRNP>
-      )
-    case 'warning':
-      return (
-        <ButtonRNP
-          style={StyleSheet.flatten([
-            {
-              ...buttonStyles.base,
-              ...(variant === 'filled'
-                ? buttonStyles.warningFilled
-                : buttonStyles.warningLink),
-              ...(disabled ? { backgroundColor: COLORS.NEUTRAL[700] } : {}),
-            },
-          ])}
-          {...SHARED}
-          onPress={onPress}
-          disabled={disabled}
-          icon={icon}
-        >
-          <Text
-            style={StyleSheet.flatten([
-              {
-                ...(variant === 'filled'
-                  ? textStyles.warningFilled
-                  : textStyles.warningLink),
-                ...(disabled ? { color: COLORS.NEUTRAL[400] } : {}),
-              },
-            ])}
-          >
-            {children}
-          </Text>
-        </ButtonRNP>
-      )
+  const { colors } = useTheme()
+
+  const accentColor = color === 'primary' ? colors.primary : colors.warning
+
+  if (variant === 'filled') {
+    return (
+      <ButtonRNP
+        mode="contained"
+        style={buttonStyles.base}
+        buttonColor={disabled ? colors.surface : accentColor}
+        textColor={disabled ? colors.textDisabled : colors.surfaceVariant}
+        onPress={onPress}
+        disabled={disabled}
+        icon={icon}
+        labelStyle={buttonStyles.filledLabel}
+      >
+        {children}
+      </ButtonRNP>
+    )
   }
+
+  return (
+    <ButtonRNP
+      mode="text"
+      style={buttonStyles.base}
+      textColor={disabled ? colors.textDisabled : accentColor}
+      onPress={onPress}
+      disabled={disabled}
+      icon={icon}
+    >
+      {children}
+    </ButtonRNP>
+  )
 }
 
 const buttonStyles = StyleSheet.create({
@@ -93,34 +61,8 @@ const buttonStyles = StyleSheet.create({
     borderRadius: BORDER_RADIUS.NONE,
     width: '100%',
   },
-  primaryFilled: {
-    backgroundColor: COLORS.PRIMARY[300],
-  },
-  primaryLink: {
-    backgroundColor: COLORS.MISC.TRANSPARENT,
-  },
-  warningFilled: {
-    backgroundColor: COLORS.WARNING[300],
-  },
-  warningLink: {
-    backgroundColor: COLORS.MISC.TRANSPARENT,
-  },
-})
-
-const textStyles = StyleSheet.create({
-  primaryFilled: {
-    color: COLORS.NEUTRAL[900],
+  filledLabel: {
     fontWeight: 'bold',
-  },
-  primaryLink: {
-    color: COLORS.PRIMARY[300],
-  },
-  warningFilled: {
-    color: COLORS.NEUTRAL[900],
-    fontWeight: 'bold',
-  },
-  warningLink: {
-    color: COLORS.WARNING[300],
   },
 })
 

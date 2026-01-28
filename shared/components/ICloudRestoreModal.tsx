@@ -4,7 +4,8 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { Modal, Portal, Text } from 'react-native-paper'
 
 import type { ICloudBackupEntry } from '../icloud'
-import { COLORS, SPACING } from '../theme'
+import { useTheme } from '../ThemeContext'
+import { SPACING } from '../theme'
 import Button from './Button'
 import ButtonWrapper from './ButtonWrapper'
 import Typography from './Typography'
@@ -30,10 +31,11 @@ const ICloudRestoreModal: React.FC<Props> = ({
   onRestore,
   backups,
 }) => {
+  const { colors } = useTheme()
   return (
     <Portal>
       <Modal
-        contentContainerStyle={styles.modalContainer}
+        contentContainerStyle={[styles.modalContainer, { backgroundColor: colors.surface }]}
         visible={visible}
         onDismiss={onDismiss}
       >
@@ -43,7 +45,7 @@ const ICloudRestoreModal: React.FC<Props> = ({
           </Typography>
           <ScrollView>
             {backups.length === 0 ? (
-              <Text style={{ color: COLORS.NEUTRAL[300], marginBottom: SPACING.MEDIUM }}>
+              <Text style={{ color: colors.textSecondary, marginBottom: SPACING.MEDIUM }}>
                 No backups available.
               </Text>
             ) : (
@@ -51,12 +53,12 @@ const ICloudRestoreModal: React.FC<Props> = ({
                 <TouchableOpacity
                   key={index}
                   onPress={() => onRestore(backup.filename)}
-                  style={styles.backupRow}
+                  style={[styles.backupRow, { backgroundColor: colors.surfaceVariant }]}
                 >
-                  <Text style={styles.backupDate}>
+                  <Text style={[styles.backupDate, { color: colors.textPrimary }]}>
                     {new Date(backup.backupDate).toLocaleString()}
                   </Text>
-                  <Text style={styles.backupMeta}>
+                  <Text style={[styles.backupMeta, { color: colors.textDisabled }]}>
                     {backup.ideaCount} ideas, {backup.labelCount} categories — {formatBytes(backup.sizeBytes)}
                   </Text>
                 </TouchableOpacity>
@@ -78,7 +80,6 @@ const ICloudRestoreModal: React.FC<Props> = ({
 
 const styles = StyleSheet.create({
   modalContainer: {
-    backgroundColor: COLORS.NEUTRAL[700],
     flex: 1,
     height: '100%',
     justifyContent: 'space-between',
@@ -87,18 +88,15 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   backupRow: {
-    backgroundColor: COLORS.NEUTRAL[800],
     borderRadius: 8,
     paddingHorizontal: SPACING.MEDIUM,
     paddingVertical: SPACING.SMALL,
     marginBottom: SPACING.SMALL,
   },
   backupDate: {
-    color: COLORS.NEUTRAL[100],
     fontSize: 16,
   },
   backupMeta: {
-    color: COLORS.NEUTRAL[400],
     fontSize: 12,
     marginTop: 2,
   },

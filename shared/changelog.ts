@@ -4,13 +4,14 @@ export type ChangelogEntry = {
   changes: string[]
 }
 
-export const CURRENT_VERSION = '1.5.1'
+export const CURRENT_VERSION = '1.5.2'
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
-    version: '1.5.1',
-    date: '2026-01-26',
+    version: '1.5.2',
+    date: '2026-01-28',
     changes: [
+      'Added light theme with system, light, and dark mode options in Settings',
       'Added iCloud backup. Users are opted out by default; enable in Settings.',
     ],
   },

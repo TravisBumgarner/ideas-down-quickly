@@ -1,11 +1,3 @@
-import * as Sentry from '@sentry/react-native'
-import * as DocumentPicker from 'expo-document-picker'
-import * as FileSystem from 'expo-file-system'
-import { router } from 'expo-router'
-import * as Sharing from 'expo-sharing'
-import * as React from 'react'
-import { Alert, Linking, ScrollView, View } from 'react-native'
-import { Switch, Text } from 'react-native-paper'
 import queries from '@/db/queries'
 import { IdeaRunType, LabelRunType } from '@/db/schema'
 import Button from '@/shared/components/Button'
@@ -16,25 +8,40 @@ import PageWrapper from '@/shared/components/PageWrapper'
 import Typography from '@/shared/components/Typography'
 import { context } from '@/shared/context'
 import {
-  type ICloudBackupEntry,
   backupToICloud,
   getAvailableICloudBackups,
   getICloudBackupEnabled,
   getICloudBackupInfo,
+  type ICloudBackupEntry,
   isIOS,
   restoreFromICloud,
   setICloudBackupEnabled,
 } from '@/shared/icloud'
-import { COLORS, SPACING } from '@/shared/theme'
+import { SPACING } from '@/shared/theme'
+import { useTheme } from '@/shared/ThemeContext'
+import * as Sentry from '@sentry/react-native'
+import * as DocumentPicker from 'expo-document-picker'
+import * as FileSystem from 'expo-file-system'
+import { router } from 'expo-router'
+import * as Sharing from 'expo-sharing'
+import * as React from 'react'
+import { Alert, Linking, ScrollView, View } from 'react-native'
+import { Switch, Text } from 'react-native-paper'
 
 const Settings = () => {
+  const { colors, mode, setMode } = useTheme()
   const { dispatch } = React.useContext(context)
   const [isProcessing, setIsProcessing] = React.useState(false)
   const [isChangelogVisible, setIsChangelogVisible] = React.useState(false)
   const [iCloudEnabled, setICloudEnabled] = React.useState(false)
-  const [iCloudBackupDate, setICloudBackupDate] = React.useState<string | null>(null)
-  const [iCloudBackups, setICloudBackups] = React.useState<ICloudBackupEntry[]>([])
-  const [isRestoreModalVisible, setIsRestoreModalVisible] = React.useState(false)
+  const [iCloudBackupDate, setICloudBackupDate] = React.useState<string | null>(
+    null
+  )
+  const [iCloudBackups, setICloudBackups] = React.useState<ICloudBackupEntry[]>(
+    []
+  )
+  const [isRestoreModalVisible, setIsRestoreModalVisible] =
+    React.useState(false)
 
   const fetchICloudBackups = React.useCallback(async () => {
     const backups = await getAvailableICloudBackups()
@@ -181,7 +188,10 @@ const Settings = () => {
         await setICloudBackupEnabled(false)
         dispatch({
           type: 'TOAST',
-          payload: { message: result.error || 'iCloud backup failed', variant: 'ERROR' },
+          payload: {
+            message: result.error || 'iCloud backup failed',
+            variant: 'ERROR',
+          },
         })
       }
     }
@@ -204,12 +214,18 @@ const Settings = () => {
               if (result.success) {
                 dispatch({
                   type: 'TOAST',
-                  payload: { message: 'Restore from iCloud successful', variant: 'SUCCESS' },
+                  payload: {
+                    message: 'Restore from iCloud successful',
+                    variant: 'SUCCESS',
+                  },
                 })
               } else {
                 dispatch({
                   type: 'TOAST',
-                  payload: { message: result.error || 'Restore failed', variant: 'ERROR' },
+                  payload: {
+                    message: result.error || 'Restore failed',
+                    variant: 'ERROR',
+                  },
                 })
               }
             } catch (error) {
@@ -236,12 +252,18 @@ const Settings = () => {
         fetchICloudBackups()
         dispatch({
           type: 'TOAST',
-          payload: { message: 'Backup to iCloud successful', variant: 'SUCCESS' },
+          payload: {
+            message: 'Backup to iCloud successful',
+            variant: 'SUCCESS',
+          },
         })
       } else {
         dispatch({
           type: 'TOAST',
-          payload: { message: result.error || 'Backup failed', variant: 'ERROR' },
+          payload: {
+            message: result.error || 'Backup failed',
+            variant: 'ERROR',
+          },
         })
       }
     } catch (error) {
@@ -267,36 +289,63 @@ const Settings = () => {
         </Typography>
 
         <View>
+          <Typography variant="h2">Appearance</Typography>
+          <View
+            style={{
+              flexDirection: 'row',
+              gap: SPACING.SMALL,
+              marginTop: SPACING.SMALL,
+              marginBottom: SPACING.SMALL,
+            }}
+          >
+            {(['system', 'light', 'dark'] as const).map(option => (
+              <View key={option} style={{ flex: 1 }}>
+                <Button
+                  variant={mode === option ? 'filled' : 'link'}
+                  color="primary"
+                  onPress={() => setMode(option)}
+                >
+                  {option.charAt(0).toUpperCase() + option.slice(1)}
+                </Button>
+              </View>
+            ))}
+          </View>
+        </View>
+
+        <View>
           <Typography variant="h2">Database</Typography>
           <ButtonWrapper
-            vertical={[
+            left={
               <Button
-                key="backup"
                 variant="filled"
                 color="primary"
                 onPress={handleBackup}
                 disabled={isProcessing}
               >
-                Backup Data
-              </Button>,
+                Backup
+              </Button>
+            }
+            right={
               <Button
-                key="restore"
                 variant="filled"
                 color="primary"
                 onPress={handleRestore}
                 disabled={isProcessing}
               >
-                Restore Data
-              </Button>,
+                Restore
+              </Button>
+            }
+          />
+          <ButtonWrapper
+            full={
               <Button
-                key="delete"
-                variant="filled"
+                variant="link"
                 color="warning"
                 onPress={handleDeleteConfirm}
               >
                 Delete All Data
-              </Button>,
-            ]}
+              </Button>
+            }
           />
         </View>
 
@@ -312,72 +361,71 @@ const Settings = () => {
                 marginBottom: SPACING.SMALL,
               }}
             >
-              <Text style={{ color: COLORS.NEUTRAL[100] }}>
+              <Text style={{ color: colors.textPrimary }}>
                 Auto-backup weekly
               </Text>
               <Switch
                 value={iCloudEnabled}
                 onValueChange={handleICloudToggle}
                 disabled={isProcessing}
-                color={COLORS.PRIMARY[300]}
+                color={colors.switchActive}
               />
             </View>
             {iCloudBackupDate && (
-              <Text style={{ color: COLORS.NEUTRAL[300], marginBottom: SPACING.SMALL }}>
+              <Text
+                style={{
+                  color: colors.textSecondary,
+                  marginBottom: SPACING.SMALL,
+                }}
+              >
                 Last backup: {new Date(iCloudBackupDate).toLocaleString()}
               </Text>
             )}
             <ButtonWrapper
-              vertical={[
+              left={
                 <Button
-                  key="backup"
                   variant="filled"
                   color="primary"
                   onPress={handleICloudBackup}
                   disabled={isProcessing}
                 >
-                  Backup to iCloud
-                </Button>,
+                  Backup
+                </Button>
+              }
+              right={
                 <Button
-                  key="restore"
                   variant="filled"
                   color="primary"
                   onPress={() => setIsRestoreModalVisible(true)}
                   disabled={isProcessing}
                 >
-                  Restore from iCloud
-                </Button>,
-              ]}
+                  Restore
+                </Button>
+              }
             />
           </View>
         )}
 
         <View style={{ marginTop: SPACING.XLARGE }}>
-          <Typography variant="h2">Feedback & Support</Typography>
+          <Typography variant="h2">About</Typography>
           <ButtonWrapper
-            full={
+            left={
+              <Button
+                variant="filled"
+                color="primary"
+                onPress={() => setIsChangelogVisible(true)}
+              >
+                Changelog
+              </Button>
+            }
+            right={
               <Button
                 variant="filled"
                 color="primary"
                 onPress={handleFeedbackAndSupport}
                 disabled={isProcessing}
               >
-                Leave a Message
-              </Button>
-            }
-          />
-        </View>
-
-        <View style={{ marginTop: SPACING.XLARGE }}>
-          <Typography variant="h2">About</Typography>
-          <ButtonWrapper
-            full={
-              <Button
-                variant="filled"
-                color="primary"
-                onPress={() => setIsChangelogVisible(true)}
-              >
-                View Changelog
+                Feedback
               </Button>
             }
           />

@@ -9,13 +9,15 @@ import Label from '@/shared/components/Label'
 import PageWrapper from '@/shared/components/PageWrapper'
 import Typography from '@/shared/components/Typography'
 import { context } from '@/shared/context'
-import { COLORS, SPACING } from '@/shared/theme'
+import { useTheme } from '@/shared/ThemeContext'
+import { SPACING } from '@/shared/theme'
 import { navigateWithParams } from '@/shared/utilities'
 
 const LabelSelect = () => {
   const [labels, setLabels] = React.useState<SelectLabel[] | null>(null)
   const [hasArchivedLabels, setHasArchivedLabels] = React.useState(false)
   const [showArchived, setShowArchived] = React.useState(false)
+  const { colors } = useTheme()
   const { dispatch } = React.useContext(context)
 
   const fetchLabels = React.useCallback(async () => {
@@ -85,13 +87,13 @@ const LabelSelect = () => {
           </Typography>
           {hasArchivedLabels && (
             <View
-              style={[styles.toggleContainer, { marginTop: SPACING.LARGE }]}
+              style={[styles.toggleContainer, { marginTop: SPACING.LARGE, backgroundColor: colors.surfaceVariant }]}
             >
-              <Text style={styles.toggleLabel}>Show Archived</Text>
+              <Text style={[styles.toggleLabel, { color: colors.textPrimary }]}>Show Archived</Text>
               <Switch
                 value={showArchived}
                 onValueChange={setShowArchived}
-                color={COLORS.PRIMARY[300]}
+                color={colors.switchActive}
               />
             </View>
           )}
@@ -146,12 +148,12 @@ const LabelSelect = () => {
         </ScrollView>
       </View>
       <View style={styles.bottomSection}>
-        <View style={styles.toggleContainer}>
-          <Text style={styles.toggleLabel}>Show Archived</Text>
+        <View style={[styles.toggleContainer, { backgroundColor: colors.surfaceVariant }]}>
+          <Text style={[styles.toggleLabel, { color: colors.textPrimary }]}>Show Archived</Text>
           <Switch
             value={showArchived}
             onValueChange={setShowArchived}
-            color={COLORS.PRIMARY[300]}
+            color={colors.switchActive}
           />
         </View>
         <Button variant="filled" color="primary" onPress={addNewLabel}>
@@ -168,15 +170,14 @@ const styles = StyleSheet.create({
   },
   toggleContainer: {
     alignItems: 'center',
-    backgroundColor: COLORS.NEUTRAL[900],
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: SPACING.MEDIUM,
+    marginTop: SPACING.MEDIUM,
     paddingHorizontal: SPACING.MEDIUM,
     paddingVertical: SPACING.SMALL,
   },
   toggleLabel: {
-    color: COLORS.NEUTRAL[100],
     fontSize: 16,
   },
 })

@@ -12,16 +12,26 @@ import ButtonWrapper from '@/shared/components/ButtonWrapper'
 import Label from '@/shared/components/Label'
 import PageWrapper from '@/shared/components/PageWrapper'
 import TextInput from '@/shared/components/TextInput'
-import { BORDER_WIDTH, COLORS, SPACING } from '@/shared/theme'
+import { useTheme } from '@/shared/ThemeContext'
+import { BORDER_WIDTH, COLORS, LABEL_COLOR_ROWS, SPACING } from '@/shared/theme'
 import { navigateWithParams } from '@/shared/utilities'
 import 'react-native-get-random-values'
 
 const DISPLAY_DATE = new Date().toISOString()
 
 const AddLabel = () => {
+  const { colors: themeColors } = useTheme()
   const [labelText, setLabelText] = React.useState('')
   const [color, setColor] = React.useState<string>(COLORS.NEUTRAL[700])
   const [icon, setIcon] = React.useState<string>(ICONS[0])
+
+  const colorScrollRef = React.useRef<ScrollView>(null)
+  const iconScrollRef = React.useRef<ScrollView>(null)
+
+  React.useEffect(() => {
+    colorScrollRef.current?.flashScrollIndicators()
+    iconScrollRef.current?.flashScrollIndicators()
+  }, [])
 
   const handleCancel = React.useCallback(() => {
     router.back()
@@ -62,42 +72,43 @@ const AddLabel = () => {
         />
         <TextInput
           autoFocus={true} //eslint-disable-line
-          color={COLORS.NEUTRAL[700]}
+          color={themeColors.border}
           value={labelText}
           onChangeText={text => setLabelText(text)}
           multiline
         />
         <View
           style={{
-            borderBottomColor: COLORS.NEUTRAL[700],
+            borderBottomColor: themeColors.border,
             borderBottomWidth: BORDER_WIDTH.XSMALL,
             paddingBottom: SPACING.SMALL,
           }}
         >
-          <ScrollView
-            horizontal
-            style={{
-              flexDirection: 'row',
-            }}
-          >
-            {Object.values(COLORS.LABELS).map(color => (
-              <TouchableOpacity
-                key={color}
-                style={{
-                  margin: SPACING.XXSMALL,
-                  backgroundColor: color,
-                  width: 35,
-                  height: 35,
-                }}
-                onPress={() => handleColorPress(color)}
-              />
-            ))}
+          <ScrollView horizontal ref={colorScrollRef}>
+            <View>
+              {LABEL_COLOR_ROWS.map((row, rowIndex) => (
+                <View key={rowIndex} style={{ flexDirection: 'row' }}>
+                  {row.map(color => (
+                    <TouchableOpacity
+                      key={color}
+                      style={{
+                        margin: SPACING.XXSMALL,
+                        backgroundColor: color,
+                        width: 35,
+                        height: 35,
+                      }}
+                      onPress={() => handleColorPress(color)}
+                    />
+                  ))}
+                </View>
+              ))}
+            </View>
           </ScrollView>
         </View>
         <View
           style={{
             paddingTop: SPACING.SMALL,
-            borderBottomColor: COLORS.NEUTRAL[700],
+            borderBottomColor: themeColors.border,
             borderBottomWidth: BORDER_WIDTH.XSMALL,
             paddingBottom: SPACING.SMALL,
             marginBottom: SPACING.SMALL,
@@ -105,6 +116,7 @@ const AddLabel = () => {
           }}
         >
           <ScrollView
+            ref={iconScrollRef}
             contentContainerStyle={{
               flexDirection: 'row',
               flexWrap: 'wrap',

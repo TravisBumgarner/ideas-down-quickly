@@ -108,4 +108,26 @@ export const BORDER_WIDTH = {
   MEDIUM: 4,
   LARGE: 8,
 } as const
-;``
+
+export type SemanticColors = {
+  background: string
+  surface: string
+  surfaceVariant: string
+  textPrimary: string
+  textSecondary: string
+  textDisabled: string
+  border: string
+  tabBar: string
+  tabBarLabel: string
+  tabBarActive: string
+  switchActive: string
+  primary: string
+  secondary: string
+  success: string
+  warning: string
+  error: string
+}
+
+export const DARK_THEME: SemanticColors = {} as SemanticColors
+
+export const LIGHT_THEME: SemanticColors = {} as SemanticColors

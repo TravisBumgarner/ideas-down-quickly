@@ -1,0 +1,164 @@
+project: Light Theme with System/Light/Dark Mode
+repo: TravisBumgarner/ideas-down-quickly
+design_file: null  # Requirements provided via user input
+scoping_date: 2026-01-28
+
+milestones:
+  - number: 3
+    title: "1. Theme Infrastructure"
+    description: Create the theme context, light color palette, and useTheme hook that all components will consume
+    branch:
+      working: 104-theme-infrastructure
+      base: main
+
+  - number: 4
+    title: "2. Migrate Components to Theme Context"
+    description: Update all components and screens to use the theme context instead of hardcoded COLORS
+    branch:
+      working: 106-migrate-to-theme-context
+      base: 104-theme-infrastructure
+
+  - number: 5
+    title: "3. Theme Settings UI and Changelog"
+    description: Add theme picker to settings, bump version, update changelog
+    branch:
+      working: 108-theme-settings-changelog
+      base: 106-migrate-to-theme-context
+
+tasks:
+  # ==================== MILESTONE 1: Theme Infrastructure ====================
+
+  - id: 1
+    github_issue: 104
+    milestone: 3
+    title: Define light color palette and semantic theme tokens
+    description: |
+      Create a semantic color token system in `shared/theme.tsx` that maps
+      purpose-based names (background, textPrimary, surface, etc.) to hex
+      values, with both DARK_THEME and LIGHT_THEME variants.
+
+      Keep existing COLORS, SPACING, BORDER_RADIUS, BORDER_WIDTH exports
+      unchanged. Add a `SemanticColors` type and two theme objects alongside
+      the existing exports.
+
+      Semantic keys needed: background, surface, surfaceVariant, textPrimary,
+      textSecondary, textDisabled, border, tabBar, tabBarLabel, tabBarActive,
+      switchActive, plus pass-throughs for primary/secondary/success/warning/error.
+    acceptance_criteria:
+      - SemanticColors type is exported from shared/theme.tsx
+      - DARK_THEME maps semantic keys to existing dark hex values
+      - LIGHT_THEME maps semantic keys to appropriate light-mode hex values
+      - Existing exports (COLORS, SPACING, BORDER_RADIUS, BORDER_WIDTH) untouched
+    depends_on: []
+    effort: 2
+    status: testing
+
+  - id: 2
+    github_issue: 105
+    milestone: 3
+    title: Create ThemeContext and useTheme hook
+    description: |
+      Create `shared/ThemeContext.tsx` with a ThemeProvider, useTheme hook,
+      and ThemeMode type ('system' | 'light' | 'dark').
+
+      ThemeProvider reads saved preference from AsyncStorage (key: theme_mode,
+      default: 'dark'), uses useColorScheme() for system mode, resolves to
+      DARK_THEME or LIGHT_THEME, and exposes setMode for changing preference.
+
+      Also provides the correct react-native-paper theme (MD3DarkTheme or
+      MD3LightTheme) so PaperProvider uses the right one.
+
+      Wire into app/_layout.tsx: wrap app with ThemeProvider above PaperProvider.
+      App should look identical after this change (dark theme default).
+    acceptance_criteria:
+      - shared/ThemeContext.tsx exports ThemeProvider, useTheme, ThemeMode
+      - useTheme() returns colors (SemanticColors), mode, and setMode
+      - Theme preference persists via AsyncStorage key theme_mode
+      - Default mode is 'dark' (preserving current behavior)
+      - System mode follows device appearance via useColorScheme()
+      - app/_layout.tsx wraps app with ThemeProvider and passes paper theme from context
+      - App renders identically in dark mode after this change
+    depends_on: [1]
+    effort: 2
+    status: scoped
+
+  # ==================== MILESTONE 2: Migrate Components ====================
+
+  - id: 3
+    github_issue: 106
+    milestone: 4
+    title: Migrate shared components to useTheme
+    description: |
+      Update all 12 shared components that use COLORS for layout/neutral colors
+      to use useTheme().colors instead:
+
+      PageWrapper, Typography, Button, TabBarIcon, TextInput, Toast, Label,
+      Idea, IdeasByLabel, LabelFilterModal, ChangelogModal, ICloudRestoreModal.
+
+      Pattern: replace COLORS.NEUTRAL[xxx] with colors.xxx from useTheme().
+      Keep COLORS import only for accent colors (LABELS, SUCCESS, WARNING, ERROR).
+      SPACING/BORDER_RADIUS/BORDER_WIDTH imports stay unchanged.
+    acceptance_criteria:
+      - All 12 components use useTheme().colors for layout/neutral colors
+      - COLORS import retained only for accent colors (LABELS, SUCCESS, WARNING, ERROR)
+      - SPACING, BORDER_RADIUS, BORDER_WIDTH imports unchanged
+      - Dark mode appearance identical after migration
+    depends_on: [2]
+    effort: 3
+    status: scoped
+
+  - id: 4
+    github_issue: 107
+    milestone: 4
+    title: Migrate app screens and tab layout to useTheme
+    description: |
+      Update all 7 app-level files to use useTheme().colors:
+
+      app/(tabs)/_layout.tsx — tab bar colors
+      app/(tabs)/index.tsx — any NEUTRAL references
+      app/(tabs)/history.tsx — loading background, text
+      app/(tabs)/settings.tsx — text, switch colors
+      app/add-idea.tsx — verify no COLORS usage
+      app/add-label.tsx — border/text (keep COLORS.LABELS)
+      app/delete-database.tsx — text/background
+
+      Same migration pattern as shared components.
+    acceptance_criteria:
+      - All 7 app files use useTheme().colors for layout/neutral colors
+      - Tab bar adapts to the active theme
+      - COLORS import retained only for accent colors
+      - Dark mode appearance unchanged
+    depends_on: [2]
+    effort: 2
+    status: scoped
+
+  # ==================== MILESTONE 3: Settings UI & Changelog ====================
+
+  - id: 5
+    github_issue: 108
+    milestone: 5
+    title: Add theme picker to Settings and update changelog
+    description: |
+      Add an "Appearance" section to Settings (between Database and iCloud Backup)
+      with System / Light / Dark options using horizontal ButtonWrapper.
+      Active option visually distinct (filled vs outlined).
+
+      Wire to useTheme().setMode().
+
+      Update StatusBar in PageWrapper to use dark text in light mode, light text
+      in dark mode.
+
+      Bump CURRENT_VERSION to '1.5.2'. Add changelog entry:
+      version 1.5.2, today's date, change: "Added light theme with system,
+      light, and dark mode options in Settings"
+    acceptance_criteria:
+      - Settings has "Appearance" section with System / Light / Dark options
+      - Tapping an option calls setMode() and UI updates immediately
+      - Selected option is visually highlighted
+      - CURRENT_VERSION is '1.5.2'
+      - Changelog has v1.5.2 entry for the light theme feature
+      - StatusBar text color adapts to active theme
+      - Preference persists across restarts
+    depends_on: [3, 4]
+    effort: 2
+    status: scoped

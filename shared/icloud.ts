@@ -9,10 +9,25 @@ import { getValueFromKeyStore, saveValueToKeyStore } from './utilities'
 
 const ICLOUD_BACKUP_ENABLED_KEY = 'icloud_backup_enabled'
 const ICLOUD_LAST_BACKUP_KEY = 'icloud_last_backup_timestamp'
-const BACKUP_FILENAME = 'ideas-backup.json'
-const ONE_DAY_MS = 24 * 60 * 60 * 1000
+const ICLOUD_BACKUP_SLOT_KEY = 'icloud_backup_slot'
+const LEGACY_BACKUP_FILENAME = 'ideas-backup.json'
+const BACKUP_SLOTS = 7
+const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000
 
 export const isIOS = Platform.OS === 'ios'
+
+function getBackupFilename(slot: number): string {
+  return `ideas-backup-${slot}.json`
+}
+
+async function getCurrentSlot(): Promise<number> {
+  const value = await getValueFromKeyStore(ICLOUD_BACKUP_SLOT_KEY)
+  return value ? parseInt(value, 10) : 0
+}
+
+async function setCurrentSlot(slot: number): Promise<void> {
+  await saveValueToKeyStore(ICLOUD_BACKUP_SLOT_KEY, slot.toString())
+}
 
 export async function getICloudBackupEnabled(): Promise<boolean> {
   if (!isIOS) return false
@@ -41,7 +56,7 @@ export async function isBackupNeeded(): Promise<boolean> {
   if (!lastBackup) return true
 
   const now = Date.now()
-  return now - lastBackup >= ONE_DAY_MS
+  return now - lastBackup >= ONE_WEEK_MS
 }
 
 export async function checkICloudAvailable(): Promise<boolean> {
@@ -72,8 +87,11 @@ export async function backupToICloud(): Promise<{ success: boolean; error?: stri
       backupDate: new Date().toISOString(),
     })
 
-    await CloudStorage.writeFile(BACKUP_FILENAME, backupData)
+    const slot = await getCurrentSlot()
+    const filename = getBackupFilename(slot)
+    await CloudStorage.writeFile(filename, backupData)
     await setLastBackupTimestamp(Date.now())
+    await setCurrentSlot((slot + 1) % BACKUP_SLOTS)
 
     return { success: true }
   } catch (error) {
@@ -82,6 +100,45 @@ export async function backupToICloud(): Promise<{ success: boolean; error?: stri
       success: false,
       error: error instanceof Error ? error.message : 'Unknown error',
     }
+  }
+}
+
+export async function getAvailableICloudBackups(): Promise<
+  { filename: string; backupDate: string }[]
+> {
+  if (!isIOS) return []
+
+  try {
+    const available = await CloudStorage.isCloudAvailable()
+    if (!available) return []
+
+    const backups: { filename: string; backupDate: string }[] = []
+
+    const filesToCheck = [
+      ...Array.from({ length: BACKUP_SLOTS }, (_, i) => getBackupFilename(i)),
+      LEGACY_BACKUP_FILENAME,
+    ]
+
+    for (const filename of filesToCheck) {
+      try {
+        const exists = await CloudStorage.exists(filename)
+        if (!exists) continue
+
+        const content = await CloudStorage.readFile(filename)
+        const data = JSON.parse(content)
+        if (data.backupDate) {
+          backups.push({ filename, backupDate: data.backupDate })
+        }
+      } catch {
+        // Skip files that can't be read or parsed
+      }
+    }
+
+    backups.sort((a, b) => new Date(b.backupDate).getTime() - new Date(a.backupDate).getTime())
+
+    return backups
+  } catch {
+    return []
   }
 }
 
@@ -100,24 +157,21 @@ export async function getICloudBackupInfo(): Promise<{
       return { exists: false, error: 'iCloud is not available' }
     }
 
-    const fileExists = await CloudStorage.exists(BACKUP_FILENAME)
-    if (!fileExists) {
+    const backups = await getAvailableICloudBackups()
+    if (backups.length === 0) {
       return { exists: false }
     }
 
-    const content = await CloudStorage.readFile(BACKUP_FILENAME)
-    const data = JSON.parse(content)
-
     return {
       exists: true,
-      backupDate: data.backupDate,
+      backupDate: backups[0].backupDate,
     }
   } catch {
     return { exists: false }
   }
 }
 
-export async function restoreFromICloud(): Promise<{
+export async function restoreFromICloud(filename: string): Promise<{
   success: boolean
   error?: string
   restoredLabels?: number
@@ -133,12 +187,12 @@ export async function restoreFromICloud(): Promise<{
       return { success: false, error: 'iCloud is not available' }
     }
 
-    const fileExists = await CloudStorage.exists(BACKUP_FILENAME)
+    const fileExists = await CloudStorage.exists(filename)
     if (!fileExists) {
       return { success: false, error: 'No iCloud backup found' }
     }
 
-    const content = await CloudStorage.readFile(BACKUP_FILENAME)
+    const content = await CloudStorage.readFile(filename)
     const { labels: rawLabels, ideas: rawIdeas } = JSON.parse(content)
 
     if (!Array.isArray(rawLabels) || !Array.isArray(rawIdeas)) {
@@ -170,7 +224,7 @@ export async function restoreFromICloud(): Promise<{
   }
 }
 
-export async function performDailyBackupIfNeeded(): Promise<void> {
+export async function performWeeklyBackupIfNeeded(): Promise<void> {
   try {
     const needed = await isBackupNeeded()
     if (needed) {

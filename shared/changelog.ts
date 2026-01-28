@@ -4,11 +4,11 @@ export type ChangelogEntry = {
   changes: string[]
 }
 
-export const CURRENT_VERSION = '1.5.0'
+export const CURRENT_VERSION = '1.5.1'
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
-    version: '1.5.0',
+    version: '1.5.1',
     date: '2026-01-26',
     changes: [
       'Added iCloud backup. Users are opted out by default; enable in Settings.',

@@ -25,9 +25,11 @@ import {
   restoreFromICloud,
   setICloudBackupEnabled,
 } from '@/shared/icloud'
-import { COLORS, SPACING } from '@/shared/theme'
+import { useTheme } from '@/shared/ThemeContext'
+import { SPACING } from '@/shared/theme'
 
 const Settings = () => {
+  const { colors, mode, setMode } = useTheme()
   const { dispatch } = React.useContext(context)
   const [isProcessing, setIsProcessing] = React.useState(false)
   const [isChangelogVisible, setIsChangelogVisible] = React.useState(false)
@@ -267,6 +269,30 @@ const Settings = () => {
         </Typography>
 
         <View>
+          <Typography variant="h2">Appearance</Typography>
+          <View
+            style={{
+              flexDirection: 'row',
+              gap: SPACING.SMALL,
+              marginTop: SPACING.SMALL,
+              marginBottom: SPACING.SMALL,
+            }}
+          >
+            {(['system', 'light', 'dark'] as const).map(option => (
+              <View key={option} style={{ flex: 1 }}>
+                <Button
+                  variant={mode === option ? 'filled' : 'link'}
+                  color="primary"
+                  onPress={() => setMode(option)}
+                >
+                  {option.charAt(0).toUpperCase() + option.slice(1)}
+                </Button>
+              </View>
+            ))}
+          </View>
+        </View>
+
+        <View>
           <Typography variant="h2">Database</Typography>
           <ButtonWrapper
             vertical={[
@@ -312,18 +338,18 @@ const Settings = () => {
                 marginBottom: SPACING.SMALL,
               }}
             >
-              <Text style={{ color: COLORS.NEUTRAL[100] }}>
+              <Text style={{ color: colors.textPrimary }}>
                 Auto-backup weekly
               </Text>
               <Switch
                 value={iCloudEnabled}
                 onValueChange={handleICloudToggle}
                 disabled={isProcessing}
-                color={COLORS.PRIMARY[300]}
+                color={colors.switchActive}
               />
             </View>
             {iCloudBackupDate && (
-              <Text style={{ color: COLORS.NEUTRAL[300], marginBottom: SPACING.SMALL }}>
+              <Text style={{ color: colors.textSecondary, marginBottom: SPACING.SMALL }}>
                 Last backup: {new Date(iCloudBackupDate).toLocaleString()}
               </Text>
             )}

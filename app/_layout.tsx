@@ -4,7 +4,7 @@ import { Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { useEffect, useState } from 'react'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import { MD3DarkTheme, PaperProvider } from 'react-native-paper'
+import { PaperProvider } from 'react-native-paper'
 // import { useFonts } from 'expo-font'
 import { db } from '@/db/client'
 import migrations from '@/db/migrations/migrations'
@@ -16,6 +16,7 @@ import {
 import ChangelogModal from '@/shared/components/ChangelogModal'
 import Toast from '@/shared/components/Toast'
 import Context from '@/shared/context'
+import { ThemeProvider, useTheme } from '@/shared/ThemeContext'
 import { performWeeklyBackupIfNeeded } from '@/shared/icloud'
 import { getValueFromKeyStore, saveValueToKeyStore } from '@/shared/utilities'
 
@@ -38,8 +39,9 @@ type AppProps = {
 }
 
 function App({ showChangelogModal, onDismissChangelog }: AppProps) {
+  const { paperTheme } = useTheme()
   return (
-    <PaperProvider theme={MD3DarkTheme}>
+    <PaperProvider theme={paperTheme}>
       <Context>
         <GestureHandlerRootView style={{ flex: 1 }}>
           <Stack>
@@ -119,10 +121,12 @@ const AppWrapper = () => {
   }
 
   return (
-    <App
-      showChangelogModal={showChangelogModal}
-      onDismissChangelog={handleDismissChangelog}
-    />
+    <ThemeProvider>
+      <App
+        showChangelogModal={showChangelogModal}
+        onDismissChangelog={handleDismissChangelog}
+      />
+    </ThemeProvider>
   )
 }
 

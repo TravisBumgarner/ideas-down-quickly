@@ -12,6 +12,7 @@ import ButtonWrapper from '@/shared/components/ButtonWrapper'
 import Label from '@/shared/components/Label'
 import PageWrapper from '@/shared/components/PageWrapper'
 import TextInput from '@/shared/components/TextInput'
+import { useTheme } from '@/shared/ThemeContext'
 import { BORDER_WIDTH, COLORS, SPACING } from '@/shared/theme'
 import { navigateWithParams } from '@/shared/utilities'
 import 'react-native-get-random-values'
@@ -19,6 +20,7 @@ import 'react-native-get-random-values'
 const DISPLAY_DATE = new Date().toISOString()
 
 const AddLabel = () => {
+  const { colors: themeColors } = useTheme()
   const [labelText, setLabelText] = React.useState('')
   const [color, setColor] = React.useState<string>(COLORS.NEUTRAL[700])
   const [icon, setIcon] = React.useState<string>(ICONS[0])
@@ -62,14 +64,14 @@ const AddLabel = () => {
         />
         <TextInput
           autoFocus={true} //eslint-disable-line
-          color={COLORS.NEUTRAL[700]}
+          color={themeColors.border}
           value={labelText}
           onChangeText={text => setLabelText(text)}
           multiline
         />
         <View
           style={{
-            borderBottomColor: COLORS.NEUTRAL[700],
+            borderBottomColor: themeColors.border,
             borderBottomWidth: BORDER_WIDTH.XSMALL,
             paddingBottom: SPACING.SMALL,
           }}
@@ -97,7 +99,7 @@ const AddLabel = () => {
         <View
           style={{
             paddingTop: SPACING.SMALL,
-            borderBottomColor: COLORS.NEUTRAL[700],
+            borderBottomColor: themeColors.border,
             borderBottomWidth: BORDER_WIDTH.XSMALL,
             paddingBottom: SPACING.SMALL,
             marginBottom: SPACING.SMALL,

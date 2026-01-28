@@ -2,6 +2,7 @@ import { useCallback, useRef } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Swipeable, TouchableOpacity } from 'react-native-gesture-handler'
 import { Icon, Text } from 'react-native-paper'
+import { useTheme } from '@/shared/ThemeContext'
 import { BORDER_RADIUS, BORDER_WIDTH, COLORS, SPACING } from '@/shared/theme'
 
 import { navigateWithParams, timeAgo } from '../utilities'
@@ -30,6 +31,7 @@ const Label = ({
   onArchive,
   isArchived,
 }: Props) => {
+  const { colors } = useTheme()
   const swipeableRef = useRef<Swipeable>(null)
 
   const handleEdit = useCallback(() => {
@@ -48,7 +50,7 @@ const Label = ({
     return (
       <TouchableOpacity
         onPress={handleArchive}
-        style={StyleSheet.flatten([styles.swipeableBase, styles.swipeableLeft])}
+        style={StyleSheet.flatten([styles.swipeableBase, styles.swipeableLeft, { backgroundColor: colors.surfaceVariant }])}
       >
         <Icon
           source={isArchived ? 'archive-arrow-up' : 'archive'}
@@ -57,7 +59,7 @@ const Label = ({
         />
       </TouchableOpacity>
     )
-  }, [handleArchive, disableSideSwipe, isArchived])
+  }, [handleArchive, disableSideSwipe, isArchived, colors])
 
   const renderRightActions = useCallback(() => {
     if (disableSideSwipe) return null
@@ -68,12 +70,13 @@ const Label = ({
         style={StyleSheet.flatten([
           styles.swipeableBase,
           styles.swipeableRight,
+          { backgroundColor: colors.surfaceVariant },
         ])}
       >
         <Icon source="pencil" size={24} color={COLORS.PRIMARY[300]} />
       </TouchableOpacity>
     )
-  }, [handleEdit, disableSideSwipe])
+  }, [handleEdit, disableSideSwipe, colors])
 
   return (
     <Swipeable
@@ -85,6 +88,7 @@ const Label = ({
         style={StyleSheet.flatten([
           styles.container,
           {
+            backgroundColor: colors.surfaceVariant,
             borderRightColor: color,
           },
         ])}
@@ -98,7 +102,7 @@ const Label = ({
               <Icon source="archive" size={16} color={COLORS.WARNING[300]} />
             )}
           </View>
-          <Text style={styles.dateText}>
+          <Text style={[styles.dateText, { color: colors.textSecondary }]}>
             {lastUsedAt
               ? `Last ideated ${timeAgo(lastUsedAt)}`
               : 'No ideation yet'}
@@ -112,7 +116,6 @@ const Label = ({
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    backgroundColor: COLORS.NEUTRAL[900],
     borderRadius: BORDER_RADIUS.NONE,
     borderRightWidth: BORDER_WIDTH.LARGE,
     flexDirection: 'row',
@@ -121,12 +124,10 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   dateText: {
-    color: COLORS.NEUTRAL[200],
     fontSize: 13,
   },
   swipeableBase: {
     alignItems: 'center',
-    backgroundColor: COLORS.NEUTRAL[900],
     borderRadius: BORDER_RADIUS.NONE,
     flexGrow: 1,
     justifyContent: 'center',

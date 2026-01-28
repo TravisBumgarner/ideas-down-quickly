@@ -3,11 +3,8 @@ import { StyleSheet, Text } from 'react-native'
 import { Button as ButtonRNP } from 'react-native-paper'
 import type { IconSource } from 'react-native-paper/lib/typescript/components/Icon'
 
+import { useTheme } from '../ThemeContext'
 import { BORDER_RADIUS, COLORS } from '../theme'
-
-const SHARED = {
-  textColor: COLORS.NEUTRAL[100],
-} as const
 
 const Button = ({
   children,
@@ -24,6 +21,12 @@ const Button = ({
   icon?: IconSource
   variant: 'filled' | 'link'
 }): React.ReactElement => {
+  const { colors } = useTheme()
+
+  const SHARED = {
+    textColor: colors.textPrimary,
+  } as const
+
   switch (color) {
     case 'primary':
       return (
@@ -34,7 +37,7 @@ const Button = ({
               ...(variant === 'filled'
                 ? buttonStyles.primaryFilled
                 : buttonStyles.primaryLink),
-              ...(disabled ? { backgroundColor: COLORS.NEUTRAL[700] } : {}),
+              ...(disabled ? { backgroundColor: colors.surface } : {}),
             },
           ])}
           onPress={onPress}
@@ -45,9 +48,9 @@ const Button = ({
           <Text
             style={{
               ...(variant === 'filled'
-                ? textStyles.primaryFilled
-                : textStyles.primaryLink),
-              ...(disabled ? { color: COLORS.NEUTRAL[400] } : {}),
+                ? { color: colors.surfaceVariant, fontWeight: 'bold' as const }
+                : { color: colors.primary }),
+              ...(disabled ? { color: colors.textDisabled } : {}),
             }}
           >
             {children}
@@ -63,7 +66,7 @@ const Button = ({
               ...(variant === 'filled'
                 ? buttonStyles.warningFilled
                 : buttonStyles.warningLink),
-              ...(disabled ? { backgroundColor: COLORS.NEUTRAL[700] } : {}),
+              ...(disabled ? { backgroundColor: colors.surface } : {}),
             },
           ])}
           {...SHARED}
@@ -75,9 +78,9 @@ const Button = ({
             style={StyleSheet.flatten([
               {
                 ...(variant === 'filled'
-                  ? textStyles.warningFilled
-                  : textStyles.warningLink),
-                ...(disabled ? { color: COLORS.NEUTRAL[400] } : {}),
+                  ? { color: colors.surfaceVariant, fontWeight: 'bold' as const }
+                  : { color: COLORS.WARNING[300] }),
+                ...(disabled ? { color: colors.textDisabled } : {}),
               },
             ])}
           >
@@ -104,23 +107,6 @@ const buttonStyles = StyleSheet.create({
   },
   warningLink: {
     backgroundColor: COLORS.MISC.TRANSPARENT,
-  },
-})
-
-const textStyles = StyleSheet.create({
-  primaryFilled: {
-    color: COLORS.NEUTRAL[900],
-    fontWeight: 'bold',
-  },
-  primaryLink: {
-    color: COLORS.PRIMARY[300],
-  },
-  warningFilled: {
-    color: COLORS.NEUTRAL[900],
-    fontWeight: 'bold',
-  },
-  warningLink: {
-    color: COLORS.WARNING[300],
   },
 })
 

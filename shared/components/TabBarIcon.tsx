@@ -5,7 +5,7 @@ import type { IconProps } from '@expo/vector-icons/build/createIconSet'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import type { ComponentProps } from 'react'
 
-import { COLORS } from '../theme'
+import { useTheme } from '../ThemeContext'
 
 export function TabBarIcon({
   style,
@@ -14,9 +14,10 @@ export function TabBarIcon({
 }: IconProps<ComponentProps<typeof Ionicons>['name']> & {
   isFocused: boolean
 }) {
+  const { colors } = useTheme()
   return (
     <Ionicons
-      color={isFocused ? COLORS.PRIMARY[300] : COLORS.NEUTRAL[300]}
+      color={isFocused ? colors.tabBarActive : colors.tabBarLabel}
       size={28}
       style={[{ marginBottom: -3 }, style]}
       {...rest}

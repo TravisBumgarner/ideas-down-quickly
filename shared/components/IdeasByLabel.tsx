@@ -1,7 +1,8 @@
 import { useCallback } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Icon } from 'react-native-paper'
-import { BORDER_RADIUS, BORDER_WIDTH, COLORS, SPACING } from '@/shared/theme'
+import { useTheme } from '@/shared/ThemeContext'
+import { BORDER_RADIUS, BORDER_WIDTH, SPACING } from '@/shared/theme'
 
 import type { IdeasByLabel } from '../types'
 import { navigateWithParams } from '../utilities'
@@ -14,6 +15,7 @@ type Props = {
 }
 
 const IdeasbyLabel = ({ ideasByLabel, onDeleteCallback }: Props) => {
+  const { colors } = useTheme()
   const handleLabelPress = useCallback(() => {
     navigateWithParams('add-idea', { labelId: ideasByLabel.labelId })
   }, [ideasByLabel])
@@ -24,7 +26,7 @@ const IdeasbyLabel = ({ ideasByLabel, onDeleteCallback }: Props) => {
         <View
           style={StyleSheet.flatten([
             styles.headerContainer,
-            { borderRightColor: ideasByLabel.color },
+            { borderRightColor: ideasByLabel.color, backgroundColor: colors.surfaceVariant },
           ])}
         >
           <Icon
@@ -56,7 +58,6 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   headerContainer: {
-    backgroundColor: COLORS.NEUTRAL[900],
     borderRightWidth: BORDER_WIDTH.LARGE,
     flexDirection: 'row',
     paddingLeft: SPACING.MEDIUM,

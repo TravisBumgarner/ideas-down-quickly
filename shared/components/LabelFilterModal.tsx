@@ -4,7 +4,8 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { Modal, Portal } from 'react-native-paper'
 import type { SelectLabel } from '@/db/schema'
 
-import { COLORS, SPACING } from '../theme'
+import { useTheme } from '../ThemeContext'
+import { SPACING } from '../theme'
 import Button from './Button'
 import ButtonWrapper from './ButtonWrapper'
 import Label from './Label'
@@ -22,10 +23,11 @@ const LabelFilterModal: React.FC<Props> = ({
   onSubmit,
   isModalVisible,
 }) => {
+  const { colors } = useTheme()
   return (
     <Portal>
       <Modal
-        contentContainerStyle={styles.modalContainer}
+        contentContainerStyle={[styles.modalContainer, { backgroundColor: colors.surface }]}
         visible={isModalVisible}
         onDismiss={onCancel}
       >
@@ -67,7 +69,6 @@ const LabelFilterModal: React.FC<Props> = ({
 
 const styles = StyleSheet.create({
   modalContainer: {
-    backgroundColor: COLORS.NEUTRAL[700],
     flex: 1,
     height: '100%',
     justifyContent: 'space-between',

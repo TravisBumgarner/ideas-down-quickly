@@ -2,7 +2,7 @@ import type React from 'react'
 import { type StyleProp, StyleSheet, type TextStyle } from 'react-native'
 import { Text } from 'react-native-paper'
 
-import { COLORS } from '../theme'
+import { useTheme } from '../ThemeContext'
 
 type TypographyProps = {
   children: React.ReactNode
@@ -15,11 +15,20 @@ const Typography: React.FC<TypographyProps> = ({
   variant,
   style: styleProp,
 }): React.ReactElement => {
+  const { colors } = useTheme()
+
+  const baseStyle = { color: colors.textPrimary }
+
   switch (variant) {
     case 'h1':
       return (
         <Text
-          style={StyleSheet.flatten([styles.base, styles.h1, styleProp])}
+          style={StyleSheet.flatten([
+            baseStyle,
+            styles.h1,
+            { backgroundColor: colors.background, color: colors.textDisabled },
+            styleProp,
+          ])}
           variant="displayLarge"
         >
           {children}
@@ -28,7 +37,12 @@ const Typography: React.FC<TypographyProps> = ({
     case 'h2':
       return (
         <Text
-          style={StyleSheet.flatten([styles.base, styles.h2, styleProp])}
+          style={StyleSheet.flatten([
+            baseStyle,
+            styles.h2,
+            { color: colors.textSecondary },
+            styleProp,
+          ])}
           variant="displayMedium"
         >
           {children}
@@ -37,7 +51,7 @@ const Typography: React.FC<TypographyProps> = ({
     case 'body1':
       return (
         <Text
-          style={StyleSheet.flatten([styles.base, styles.body1, styleProp])}
+          style={StyleSheet.flatten([baseStyle, styles.body1, styleProp])}
           variant="bodyLarge"
         >
           {children}
@@ -46,7 +60,12 @@ const Typography: React.FC<TypographyProps> = ({
     case 'caption':
       return (
         <Text
-          style={StyleSheet.flatten([styles.base, styles.caption, styleProp])}
+          style={StyleSheet.flatten([
+            baseStyle,
+            styles.caption,
+            { color: colors.textDisabled },
+            styleProp,
+          ])}
           variant="bodyLarge"
         >
           {children}
@@ -56,24 +75,17 @@ const Typography: React.FC<TypographyProps> = ({
 }
 
 const styles = StyleSheet.create({
-  base: {
-    color: COLORS.NEUTRAL[100],
-  },
   body1: {
     fontSize: 16,
   },
   caption: {
-    color: COLORS.NEUTRAL[500],
     fontSize: 13,
   },
   h1: {
-    backgroundColor: COLORS.NEUTRAL[800],
-    color: COLORS.NEUTRAL[400],
     fontSize: 24,
     textAlign: 'center',
   },
   h2: {
-    color: COLORS.NEUTRAL[200],
     fontSize: 20,
     fontWeight: 'bold',
     lineHeight: 20, // lineHeight of 0 will cause component to dissapear.

@@ -12,7 +12,8 @@ import { default as IdeasByLabelComponent } from '@/shared/components/IdeasByLab
 import LabelFilterModal from '@/shared/components/LabelFilterModal'
 import PageWrapper from '@/shared/components/PageWrapper'
 import Typography from '@/shared/components/Typography'
-import { COLORS, SPACING } from '@/shared/theme'
+import { useTheme } from '@/shared/ThemeContext'
+import { SPACING } from '@/shared/theme'
 import type { IdeasByDateAndLabel, IdeasByLabel } from '@/shared/types'
 import { getValueFromKeyStore, saveValueToKeyStore } from '@/shared/utilities'
 
@@ -31,6 +32,7 @@ type IdeasByLabelItem = {
 type ListItem = DateHeaderItem | IdeasByLabelItem
 
 const History = () => {
+  const { colors } = useTheme()
   const [ideasByDateAndLabel, setIdeasByDateAndLabel] =
     useState<IdeasByDateAndLabel | null>(null)
 
@@ -154,7 +156,7 @@ const History = () => {
 
   if (ideasByDateAndLabel === null) {
     return (
-      <SafeAreaView style={{ backgroundColor: COLORS.NEUTRAL[700], flex: 1 }}>
+      <SafeAreaView style={{ backgroundColor: colors.surface, flex: 1 }}>
         <ActivityIndicator animating size="large" />
       </SafeAreaView>
     )

@@ -1,20 +1,21 @@
 import { Tabs } from 'expo-router'
 import { TabBarIcon } from '@/shared/components/TabBarIcon'
-import { COLORS } from '@/shared/theme'
+import { useTheme } from '@/shared/ThemeContext'
 
 export default function TabLayout() {
+  const { colors } = useTheme()
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: COLORS.NEUTRAL[800],
+          backgroundColor: colors.tabBar,
           borderWidth: 0,
         },
         tabBarLabelStyle: {
-          color: COLORS.NEUTRAL['300'],
+          color: colors.tabBarLabel,
         },
-        tabBarActiveTintColor: COLORS.PRIMARY['300'],
+        tabBarActiveTintColor: colors.tabBarActive,
       }}
     >
       <Tabs.Screen

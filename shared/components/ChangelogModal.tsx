@@ -4,7 +4,9 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { Modal, Portal, Text } from 'react-native-paper'
 
 import { CHANGELOG, type ChangelogEntry } from '../changelog'
-import { COLORS, SPACING } from '../theme'
+import { useTheme } from '../ThemeContext'
+import type { SemanticColors } from '../theme'
+import { SPACING } from '../theme'
 import Button from './Button'
 import ButtonWrapper from './ButtonWrapper'
 import Typography from './Typography'
@@ -15,15 +17,18 @@ type Props = {
   showFullChangelog: boolean
 }
 
-const VersionEntry: React.FC<{ entry: ChangelogEntry }> = ({ entry }) => (
-  <View style={styles.versionContainer}>
+const VersionEntry: React.FC<{ entry: ChangelogEntry; colors: SemanticColors }> = ({
+  entry,
+  colors,
+}) => (
+  <View style={[styles.versionContainer, { backgroundColor: colors.surfaceVariant }]}>
     <View style={styles.versionHeader}>
       <Typography variant="h2">{`v${entry.version}`}</Typography>
-      <Text style={styles.dateText}>{entry.date}</Text>
+      <Text style={[styles.dateText, { color: colors.textDisabled }]}>{entry.date}</Text>
     </View>
     <View style={styles.changesList}>
       {entry.changes.map((change, index) => (
-        <Text key={index} style={styles.changeItem}>
+        <Text key={index} style={[styles.changeItem, { color: colors.textSecondary }]}>
           {`• ${change}`}
         </Text>
       ))}
@@ -36,12 +41,13 @@ const ChangelogModal: React.FC<Props> = ({
   onDismiss,
   showFullChangelog,
 }) => {
+  const { colors } = useTheme()
   const entriesToShow = showFullChangelog ? CHANGELOG : CHANGELOG.slice(0, 1)
 
   return (
     <Portal>
       <Modal
-        contentContainerStyle={styles.modalContainer}
+        contentContainerStyle={[styles.modalContainer, { backgroundColor: colors.surface }]}
         visible={visible}
         onDismiss={onDismiss}
       >
@@ -51,7 +57,7 @@ const ChangelogModal: React.FC<Props> = ({
           </Typography>
           <ScrollView style={styles.scrollView}>
             {entriesToShow.map((entry, index) => (
-              <VersionEntry key={index} entry={entry} />
+              <VersionEntry key={index} entry={entry} colors={colors} />
             ))}
           </ScrollView>
           <ButtonWrapper
@@ -69,7 +75,6 @@ const ChangelogModal: React.FC<Props> = ({
 
 const styles = StyleSheet.create({
   changeItem: {
-    color: COLORS.NEUTRAL[200],
     fontSize: 15,
     lineHeight: 22,
     marginBottom: SPACING.SMALL,
@@ -78,14 +83,12 @@ const styles = StyleSheet.create({
     marginTop: SPACING.SMALL,
   },
   dateText: {
-    color: COLORS.NEUTRAL[400],
     fontSize: 14,
   },
   gestureRoot: {
     flex: 1,
   },
   modalContainer: {
-    backgroundColor: COLORS.NEUTRAL[700],
     flex: 1,
     height: '100%',
     justifyContent: 'space-between',
@@ -100,7 +103,6 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.MEDIUM,
   },
   versionContainer: {
-    backgroundColor: COLORS.NEUTRAL[900],
     marginBottom: SPACING.MEDIUM,
     padding: SPACING.MEDIUM,
   },

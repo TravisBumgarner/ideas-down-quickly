@@ -1,23 +1,27 @@
 import type * as React from 'react'
-import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { Modal, Portal, Text } from 'react-native-paper'
 
+import type { ICloudBackupEntry } from '../icloud'
 import { COLORS, SPACING } from '../theme'
 import Button from './Button'
 import ButtonWrapper from './ButtonWrapper'
 import Typography from './Typography'
 
-type Backup = {
-  filename: string
-  backupDate: string
+function formatBytes(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`
+  const kb = bytes / 1024
+  if (kb < 1024) return `${kb.toFixed(1)} KB`
+  const mb = kb / 1024
+  return `${mb.toFixed(1)} MB`
 }
 
 type Props = {
   visible: boolean
   onDismiss: () => void
   onRestore: (filename: string) => void
-  backups: Backup[]
+  backups: ICloudBackupEntry[]
 }
 
 const ICloudRestoreModal: React.FC<Props> = ({
@@ -52,7 +56,9 @@ const ICloudRestoreModal: React.FC<Props> = ({
                   <Text style={styles.backupDate}>
                     {new Date(backup.backupDate).toLocaleString()}
                   </Text>
-                  <Text style={styles.backupFilename}>{backup.filename}</Text>
+                  <Text style={styles.backupMeta}>
+                    {backup.ideaCount} ideas, {backup.labelCount} categories — {formatBytes(backup.sizeBytes)}
+                  </Text>
                 </TouchableOpacity>
               ))
             )}
@@ -91,7 +97,7 @@ const styles = StyleSheet.create({
     color: COLORS.NEUTRAL[100],
     fontSize: 16,
   },
-  backupFilename: {
+  backupMeta: {
     color: COLORS.NEUTRAL[400],
     fontSize: 12,
     marginTop: 2,

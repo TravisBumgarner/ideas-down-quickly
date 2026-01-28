@@ -1,3 +1,11 @@
+import * as Sentry from '@sentry/react-native'
+import * as DocumentPicker from 'expo-document-picker'
+import * as FileSystem from 'expo-file-system'
+import { router } from 'expo-router'
+import * as Sharing from 'expo-sharing'
+import * as React from 'react'
+import { Alert, Linking, ScrollView, View } from 'react-native'
+import { Switch, Text } from 'react-native-paper'
 import queries from '@/db/queries'
 import { IdeaRunType, LabelRunType } from '@/db/schema'
 import Button from '@/shared/components/Button'
@@ -17,16 +25,8 @@ import {
   restoreFromICloud,
   setICloudBackupEnabled,
 } from '@/shared/icloud'
-import { SPACING } from '@/shared/theme'
 import { useTheme } from '@/shared/ThemeContext'
-import * as Sentry from '@sentry/react-native'
-import * as DocumentPicker from 'expo-document-picker'
-import * as FileSystem from 'expo-file-system'
-import { router } from 'expo-router'
-import * as Sharing from 'expo-sharing'
-import * as React from 'react'
-import { Alert, Linking, ScrollView, View } from 'react-native'
-import { Switch, Text } from 'react-native-paper'
+import { SPACING } from '@/shared/theme'
 
 const Settings = () => {
   const { colors, mode, setMode } = useTheme()
@@ -97,7 +97,22 @@ const Settings = () => {
     }
   }
 
-  const handleRestore = async () => {
+  const handleRestore = () => {
+    Alert.alert(
+      'Restore from Backup',
+      'This will replace all current data with the backup file. This action cannot be undone. Are you sure?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Restore',
+          style: 'destructive',
+          onPress: performRestore,
+        },
+      ]
+    )
+  }
+
+  const performRestore = async () => {
     setIsProcessing(true)
     try {
       const result = await DocumentPicker.getDocumentAsync({

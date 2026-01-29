@@ -19,7 +19,7 @@ const Button = ({
   onPress: () => void
   disabled?: boolean
   icon?: IconSource
-  variant: 'filled' | 'link'
+  variant: 'filled' | 'outlined' | 'link'
 }): React.ReactElement => {
   const { colors } = useTheme()
 
@@ -36,6 +36,21 @@ const Button = ({
         disabled={disabled}
         icon={icon}
         labelStyle={buttonStyles.filledLabel}
+      >
+        {children}
+      </ButtonRNP>
+    )
+  }
+
+  if (variant === 'outlined') {
+    return (
+      <ButtonRNP
+        mode="outlined"
+        style={[buttonStyles.base, { borderColor: disabled ? colors.textDisabled : accentColor }]}
+        textColor={disabled ? colors.textDisabled : accentColor}
+        onPress={onPress}
+        disabled={disabled}
+        icon={icon}
       >
         {children}
       </ButtonRNP>

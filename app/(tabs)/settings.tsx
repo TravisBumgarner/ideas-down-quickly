@@ -1,11 +1,3 @@
-import * as Sentry from '@sentry/react-native'
-import * as DocumentPicker from 'expo-document-picker'
-import * as FileSystem from 'expo-file-system'
-import { router } from 'expo-router'
-import * as Sharing from 'expo-sharing'
-import * as React from 'react'
-import { Alert, Linking, ScrollView, View } from 'react-native'
-import { Switch, Text } from 'react-native-paper'
 import queries from '@/db/queries'
 import { IdeaRunType, LabelRunType } from '@/db/schema'
 import Button from '@/shared/components/Button'
@@ -25,8 +17,16 @@ import {
   restoreFromICloud,
   setICloudBackupEnabled,
 } from '@/shared/icloud'
-import { useTheme } from '@/shared/ThemeContext'
 import { SPACING } from '@/shared/theme'
+import { useTheme } from '@/shared/ThemeContext'
+import * as Sentry from '@sentry/react-native'
+import * as DocumentPicker from 'expo-document-picker'
+import * as FileSystem from 'expo-file-system'
+import { router } from 'expo-router'
+import * as Sharing from 'expo-sharing'
+import * as React from 'react'
+import { Alert, Linking, ScrollView, View } from 'react-native'
+import { Switch, Text } from 'react-native-paper'
 
 const Settings = () => {
   const { colors, mode, setMode } = useTheme()
@@ -313,20 +313,25 @@ const Settings = () => {
           Settings
         </Typography>
 
-        <View>
+        <View
+          style={{
+            backgroundColor: colors.surface,
+            padding: SPACING.MEDIUM,
+            marginBottom: SPACING.MEDIUM,
+          }}
+        >
           <Typography variant="h2">Appearance</Typography>
           <View
             style={{
               flexDirection: 'row',
               gap: SPACING.SMALL,
               marginTop: SPACING.SMALL,
-              marginBottom: SPACING.SMALL,
             }}
           >
             {(['system', 'light', 'dark'] as const).map(option => (
               <View key={option} style={{ flex: 1 }}>
                 <Button
-                  variant={mode === option ? 'filled' : 'link'}
+                  variant={mode === option ? 'filled' : 'outlined'}
                   color="primary"
                   onPress={() => setMode(option)}
                 >
@@ -337,7 +342,13 @@ const Settings = () => {
           </View>
         </View>
 
-        <View>
+        <View
+          style={{
+            backgroundColor: colors.surface,
+            padding: SPACING.MEDIUM,
+            marginBottom: SPACING.MEDIUM,
+          }}
+        >
           <Typography variant="h2">Database</Typography>
           <ButtonWrapper
             left={
@@ -364,7 +375,7 @@ const Settings = () => {
           <ButtonWrapper
             full={
               <Button
-                variant="link"
+                variant="outlined"
                 color="warning"
                 onPress={handleDeleteConfirm}
               >
@@ -375,7 +386,13 @@ const Settings = () => {
         </View>
 
         {isIOS && (
-          <View style={{ marginTop: SPACING.XLARGE }}>
+          <View
+            style={{
+              backgroundColor: colors.surface,
+              padding: SPACING.MEDIUM,
+              marginBottom: SPACING.MEDIUM,
+            }}
+          >
             <Typography variant="h2">iCloud Backup</Typography>
             <View
               style={{
@@ -431,7 +448,13 @@ const Settings = () => {
           </View>
         )}
 
-        <View style={{ marginTop: SPACING.XLARGE }}>
+        <View
+          style={{
+            backgroundColor: colors.surface,
+            padding: SPACING.MEDIUM,
+            marginBottom: SPACING.MEDIUM,
+          }}
+        >
           <Typography variant="h2">About</Typography>
           <ButtonWrapper
             left={

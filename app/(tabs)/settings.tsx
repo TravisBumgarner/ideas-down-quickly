@@ -186,9 +186,19 @@ const Settings = () => {
     }
   }
 
-  const handleFeedbackAndSupport = React.useCallback(() => {
-    Linking.openURL('https://ideas.sillysideprojects.com/contact')
-  }, [])
+  const handleFeedbackAndSupport = React.useCallback(async () => {
+    // So far, I believe the only reason this errors is during the review process from the Apple team.
+    const url = 'https://ideas.sillysideprojects.com/contact'
+    const supported = await Linking.canOpenURL(url)
+    if (supported) {
+      await Linking.openURL(url)
+    } else {
+      dispatch({
+        type: 'TOAST',
+        payload: { message: 'Unable to open link', variant: 'ERROR' },
+      })
+    }
+  }, [dispatch])
 
   const handleDeleteConfirm = React.useCallback(() => {
     router.navigate('/delete-database')

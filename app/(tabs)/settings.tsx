@@ -315,7 +315,7 @@ const Settings = () => {
 
         <View
           style={{
-            backgroundColor: colors.surface,
+            backgroundColor: colors.surfaceVariant,
             padding: SPACING.MEDIUM,
             marginBottom: SPACING.MEDIUM,
           }}
@@ -344,7 +344,7 @@ const Settings = () => {
 
         <View
           style={{
-            backgroundColor: colors.surface,
+            backgroundColor: colors.surfaceVariant,
             padding: SPACING.MEDIUM,
             marginBottom: SPACING.MEDIUM,
           }}
@@ -388,7 +388,7 @@ const Settings = () => {
         {isIOS && (
           <View
             style={{
-              backgroundColor: colors.surface,
+              backgroundColor: colors.surfaceVariant,
               padding: SPACING.MEDIUM,
               marginBottom: SPACING.MEDIUM,
             }}
@@ -450,7 +450,7 @@ const Settings = () => {
 
         <View
           style={{
-            backgroundColor: colors.surface,
+            backgroundColor: colors.surfaceVariant,
             padding: SPACING.MEDIUM,
             marginBottom: SPACING.MEDIUM,
           }}

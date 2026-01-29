@@ -1,7 +1,3 @@
-import { router, useFocusEffect } from 'expo-router'
-import * as React from 'react'
-import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
-import { ActivityIndicator, Switch, Text } from 'react-native-paper'
 import queries from '@/db/queries'
 import type { SelectLabel } from '@/db/schema'
 import Button from '@/shared/components/Button'
@@ -9,9 +5,13 @@ import Label from '@/shared/components/Label'
 import PageWrapper from '@/shared/components/PageWrapper'
 import Typography from '@/shared/components/Typography'
 import { context } from '@/shared/context'
-import { useTheme } from '@/shared/ThemeContext'
 import { SPACING } from '@/shared/theme'
+import { useTheme } from '@/shared/ThemeContext'
 import { navigateWithParams } from '@/shared/utilities'
+import { router, useFocusEffect } from 'expo-router'
+import * as React from 'react'
+import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
+import { ActivityIndicator, Switch, Text } from 'react-native-paper'
 
 const LabelSelect = () => {
   const [labels, setLabels] = React.useState<SelectLabel[] | null>(null)
@@ -166,14 +166,13 @@ const LabelSelect = () => {
 
 const styles = StyleSheet.create({
   bottomSection: {
-    marginBottom: SPACING.MEDIUM,
+    marginTop: SPACING.MEDIUM,
   },
   toggleContainer: {
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: SPACING.MEDIUM,
-    marginTop: SPACING.MEDIUM,
     paddingHorizontal: SPACING.MEDIUM,
     paddingVertical: SPACING.SMALL,
   },

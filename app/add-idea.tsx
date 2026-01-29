@@ -1,6 +1,3 @@
-import { router, useLocalSearchParams } from 'expo-router'
-import * as React from 'react'
-import { SafeAreaView, StyleSheet, View } from 'react-native'
 import queries from '@/db/queries'
 import type { NewIdea, SelectLabel } from '@/db/schema'
 import Button from '@/shared/components/Button'
@@ -9,6 +6,9 @@ import TextInput from '@/shared/components/TextInput'
 import { context } from '@/shared/context'
 import { SPACING } from '@/shared/theme'
 import type { URLParams } from '@/shared/types'
+import { router, useLocalSearchParams } from 'expo-router'
+import * as React from 'react'
+import { SafeAreaView, StyleSheet, View } from 'react-native'
 import 'react-native-get-random-values'
 import { ActivityIndicator } from 'react-native-paper'
 import { v4 as uuidv4 } from 'uuid'
@@ -84,22 +84,24 @@ const AddIdea = () => {
         />
       </View>
       <View style={styles.buttonRow}>
-        <View style={styles.buttonSmall}>
-          <Button variant="filled" color="warning" onPress={handleCancel}>
-            Close
+        <View style={styles.buttonContainer}>
+          <Button variant="outlined" color="warning" onPress={handleCancel}>
+            Cancel
           </Button>
         </View>
-        <View style={styles.buttonFlex}>
+        <View style={styles.buttonContainer}>
           <Button
             disabled={ideaText.length === 0}
-            variant="link"
+            variant="outlined"
             color="primary"
             onPress={handleSave}
           >
             Save
           </Button>
         </View>
-        <View style={styles.buttonFlex}>
+      </View>
+      <View style={styles.buttonRow}>
+        <View style={styles.buttonContainer}>
           <Button
             disabled={ideaText.length === 0}
             variant="filled"
@@ -118,14 +120,11 @@ const styles = StyleSheet.create({
   buttonRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: SPACING.MEDIUM,
-    gap: SPACING.SMALL,
+    marginVertical: SPACING.XSMALL,
   },
-  buttonSmall: {
-    width: 60,
-  },
-  buttonFlex: {
+  buttonContainer: {
     flex: 1,
+    marginHorizontal: SPACING.SMALL / 2,
   },
 })
 

@@ -188,7 +188,7 @@ const Settings = () => {
 
   const handleFeedbackAndSupport = React.useCallback(async () => {
     // So far, I believe the only reason this errors is during the review process from the Apple team.
-    const url = 'https://ideas.sillysideprojects.com/contact'
+    const url = 'https://travisbumgarner.dev/marketing/ideas#contact'
     const supported = await Linking.canOpenURL(url)
     if (supported) {
       await Linking.openURL(url)

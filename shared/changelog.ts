@@ -4,11 +4,16 @@ export type ChangelogEntry = {
   changes: string[]
 }
 
-export const CURRENT_VERSION = '1.5.3'
+export const CURRENT_VERSION = '1.5.6'
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
-    version: '1.5.3',
+    version: '1.5.6',
+    date: '2026-02-02',
+    changes: ['Fix bug with contact support form.'],
+  },
+  {
+    version: '1.5.5',
     date: '2026-01-28',
     changes: [
       'Added light theme with system, light, and dark mode options in Settings',

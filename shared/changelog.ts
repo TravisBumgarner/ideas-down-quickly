@@ -4,9 +4,14 @@ export type ChangelogEntry = {
   changes: string[]
 }
 
-export const CURRENT_VERSION = '1.5.6'
+export const CURRENT_VERSION = '1.5.7'
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '1.5.7',
+    date: '2026-02-05',
+    changes: ['Fix bug with editing ideas.'],
+  },
   {
     version: '1.5.6',
     date: '2026-02-02',

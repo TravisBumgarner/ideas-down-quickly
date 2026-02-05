@@ -5,7 +5,7 @@ const config = () => ({
     icon: './assets/images/icon.png',
     name: process.env.EXPO_APP_NAME || 'Ideas Down',
     slug: 'ideas-down-quickly',
-    version: '1.5.3',
+    version: '1.5.7',
     orientation: 'portrait',
     scheme: 'myapp',
     userInterfaceStyle: 'automatic',

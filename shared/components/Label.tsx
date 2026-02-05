@@ -17,7 +17,7 @@ type Props = {
   handlePress?: () => void
   disableSideSwipe?: boolean
   onArchive?: () => void
-  isArchived?: boolean
+  isArchived?: number
 }
 
 const Label = ({
@@ -98,7 +98,7 @@ const Label = ({
         <View style={styles.textContainer}>
           <View style={styles.titleRow}>
             <Typography variant="h2">{text.length > 0 ? text : ' '}</Typography>
-            {isArchived && (
+            {!!isArchived && (
               <Icon source="archive" size={16} color={COLORS.WARNING[300]} />
             )}
           </View>
